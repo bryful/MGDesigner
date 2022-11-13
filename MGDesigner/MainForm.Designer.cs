@@ -62,7 +62,7 @@
 			this.mgCircleScale1 = new MGDesigner.MGCircleScale();
 			this.mgCircleScale2 = new MGDesigner.MGCircleScale();
 			this.mgCross1 = new MGDesigner.MGCross();
-			this.mgEdge1 = new MGDesigner.MGEdge();
+			this.mgEdge1 = new MGDesigner.MGKagiEdge();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -318,7 +318,7 @@
 			this.mgKagi2.kagiStyle = MGDesigner.KagiStyle.BottomRight;
 			this.mgKagi2.kagiWeightH = 10;
 			this.mgKagi2.kagiWeightV = 10;
-			this.mgKagi2.Location = new System.Drawing.Point(471, 214);
+			this.mgKagi2.Location = new System.Drawing.Point(381, 226);
 			this.mgKagi2.MGForm = this;
 			this.mgKagi2.Name = "mgKagi2";
 			this.mgKagi2.Size = new System.Drawing.Size(58, 59);
@@ -363,11 +363,11 @@
 			this.mgTriangle1.BackOpacity = 100D;
 			this.mgTriangle1.ForeColor = System.Drawing.Color.White;
 			this.mgTriangle1.Length = 100F;
-			this.mgTriangle1.Location = new System.Drawing.Point(276, 324);
+			this.mgTriangle1.Location = new System.Drawing.Point(289, 324);
 			this.mgTriangle1.MGForm = this;
 			this.mgTriangle1.Name = "mgTriangle1";
 			this.mgTriangle1.Rot = 30F;
-			this.mgTriangle1.Size = new System.Drawing.Size(80, 72);
+			this.mgTriangle1.Size = new System.Drawing.Size(51, 72);
 			this.mgTriangle1.TabIndex = 10;
 			this.mgTriangle1.Text = "mgTriangle1";
 			this.mgTriangle1.TrainglrStyle = MGDesigner.MG.TrainglrStyle.Right;
@@ -447,8 +447,8 @@
 			this.mgCircle2.MGForm = this;
 			this.mgCircle2.Name = "mgCircle2";
 			this.mgCircle2.Radius = new int[] {
-        68};
-			this.mgCircle2.Size = new System.Drawing.Size(150, 139);
+        74};
+			this.mgCircle2.Size = new System.Drawing.Size(150, 152);
 			this.mgCircle2.TabIndex = 15;
 			this.mgCircle2.Text = "mgCircle2";
 			this.mgCircle2.Weight = new int[] {
@@ -548,7 +548,7 @@
 			this.mgPolygon1.BackOpacity = 100D;
 			this.mgPolygon1.ForeColor = System.Drawing.Color.White;
 			this.mgPolygon1.Length = 50F;
-			this.mgPolygon1.Location = new System.Drawing.Point(176, 376);
+			this.mgPolygon1.Location = new System.Drawing.Point(162, 334);
 			this.mgPolygon1.MGForm = this;
 			this.mgPolygon1.Name = "mgPolygon1";
 			this.mgPolygon1.Polygon = MGDesigner.MG_COLOR.White;
@@ -603,7 +603,7 @@
 			this.mgLabel1.MGTextMargion = 0;
 			this.mgLabel1.Name = "mgLabel1";
 			this.mgLabel1.RightBox = new System.Drawing.Size(0, 0);
-			this.mgLabel1.Size = new System.Drawing.Size(284, 30);
+			this.mgLabel1.Size = new System.Drawing.Size(154, 30);
 			this.mgLabel1.StringAlignment = System.Drawing.StringAlignment.Near;
 			this.mgLabel1.StringLineAlignment = System.Drawing.StringAlignment.Center;
 			this.mgLabel1.TabIndex = 22;
@@ -629,7 +629,7 @@
 			this.mgLabel2.MGTextMargion = 0;
 			this.mgLabel2.Name = "mgLabel2";
 			this.mgLabel2.RightBox = new System.Drawing.Size(0, 0);
-			this.mgLabel2.Size = new System.Drawing.Size(284, 30);
+			this.mgLabel2.Size = new System.Drawing.Size(154, 30);
 			this.mgLabel2.StringAlignment = System.Drawing.StringAlignment.Near;
 			this.mgLabel2.StringLineAlignment = System.Drawing.StringAlignment.Center;
 			this.mgLabel2.TabIndex = 23;
@@ -642,14 +642,14 @@
 			this.mgCircleScale1.BackOpacity = 100D;
 			this.mgCircleScale1.ForeColor = System.Drawing.Color.White;
 			this.mgCircleScale1.LineWeight = 2F;
-			this.mgCircleScale1.Location = new System.Drawing.Point(188, 180);
+			this.mgCircleScale1.Location = new System.Drawing.Point(216, 196);
 			this.mgCircleScale1.MGForm = this;
 			this.mgCircleScale1.Name = "mgCircleScale1";
 			this.mgCircleScale1.RotValue = MGDesigner.RotValue.Rot2_5;
 			this.mgCircleScale1.ScaleA = MGDesigner.MG_COLOR.White;
 			this.mgCircleScale1.ScaleB = MGDesigner.MG_COLOR.White;
 			this.mgCircleScale1.ScaleC = MGDesigner.MG_COLOR.White;
-			this.mgCircleScale1.Size = new System.Drawing.Size(168, 138);
+			this.mgCircleScale1.Size = new System.Drawing.Size(137, 115);
 			this.mgCircleScale1.TabIndex = 24;
 			this.mgCircleScale1.Text = "mgCircleScale1";
 			this.mgCircleScale1.Weight = 15F;
@@ -661,14 +661,14 @@
 			this.mgCircleScale2.BackOpacity = 100D;
 			this.mgCircleScale2.ForeColor = System.Drawing.Color.White;
 			this.mgCircleScale2.LineWeight = 4F;
-			this.mgCircleScale2.Location = new System.Drawing.Point(359, 170);
+			this.mgCircleScale2.Location = new System.Drawing.Point(445, 158);
 			this.mgCircleScale2.MGForm = this;
 			this.mgCircleScale2.Name = "mgCircleScale2";
 			this.mgCircleScale2.RotValue = MGDesigner.RotValue.Rot30;
 			this.mgCircleScale2.ScaleA = MGDesigner.MG_COLOR.White;
 			this.mgCircleScale2.ScaleB = MGDesigner.MG_COLOR.White;
 			this.mgCircleScale2.ScaleC = MGDesigner.MG_COLOR.White;
-			this.mgCircleScale2.Size = new System.Drawing.Size(137, 103);
+			this.mgCircleScale2.Size = new System.Drawing.Size(120, 115);
 			this.mgCircleScale2.TabIndex = 25;
 			this.mgCircleScale2.Text = "mgCircleScale2";
 			this.mgCircleScale2.Weight = 15F;
@@ -714,7 +714,7 @@
 			this.mgEdge1.Location = new System.Drawing.Point(53, 68);
 			this.mgEdge1.MGForm = this;
 			this.mgEdge1.Name = "mgEdge1";
-			this.mgEdge1.Size = new System.Drawing.Size(144, 145);
+			this.mgEdge1.Size = new System.Drawing.Size(144, 160);
 			this.mgEdge1.TabIndex = 27;
 			this.mgEdge1.Text = "mgEdge1";
 			// 
@@ -738,7 +738,6 @@
 			this.Controls.Add(this.mgTriangle5);
 			this.Controls.Add(this.mgTriangle3);
 			this.Controls.Add(this.mgTriangle2);
-			this.Controls.Add(this.mgCircle2);
 			this.Controls.Add(this.mgPlate3);
 			this.Controls.Add(this.mgPlate2);
 			this.Controls.Add(this.mgPlate1);
@@ -753,6 +752,7 @@
 			this.Controls.Add(this.mgScale1);
 			this.Controls.Add(this.mgFrame1);
 			this.Controls.Add(this.mgFrame3);
+			this.Controls.Add(this.mgCircle2);
 			this.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.FrameWeight = 2;
 			this.Grid = MGDesigner.MG_COLOR.Gray;
@@ -804,6 +804,6 @@
 		private MGCircleScale mgCircleScale1;
 		private MGCircleScale mgCircleScale2;
 		private MGCross mgCross1;
-		private MGEdge mgEdge1;
+		private MGKagiEdge mgEdge1;
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGEdge
+	partial class MGKagiEdge
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

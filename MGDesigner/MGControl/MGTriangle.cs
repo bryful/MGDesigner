@@ -138,6 +138,7 @@ namespace MGDesigner
 		}
 		protected override void Draw(Graphics g)
 		{
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			base.Draw(g);
 
 			Pen p = new Pen(this.ForeColor);

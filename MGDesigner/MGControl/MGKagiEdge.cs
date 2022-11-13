@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGEdge : MGPlate
+	public partial class MGKagiEdge : MGPlate
 	{
 		private MG_COLOR m_Kagi = MG_COLOR.White;
 		[Category("_MG")]
@@ -121,7 +121,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		public MGEdge()
+		public MGKagiEdge()
 		{
 			InitializeComponent();
 			ChkRegion();
