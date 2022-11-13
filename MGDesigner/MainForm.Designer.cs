@@ -286,6 +286,8 @@
 			this.mgCircle1.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgCircle1.BackColor = System.Drawing.Color.Transparent;
 			this.mgCircle1.BackOpacity = 100D;
+			this.mgCircle1.CircleFill = MGDesigner.MG_COLOR.Gray;
+			this.mgCircle1.CircleFillOpacity = 50D;
 			this.mgCircle1.Colors = new System.Drawing.Color[] {
         System.Drawing.Color.White,
         System.Drawing.Color.Gray};
@@ -294,10 +296,10 @@
 			this.mgCircle1.MGForm = this;
 			this.mgCircle1.Name = "mgCircle1";
 			this.mgCircle1.Radius = new int[] {
-        72,
-        48,
-        31};
-			this.mgCircle1.Size = new System.Drawing.Size(189, 146);
+        75,
+        51,
+        34};
+			this.mgCircle1.Size = new System.Drawing.Size(188, 152);
 			this.mgCircle1.TabIndex = 8;
 			this.mgCircle1.Text = "mgCircle1";
 			this.mgCircle1.Weight = new int[] {
@@ -356,7 +358,7 @@
 			// 
 			// mgTriangle1
 			// 
-			this.mgTriangle1.Back = MGDesigner.MG_COLOR.YellowDark;
+			this.mgTriangle1.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgTriangle1.BackColor = System.Drawing.Color.Transparent;
 			this.mgTriangle1.BackOpacity = 100D;
 			this.mgTriangle1.ForeColor = System.Drawing.Color.White;
@@ -370,6 +372,8 @@
 			this.mgTriangle1.Text = "mgTriangle1";
 			this.mgTriangle1.TrainglrStyle = MGDesigner.MG.TrainglrStyle.Right;
 			this.mgTriangle1.Triangle = MGDesigner.MG_COLOR.White;
+			this.mgTriangle1.TriangleFill = MGDesigner.MG_COLOR.Gray;
+			this.mgTriangle1.TriangleFillOpacity = 50D;
 			this.mgTriangle1.TriangleOpacity = 100D;
 			this.mgTriangle1.Weight = 2F;
 			// 
@@ -430,19 +434,21 @@
 			// 
 			// mgCircle2
 			// 
-			this.mgCircle2.Back = MGDesigner.MG_COLOR.Gray;
+			this.mgCircle2.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgCircle2.BackColor = System.Drawing.Color.Transparent;
 			this.mgCircle2.BackOpacity = 100D;
+			this.mgCircle2.CircleFill = MGDesigner.MG_COLOR.Gray;
+			this.mgCircle2.CircleFillOpacity = 50D;
 			this.mgCircle2.Colors = new System.Drawing.Color[] {
         System.Drawing.Color.White,
         System.Drawing.Color.Gray};
 			this.mgCircle2.ForeColor = System.Drawing.Color.White;
-			this.mgCircle2.Location = new System.Drawing.Point(188, 12);
+			this.mgCircle2.Location = new System.Drawing.Point(203, 12);
 			this.mgCircle2.MGForm = this;
 			this.mgCircle2.Name = "mgCircle2";
 			this.mgCircle2.Radius = new int[] {
-        72};
-			this.mgCircle2.Size = new System.Drawing.Size(168, 146);
+        68};
+			this.mgCircle2.Size = new System.Drawing.Size(150, 139);
 			this.mgCircle2.TabIndex = 15;
 			this.mgCircle2.Text = "mgCircle2";
 			this.mgCircle2.Weight = new int[] {
@@ -453,7 +459,7 @@
 			// 
 			// mgTriangle2
 			// 
-			this.mgTriangle2.Back = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle2.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgTriangle2.BackColor = System.Drawing.Color.Transparent;
 			this.mgTriangle2.BackOpacity = 50D;
 			this.mgTriangle2.ForeColor = System.Drawing.Color.White;
@@ -467,12 +473,14 @@
 			this.mgTriangle2.Text = "mgTriangle2";
 			this.mgTriangle2.TrainglrStyle = MGDesigner.MG.TrainglrStyle.Top;
 			this.mgTriangle2.Triangle = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle2.TriangleFill = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle2.TriangleFillOpacity = 50D;
 			this.mgTriangle2.TriangleOpacity = 100D;
 			this.mgTriangle2.Weight = 2F;
 			// 
 			// mgTriangle3
 			// 
-			this.mgTriangle3.Back = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle3.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgTriangle3.BackColor = System.Drawing.Color.Transparent;
 			this.mgTriangle3.BackOpacity = 50D;
 			this.mgTriangle3.ForeColor = System.Drawing.Color.White;
@@ -486,12 +494,14 @@
 			this.mgTriangle3.Text = "mgTriangle3";
 			this.mgTriangle3.TrainglrStyle = MGDesigner.MG.TrainglrStyle.Bottom;
 			this.mgTriangle3.Triangle = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle3.TriangleFill = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle3.TriangleFillOpacity = 50D;
 			this.mgTriangle3.TriangleOpacity = 100D;
 			this.mgTriangle3.Weight = 2F;
 			// 
 			// mgTriangle4
 			// 
-			this.mgTriangle4.Back = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle4.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgTriangle4.BackColor = System.Drawing.Color.Transparent;
 			this.mgTriangle4.BackOpacity = 75D;
 			this.mgTriangle4.ForeColor = System.Drawing.Color.White;
@@ -505,12 +515,14 @@
 			this.mgTriangle4.Text = "mgTriangle4";
 			this.mgTriangle4.TrainglrStyle = MGDesigner.MG.TrainglrStyle.Bottom;
 			this.mgTriangle4.Triangle = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle4.TriangleFill = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle4.TriangleFillOpacity = 50D;
 			this.mgTriangle4.TriangleOpacity = 100D;
 			this.mgTriangle4.Weight = 2F;
 			// 
 			// mgTriangle5
 			// 
-			this.mgTriangle5.Back = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle5.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgTriangle5.BackColor = System.Drawing.Color.Transparent;
 			this.mgTriangle5.BackOpacity = 50D;
 			this.mgTriangle5.ForeColor = System.Drawing.Color.White;
@@ -524,6 +536,8 @@
 			this.mgTriangle5.Text = "mgTriangle5";
 			this.mgTriangle5.TrainglrStyle = MGDesigner.MG.TrainglrStyle.Top;
 			this.mgTriangle5.Triangle = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle5.TriangleFill = MGDesigner.MG_COLOR.Yellow;
+			this.mgTriangle5.TriangleFillOpacity = 50D;
 			this.mgTriangle5.TriangleOpacity = 100D;
 			this.mgTriangle5.Weight = 2F;
 			// 
@@ -539,6 +553,8 @@
 			this.mgPolygon1.Name = "mgPolygon1";
 			this.mgPolygon1.Polygon = MGDesigner.MG_COLOR.White;
 			this.mgPolygon1.PolygonCount = 6;
+			this.mgPolygon1.PolygonFill = MGDesigner.MG_COLOR.Gray;
+			this.mgPolygon1.PolygonFillOpacity = 0D;
 			this.mgPolygon1.PolygonOpacity = 100D;
 			this.mgPolygon1.Rot = 0F;
 			this.mgPolygon1.Size = new System.Drawing.Size(138, 121);
@@ -548,7 +564,7 @@
 			// 
 			// mgPolygon2
 			// 
-			this.mgPolygon2.Back = MGDesigner.MG_COLOR.GrayDrak;
+			this.mgPolygon2.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgPolygon2.BackColor = System.Drawing.Color.Transparent;
 			this.mgPolygon2.BackOpacity = 100D;
 			this.mgPolygon2.ForeColor = System.Drawing.Color.White;
@@ -558,6 +574,8 @@
 			this.mgPolygon2.Name = "mgPolygon2";
 			this.mgPolygon2.Polygon = MGDesigner.MG_COLOR.White;
 			this.mgPolygon2.PolygonCount = 5;
+			this.mgPolygon2.PolygonFill = MGDesigner.MG_COLOR.Gray;
+			this.mgPolygon2.PolygonFillOpacity = 50D;
 			this.mgPolygon2.PolygonOpacity = 100D;
 			this.mgPolygon2.Rot = 0F;
 			this.mgPolygon2.Size = new System.Drawing.Size(132, 121);
@@ -631,7 +649,7 @@
 			this.mgCircleScale1.ScaleA = MGDesigner.MG_COLOR.White;
 			this.mgCircleScale1.ScaleB = MGDesigner.MG_COLOR.White;
 			this.mgCircleScale1.ScaleC = MGDesigner.MG_COLOR.White;
-			this.mgCircleScale1.Size = new System.Drawing.Size(178, 138);
+			this.mgCircleScale1.Size = new System.Drawing.Size(168, 138);
 			this.mgCircleScale1.TabIndex = 24;
 			this.mgCircleScale1.Text = "mgCircleScale1";
 			this.mgCircleScale1.Weight = 15F;
@@ -660,14 +678,17 @@
 			this.mgCross1.Back = MGDesigner.MG_COLOR.Transparent;
 			this.mgCross1.BackColor = System.Drawing.Color.Transparent;
 			this.mgCross1.BackOpacity = 100D;
-			this.mgCross1.Cross = MGDesigner.MG_COLOR.Gray;
-			this.mgCross1.CrossOpacity = 100D;
-			this.mgCross1.CrossWeight = 4;
+			this.mgCross1.CrossFill = MGDesigner.MG_COLOR.White;
+			this.mgCross1.CrossFillOpacity = 25D;
+			this.mgCross1.CrossLine = MGDesigner.MG_COLOR.White;
+			this.mgCross1.CrossLineOpacity = 50D;
+			this.mgCross1.CrossLineWeight = 4F;
+			this.mgCross1.CrossWeight = 10;
 			this.mgCross1.ForeColor = System.Drawing.Color.White;
-			this.mgCross1.Location = new System.Drawing.Point(257, 228);
+			this.mgCross1.Location = new System.Drawing.Point(362, 291);
 			this.mgCross1.MGForm = this;
 			this.mgCross1.Name = "mgCross1";
-			this.mgCross1.Size = new System.Drawing.Size(43, 45);
+			this.mgCross1.Size = new System.Drawing.Size(83, 67);
 			this.mgCross1.TabIndex = 26;
 			this.mgCross1.Text = "mgCross1";
 			// 
@@ -690,7 +711,7 @@
 			this.mgEdge1.kagiWeightH = 6;
 			this.mgEdge1.kagiWeightV = 6;
 			this.mgEdge1.kagiWidth = 20;
-			this.mgEdge1.Location = new System.Drawing.Point(41, 68);
+			this.mgEdge1.Location = new System.Drawing.Point(53, 68);
 			this.mgEdge1.MGForm = this;
 			this.mgEdge1.Name = "mgEdge1";
 			this.mgEdge1.Size = new System.Drawing.Size(144, 145);

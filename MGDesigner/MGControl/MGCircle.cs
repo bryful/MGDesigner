@@ -52,6 +52,29 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		private MG_COLOR m_CircleFill = MG_COLOR.Gray;
+		[Category("_MG")]
+		public MG_COLOR CircleFill
+		{
+			get { return m_CircleFill; }
+			set
+			{
+				m_CircleFill = value;
+				this.Invalidate();
+			}
+		}
+		private double m_CircleFillOpacity = 0;
+		[Category("_MG")]
+		public double CircleFillOpacity
+		{
+			get { return m_CircleFillOpacity; }
+			set
+			{
+				m_CircleFillOpacity = value;
+
+				this.Invalidate();
+			}
+		}
 		private int CRadius()
 		{
 			int ret = this.Width / 2 - m_Weight[0] / 2;
@@ -88,28 +111,7 @@ namespace MGDesigner
 
 
 			path.AddEllipse(new Rectangle(this.Width / 2 - mx, this.Height / 2 - mx, mx * 2, mx * 2));
-			int mn = 5000;
-			int idx = -1;
-			int cnt = -1;
-			if (m_Radius.Length >0)
-			{
 
-				foreach (int i in m_Radius)
-				{
-					if (mn > i)
-					{
-						idx = cnt;
-						mn = i;
-					}
-					cnt++;
-				}
-			}
-			if ((mn > 0)&&(cnt>=0))
-			{
-				if (cnt >= m_Weight.Length) cnt = m_Weight.Length - 1;
-				mn -= m_Weight[cnt] / 2;
-				path.AddEllipse(new Rectangle(this.Width / 2 - mn, this.Height / 2 - mn, mn * 2, mn * 2));
-			}
 			this.Region = new Region(path);
 		}
 		protected override void OnPaint(PaintEventArgs pe)
@@ -130,8 +132,16 @@ namespace MGDesigner
 
 			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			Pen p = new Pen(this.ForeColor);
+			SolidBrush sb = new SolidBrush(this.BackColor);
 			try
 			{
+				if (m_CircleFillOpacity > 0)
+				{
+					Color f = GetMGColor(m_CircleFill, m_CircleFillOpacity, this.BackColor);
+					sb.Color = f;
+					g.FillEllipse(sb, CircleRect(m_Radius[0]));
+				}
+
 				p.Color =m_Colors[0];
 				p.Width = m_Weight[0];
 				g.DrawEllipse(p, CircleRect(m_Radius[0]));
@@ -159,11 +169,11 @@ namespace MGDesigner
 			}
 			catch
 			{
-				MessageBox.Show("a");
 			}
 			finally
 			{
 				p.Dispose();
+				sb.Dispose();
 			}
 		}
 	}

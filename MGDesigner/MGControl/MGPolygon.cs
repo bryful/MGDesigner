@@ -87,8 +87,33 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		private MG_COLOR m_PolygonFill = MG_COLOR.Gray;
+		[Category("_MG")]
+		public MG_COLOR PolygonFill
+		{
+			get { return m_PolygonFill; }
+			set
+			{
+				m_PolygonFill = value;
+				ChkRegion();
+				this.Invalidate();
+			}
+		}
+		private double m_PolygonFillOpacity = 0;
+		[Category("_MG")]
+		public double PolygonFillOpacity
+		{
+			get { return m_PolygonFillOpacity; }
+			set
+			{
+				m_PolygonFillOpacity = value;
+				ChkRegion();
+				this.Invalidate();
+			}
+		}
 		public MGPolygon()
 		{
+			Back = MG_COLOR.Transparent;
 			InitializeComponent();
 			ChkRegion();
 		}
@@ -111,14 +136,18 @@ namespace MGDesigner
 		{
 			base.Draw(g);
 
+			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Pen p = new Pen(this.ForeColor);
 			try
 			{
+				PointF cnt = new PointF((float)this.Width / 2, (float)this.Height / 2);
+
+				Color fc = GetMGColor(m_PolygonFill, m_PolygonFillOpacity, this.ForeColor);
+				sb.Color = fc;
 				Color c = GetMGColor(m_Polygon, m_PolygonOpacity, this.ForeColor);
 				p.Width = m_weight;
 				p.Color = c;
-				PointF cnt = new PointF((float)this.Width / 2, (float)this.Height / 2);
-				MG.Polygon(g, p,m_PolygonCount, cnt, m_Length, m_rot);
+				MG.Polygon(g, p,sb,m_PolygonCount, cnt, m_Length, m_rot);
 
 			}
 			catch
@@ -128,6 +157,7 @@ namespace MGDesigner
 			finally
 			{
 				p.Dispose();
+				sb.Dispose();
 			}
 		}
 	}

@@ -37,6 +37,28 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		private MG_COLOR m_TriangleFill = MG_COLOR.Gray;
+		[Category("_MG")]
+		public MG_COLOR TriangleFill
+		{
+			get { return m_TriangleFill; }
+			set
+			{
+				m_TriangleFill = value;
+				this.Invalidate();
+			}
+		}
+		private double m_TriangleFillOpacity = 0;
+		[Category("_MG")]
+		public double TriangleFillOpacity
+		{
+			get { return m_TriangleFillOpacity; }
+			set
+			{
+				m_TriangleFillOpacity = value;
+				this.Invalidate();
+			}
+		}
 		private float m_Length = 100;
 		[Category("_MG")]
 		public float Length
@@ -87,6 +109,7 @@ namespace MGDesigner
 		}
 		public MGTriangle()
 		{
+			Back = MG_COLOR.Transparent;
 			InitializeComponent();
 			ChkRegion();
 		}
@@ -106,7 +129,7 @@ namespace MGDesigner
 			{
 				case MG.TrainglrStyle.Center:
 					PointF cnt = new PointF((float)this.Width / 2, (float)this.Height / 2);
-					this.Region = MG.TriangleRegion(cnt, m_Length + m_weight , m_rot);
+					this.Region = MG.TriangleRegion(cnt, m_Length + m_weight+1 , m_rot);
 					break;
 				default:
 					this.Region = MG.TriangleRegion(this.ClientRectangle, m_weight, m_TraiangleStyle);
@@ -118,30 +141,33 @@ namespace MGDesigner
 			base.Draw(g);
 
 			Pen p = new Pen(this.ForeColor);
+			SolidBrush sb = new SolidBrush(this.ForeColor);
 			try
 			{
 				Color c = GetMGColor(m_Triangle, m_TriangleOpacity, this.ForeColor);
 				p.Width = m_weight;
 				p.Color = c;
+				Color fc = GetMGColor(m_TriangleFill, m_TriangleFillOpacity, this.ForeColor);
+				sb.Color = fc;
 
 				switch (m_TraiangleStyle)
 				{
 					case MG.TrainglrStyle.Center:
 						PointF cnt = new PointF((float)this.Width / 2, (float)this.Height / 2);
-						MG.Triangle(g, p, cnt, m_Length, m_rot);
+						MG.Triangle(g, p,sb, cnt, m_Length, m_rot);
 						break;
 					default:
-						MG.Triangle(g, p, this.ClientRectangle, m_weight, m_TraiangleStyle);
+						MG.Triangle(g, p, sb,this.ClientRectangle, m_weight, m_TraiangleStyle);
 						break;
 				}
 			}
 			catch
 			{
-				MessageBox.Show("a");
 			}
 			finally
 			{
 				p.Dispose();
+				sb.Dispose();
 			}
 		}
 	}

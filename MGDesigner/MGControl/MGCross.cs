@@ -13,25 +13,25 @@ namespace MGDesigner
 {
 	public partial class MGCross : MGPlate
 	{
-		private MG_COLOR m_Cross = MG_COLOR.White;
+		private MG_COLOR m_CrossFill = MG_COLOR.White;
 		[Category("_MG")]
-		public MG_COLOR Cross
+		public MG_COLOR CrossFill
 		{
-			get { return m_Cross; }
+			get { return m_CrossFill; }
 			set
 			{
-				m_Cross = value;
+				m_CrossFill = value;
 				this.Invalidate();
 			}
 		}
-		private double m_CrossOpacity = 100;
+		private double m_CrossFillOpacity = 100;
 		[Category("_MG")]
-		public double CrossOpacity
+		public double CrossFillOpacity
 		{
-			get { return m_CrossOpacity; }
+			get { return m_CrossFillOpacity; }
 			set
 			{
-				m_CrossOpacity = value;
+				m_CrossFillOpacity = value;
 				this.Invalidate();
 			}
 		}
@@ -44,6 +44,39 @@ namespace MGDesigner
 			{
 				m_CrossWeight = value;
 				ChkRegion();
+				this.Invalidate();
+			}
+		}
+		private MG_COLOR m_CrossLine = MG_COLOR.White;
+		[Category("_MG")]
+		public MG_COLOR CrossLine
+		{
+			get { return m_CrossLine; }
+			set
+			{
+				m_CrossLine = value;
+				this.Invalidate();
+			}
+		}
+		private double m_CrossLineOpacity = 100;
+		[Category("_MG")]
+		public double CrossLineOpacity
+		{
+			get { return m_CrossLineOpacity; }
+			set
+			{
+				m_CrossLineOpacity = value;
+				this.Invalidate();
+			}
+		}
+		private float m_CrossLineWeight = 2;
+		[Category("_MG")]
+		public float CrossLineWeight
+		{
+			get { return m_CrossLineWeight; }
+			set
+			{
+				m_CrossLineWeight = value;
 				this.Invalidate();
 			}
 		}
@@ -66,24 +99,16 @@ namespace MGDesigner
 		}
 		private void ChkRegion()
 		{
-			Point[] pnts = new Point[12];
 			byte[] types = new byte[12];
 			for (int i = 0; i < 12; i++) types[i] = (byte)PathPointType.Line;
-			float cx = (float)this.Width / 2;
-			float cy = (float)this.Height / 2;
-			float cw = m_CrossWeight / 2;
-			pnts[0] = new Point((int)(cx - cw), 0);
-			pnts[1] = new Point((int)(cx + cw), 0);
-			pnts[2] = new Point((int)(cx + cw), (int)(cy - cw));
-			pnts[3] = new Point(this.Width, (int)(cy - cw));
-			pnts[4] = new Point(this.Width, (int)(cy + cw));
-			pnts[5] = new Point((int)(cx + cw), (int)(cy + cw));
-			pnts[6] = new Point((int)(cx + cw), this.Height);
-			pnts[7] = new Point((int)(cx - cw), this.Height);
-			pnts[8] = new Point((int)(cx - cw), (int)(cy + cw));
-			pnts[9] = new Point(0, (int)(cy + cw));
-			pnts[10] = new Point(0, (int)(cy - cw));
-			pnts[11] = new Point((int)(cx - cw), (int)(cy - cw));
+
+
+			PointF[] pnts  = MG.CrossRegion(
+					new Point(this.Width / 2, this.Height / 2),
+					this.Width / 2 + m_CrossWeight/2,
+					this.Height / 2 + m_CrossWeight / 2,
+					m_CrossWeight
+					);
 			GraphicsPath path = new GraphicsPath(pnts, types);
 			this.Region = new Region(path);
 
@@ -92,35 +117,27 @@ namespace MGDesigner
 		{
 			base.Draw(g);
 
-			Color c = GetMGColor(m_Cross, m_CrossOpacity, this.ForeColor);
-			SolidBrush sb = new SolidBrush(c);
+			Color f = GetMGColor(m_CrossFill, m_CrossFillOpacity, this.ForeColor);
+			SolidBrush sb = new SolidBrush(f);
+			Color l = GetMGColor(m_CrossLine, m_CrossLineOpacity, this.ForeColor);
+			Pen p = new Pen(l);
+			p.Width = m_CrossLineWeight;
 			try
 			{
-				PointF [] pnts = new PointF[12];
-				float cx = (float)this.Width / 2;
-				float cy = (float)this.Height / 2;
-				float cw = m_CrossWeight / 2;
-				pnts[0] = new PointF(cx - cw, 0);
-				pnts[1] = new PointF(cx + cw, 0);
-				pnts[2] = new PointF(cx + cw, cy - cw);
-				pnts[3] = new PointF(this.Width, cy - cw);
-				pnts[4] = new PointF(this.Width, cy + cw);
-				pnts[5] = new PointF(cx + cw, cy + cw);
-				pnts[6] = new PointF(cx + cw, this.Height);
-				pnts[7] = new PointF(cx - cw, this.Height);
-				pnts[8] = new PointF(cx - cw, cy + cw);
-				pnts[9] = new PointF(0, cy + cw);
-				pnts[10] = new PointF(0, cy - cw);
-				pnts[11] = new PointF(cx-cw, cy - cw);
-				g.FillPolygon(sb, pnts);
+				MG.Cross(g, p, sb,
+					new Point(this.Width / 2 , this.Height / 2 ),
+					this.Width / 2 - m_CrossWeight/2,
+					this.Height / 2 - m_CrossWeight/2,
+					m_CrossWeight
+					);
 			}
 			catch
 			{
-				MessageBox.Show("a");
 			}
 			finally
 			{
 				sb.Dispose();
+				p.Dispose();
 			}
 		}
 	}

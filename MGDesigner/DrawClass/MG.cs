@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace MGDesigner
 {
-	public class MG
+	public partial class MG
 	{
+		/// <summary>
+		/// 枠の描画
+		/// </summary>
+		/// <param name="g"></param>
+		/// <param name="p"></param>
+		/// <param name="r"></param>
 		static public void Frame(Graphics g,Pen p,Rectangle r)
 		{
 			float pw = p.Width;
@@ -79,7 +85,7 @@ namespace MGDesigner
 			Left,
 			Center
 		}
-		static public void Polygon(Graphics g, Pen p, int cnt,PointF pos, float length, float rot)
+		static public void Polygon(Graphics g, Pen p,SolidBrush? sb, int cnt,PointF pos, float length, float rot)
 		{
 			if (cnt < 3) cnt = 3; else if (cnt > 12) cnt = 12;
 			PointF[] pnts = new PointF[cnt];
@@ -93,10 +99,13 @@ namespace MGDesigner
 				pnts[i] = new PointF((float)x + pos.X, -(float)y + pos.Y);
 				r += 360 / cnt;
 			}
+			if ((sb != null) && (sb.Color.A > 0)) ;
+			{
+				g.FillPolygon(sb, pnts);
+			}
 			g.DrawPolygon(p, pnts);
-
-
 		}
+
 		static public Region PolygonRegion(int cnt ,PointF pos, float length, float rot)
 		{
 			if (cnt < 3) cnt = 3; else if (cnt > 12) cnt = 12;
@@ -114,7 +123,7 @@ namespace MGDesigner
 			GraphicsPath path = new GraphicsPath(pnts, types);
 			return new Region(path);
 		}
-		static public void Triangle(Graphics g,Pen p, PointF pos, float length,float rot)
+		static public void Triangle(Graphics g,Pen p,SolidBrush? sb, PointF pos, float length,float rot)
 		{
 			PointF[] pnts = new PointF[3];
 
@@ -127,9 +136,13 @@ namespace MGDesigner
 				pnts[i] = new PointF((float)x+pos.X, -(float)y+pos.Y);
 				r += 360 / 3;
 			}
+			if ((sb != null) && (sb.Color.A > 0)) ;
+			{
+				g.FillPolygon(sb, pnts);
+			}
 			g.DrawPolygon(p,pnts);
 		}
-		static public void Triangle(Graphics g, Pen p, Rectangle rct , float pw,TrainglrStyle ts = TrainglrStyle.Top)
+		static public void Triangle(Graphics g, Pen p, SolidBrush? sb, Rectangle rct , float pw,TrainglrStyle ts = TrainglrStyle.Top)
 		{
 			
 			PointF[] pnts = new PointF[3];
@@ -155,6 +168,10 @@ namespace MGDesigner
 					pnts[1] = new PointF((float)rct.Left +  pw, (float)rct.Top + (float)rct.Height / 2);
 					pnts[2] = new PointF((float)rct.Left + (float)rct.Width - pw, (float)rct.Bottom - pw);
 					break;
+			}
+			if(sb!=null)
+			{
+				g.FillPolygon(sb, pnts);
 			}
 			g.DrawPolygon(p, pnts);
 		}
