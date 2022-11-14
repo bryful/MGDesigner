@@ -36,7 +36,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Back = MGDesigner.MG_COLOR.Black;
 			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(949, 579);
+			this.ClientSize = new System.Drawing.Size(873, 521);
 			this.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.FrameWeight = 2;
 			this.Grid = MGDesigner.MG_COLOR.Gray;
