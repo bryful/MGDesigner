@@ -9,6 +9,7 @@ namespace MGDesigner
 {
 	public partial class MG
 	{
+		#region Frame
 		/// <summary>
 		/// 枠の描画
 		/// </summary>
@@ -43,6 +44,9 @@ namespace MGDesigner
 			p.Width = pw;
 
 		}
+		#endregion
+
+		#region Grad
 		static public void GradV(Graphics g,Color c0, Color c1, Rectangle rct)
 		{
 			LinearGradientBrush gb = new LinearGradientBrush(
@@ -76,6 +80,9 @@ namespace MGDesigner
 			gb.Dispose();
 
 		}
+		#endregion
+
+		#region Traiangle
 
 		public enum TrainglrStyle
 		{
@@ -231,6 +238,9 @@ namespace MGDesigner
 			GraphicsPath path = new GraphicsPath(pnts, types);
 			return new Region(path);
 		}
+		#endregion
+
+		#region Grid
 		static public void Grid(Graphics g ,Pen p, float gw, float gh, Rectangle rct)
 		{
 			float cx = (float)rct.Left + (float)rct.Width / 2;
@@ -283,5 +293,6 @@ namespace MGDesigner
 			}
 
 		}
+		#endregion
 	}
 }

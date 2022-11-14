@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace MGDesigner
 	public partial class MGPolygon : Z_MG
 	{
 		private MG_COLOR m_Polygon = MG_COLOR.White;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public MG_COLOR Polygon
 		{
 			get { return m_Polygon; }
@@ -28,7 +29,7 @@ namespace MGDesigner
 			}
 		}
 		private int m_PolygonCount = 4;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public int PolygonCount
 		{
 			get { return m_PolygonCount; }
@@ -40,7 +41,7 @@ namespace MGDesigner
 			}
 		}
 		private double m_PolygonOpacity = 100;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public double PolygonOpacity
 		{
 			get { return m_PolygonOpacity; }
@@ -51,20 +52,8 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		private float m_Length = 50;
-		[Category("_MG")]
-		public float Length
-		{
-			get { return m_Length; }
-			set
-			{ 
-				m_Length = value;
-				ChkRegion();
-				this.Invalidate(); 
-			}
-		}
 		private float m_rot = 0;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public float Rot
 		{
 			get { return m_rot; }
@@ -76,7 +65,7 @@ namespace MGDesigner
 			}
 		}
 		private float m_weight = 3;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public float Weight
 		{
 			get { return m_weight; }
@@ -88,7 +77,7 @@ namespace MGDesigner
 			}
 		}
 		private MG_COLOR m_PolygonFill = MG_COLOR.Gray;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public MG_COLOR PolygonFill
 		{
 			get { return m_PolygonFill; }
@@ -100,7 +89,7 @@ namespace MGDesigner
 			}
 		}
 		private double m_PolygonFillOpacity = 0;
-		[Category("_MG")]
+		[Category("_MG_Polygon")]
 		public double PolygonFillOpacity
 		{
 			get { return m_PolygonFillOpacity; }
@@ -126,10 +115,18 @@ namespace MGDesigner
 			//base.OnPaint(pe);
 			Draw(pe.Graphics);
 		}
+		private float Radius()
+		{
+			float length = this.Width;
+			if (length > this.Height) length = this.Height;
+			length -= m_weight;
+			length /= 2;
+			return length;
+		}
 		private void ChkRegion()
 		{
 			PointF cntr = new PointF((float)this.Width / 2, (float)this.Height / 2);
-			this.Region = MG.PolygonRegion(m_PolygonCount, cntr, m_Length + m_weight+1, m_rot);
+			this.Region = MG.PolygonRegion(m_PolygonCount, cntr, Radius() +4, m_rot);
 		}
 		protected override void Draw(Graphics g)
 		{
@@ -147,7 +144,7 @@ namespace MGDesigner
 				Color c = GetMGColor(m_Polygon, m_PolygonOpacity, this.ForeColor);
 				p.Width = m_weight;
 				p.Color = c;
-				MG.Polygon(g, p,sb,m_PolygonCount, cnt, m_Length, m_rot);
+				MG.Polygon(g, p,sb,m_PolygonCount, cnt, Radius(), m_rot);
 
 			}
 			catch

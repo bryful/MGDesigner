@@ -120,6 +120,40 @@ namespace MGDesigner
 		{
 			//base.OnPaint(pe);
 			Draw(pe.Graphics);
+			DrawTop(pe.Graphics);
+		}
+		protected virtual void DrawTop(Graphics g)
+		{
+			SolidBrush sb = new SolidBrush(Color.Transparent);
+			try
+			{
+				if (m_EdgeOpacity > 0)
+				{
+					sb.Color = (Color)GetColor(m_Edge, m_EdgeOpacity);
+
+					MG.Edge(g, sb,
+						this.ClientRectangle,
+						new SizeF(m_EdgeWidth, m_EdgeHeight),
+						m_EdgeHorMargin,
+						m_EdgeVurMargin
+						);
+				}
+				if(m_KagiOpacity>0)
+				{
+					sb.Color = (Color)GetColor(m_Kagi, m_KagiOpacity);
+					MGDrawKagi kagi = new MGDrawKagi();
+					kagi.KagiWidth = m_kagiWidth;
+					kagi.KagiHeight = m_kagiHeight;
+					kagi.KagiWeightH = m_kagiWeightH;
+					kagi.KagiWeightV = m_kagiWeightV;
+					kagi.DrawEdge(g, sb, this.ClientRectangle, m_KagiEnabled, m_kagiMarginH, m_kagiMarginV);
+				}
+
+			}
+			finally
+			{
+				sb.Dispose();
+			}
 		}
 		protected virtual void Draw(Graphics g)
 		{
@@ -147,6 +181,7 @@ namespace MGDesigner
 			finally
 			{
 				sb.Dispose();
+				p.Dispose();
 			}
 		}
 		public Bitmap CreateBitmap()

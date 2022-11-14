@@ -35,7 +35,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		private int m_CrossWeight = 5;
+		private int m_CrossWeight = 6;
 		[Category("_MG")]
 		public int CrossWeight
 		{
@@ -58,7 +58,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		private double m_CrossLineOpacity = 100;
+		private double m_CrossLineOpacity = 0;
 		[Category("_MG")]
 		public double CrossLineOpacity
 		{
@@ -82,6 +82,7 @@ namespace MGDesigner
 		}
 		public MGCross()
 		{
+			this.Size = new Size(40, 40);
 			InitializeComponent();
 			ChkRegion();
 		}

@@ -14,7 +14,7 @@ namespace MGDesigner
 	public partial class MGCircle : Z_MG
 	{
 		private int[] m_Radius = new int[] {100};
-		[Category("_MG")]
+		[Category("_MG_Circle")]
 		public int[] Radius
 		{
 			get { return m_Radius; }
@@ -27,7 +27,7 @@ namespace MGDesigner
 			}
 		}
 		private int[] m_Weight = new int[] {2 };
-		[Category("_MG")]
+		[Category("_MG_Circle")]
 		public int[] Weight
 		{
 			get { return m_Weight; }
@@ -40,7 +40,7 @@ namespace MGDesigner
 			}
 		}
 		private Color[] m_Colors = new Color[] { Color.White,Color.White };
-		[Category("_MG")]
+		[Category("_MG_Circle")]
 		public Color[] Colors
 		{
 			get { return m_Colors; }
@@ -53,7 +53,7 @@ namespace MGDesigner
 			}
 		}
 		private MG_COLOR m_CircleFill = MG_COLOR.Gray;
-		[Category("_MG")]
+		[Category("_MG_Circle")]
 		public MG_COLOR CircleFill
 		{
 			get { return m_CircleFill; }
@@ -64,7 +64,7 @@ namespace MGDesigner
 			}
 		}
 		private double m_CircleFillOpacity = 0;
-		[Category("_MG")]
+		[Category("_MG_Circle")]
 		public double CircleFillOpacity
 		{
 			get { return m_CircleFillOpacity; }
@@ -84,6 +84,7 @@ namespace MGDesigner
 		}
 		public MGCircle()
 		{
+			this.Size = new Size(50, 50);
 			InitializeComponent();
 			ChkCircle();
 		}

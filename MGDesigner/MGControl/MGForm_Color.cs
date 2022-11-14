@@ -106,7 +106,7 @@ namespace MGDesigner
 			}
 		}
 		#region Prop
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color White
 		{
 			get { return m_Colors[(int)MG_COLOR.White]; }
@@ -123,7 +123,7 @@ namespace MGDesigner
 				}
 			}
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Black
 		{
 			get { return m_Colors[(int)MG_COLOR.Black]; }
@@ -140,221 +140,221 @@ namespace MGDesigner
 				}
 			}
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Gray
 		{
 			get { return m_Colors[(int)MG_COLOR.Gray]; }
 			set { SetColor(MG_COLOR.Gray, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color GrayDrak
 		{
 			get { return m_Colors[(int)MG_COLOR.GrayDrak]; }
 			set { SetColor(MG_COLOR.GrayDrak, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color GrayLight
 		{
 			get { return m_Colors[(int)MG_COLOR.GrayLight]; }
 			set { SetColor(MG_COLOR.GrayLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color GrayDrakDark
 		{
 			get { return m_Colors[(int)MG_COLOR.GrayDrakDark]; }
 			set { SetColor(MG_COLOR.GrayDrakDark, value); }
 		}
 
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Red
 		{
 			get { return m_Colors[(int)MG_COLOR.Red]; }
 			set { SetColor(MG_COLOR.Red, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Blood
 		{
 			get { return m_Colors[(int)MG_COLOR.Blood]; }
 			set { SetColor(MG_COLOR.Blood, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Pink
 		{
 			get { return m_Colors[(int)MG_COLOR.Pink]; }
 			set { SetColor(MG_COLOR.Pink, value); }
 		}
 
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Green
 		{
 			get { return m_Colors[(int)MG_COLOR.Green]; }
 			set { SetColor(MG_COLOR.Green, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Emerald
 		{
 			get { return m_Colors[(int)MG_COLOR.Emerald]; }
 			set { SetColor(MG_COLOR.Emerald, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Blue
 		{
 			get { return m_Colors[(int)MG_COLOR.Blue]; }
 			set { SetColor(MG_COLOR.Blue, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color SkayBlue
 		{
 			get { return m_Colors[(int)MG_COLOR.SkayBlue]; }
 			set { SetColor(MG_COLOR.SkayBlue, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Cyan
 		{
 			get { return m_Colors[(int)MG_COLOR.Cyan]; }
 			set { SetColor(MG_COLOR.Cyan, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Yellow
 		{
 			get { return m_Colors[(int)MG_COLOR.Yellow]; }
 			set { SetColor(MG_COLOR.Yellow, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color YellowGreen
 		{
 			get { return m_Colors[(int)MG_COLOR.YellowGreen]; }
 			set { SetColor(MG_COLOR.YellowGreen, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Cream
 		{
 			get { return m_Colors[(int)MG_COLOR.Cream]; }
 			set { SetColor(MG_COLOR.Cream, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Magenta
 		{
 			get { return m_Colors[(int)MG_COLOR.Magenta]; }
 			set { SetColor(MG_COLOR.Magenta, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color Orange
 		{
 			get { return m_Colors[(int)MG_COLOR.Orange]; }
 			set { SetColor(MG_COLOR.Orange, value); }
 		}
 
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color RedDark
 		{
 			get { return m_Colors[(int)MG_COLOR.RedDark]; }
 			set { SetColor(MG_COLOR.RedDark, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color GreenDark
 		{
 			get { return m_Colors[(int)MG_COLOR.GreenDark]; }
 			set { SetColor(MG_COLOR.GreenDark, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color BlueDark
 		{
 			get { return m_Colors[(int)MG_COLOR.BlueDark]; }
 			set { SetColor(MG_COLOR.BlueDark, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color CyanDark
 		{
 			get { return m_Colors[(int)MG_COLOR.CyanDark]; }
 			set { SetColor(MG_COLOR.CyanDark, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color YellowDark
 		{
 			get { return m_Colors[(int)MG_COLOR.YellowDark]; }
 			set { SetColor(MG_COLOR.YellowDark, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color MagentaDark
 		{
 			get { return m_Colors[(int)MG_COLOR.MagentaDark]; }
 			set { SetColor(MG_COLOR.MagentaDark, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color OrangeDark
 		{
 			get { return m_Colors[(int)MG_COLOR.OrangeDark]; }
 			set { SetColor(MG_COLOR.OrangeDark, value); }
 		}
 
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color RedLight
 		{
 			get { return m_Colors[(int)MG_COLOR.RedLight]; }
 			set { SetColor(MG_COLOR.RedLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color GreenLight
 		{
 			get { return m_Colors[(int)MG_COLOR.GreenLight]; }
 			set { SetColor(MG_COLOR.GreenLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color BlueLight
 		{
 			get { return m_Colors[(int)MG_COLOR.BlueLight]; }
 			set { SetColor(MG_COLOR.BlueLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color CyanLight
 		{
 			get { return m_Colors[(int)MG_COLOR.CyanLight]; }
 			set { SetColor(MG_COLOR.CyanLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color YellowLight
 		{
 			get { return m_Colors[(int)MG_COLOR.YellowLight]; }
 			set { SetColor(MG_COLOR.YellowLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color MagentaLight
 		{
 			get { return m_Colors[(int)MG_COLOR.MagentaLight]; }
 			set { SetColor(MG_COLOR.MagentaLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color OrangeLight
 		{
 			get { return m_Colors[(int)MG_COLOR.OrangeLight]; }
 			set { SetColor(MG_COLOR.OrangeLight, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color BLackTrue
 		{
 			get { return m_Colors[(int)MG_COLOR.BLackTrue]; }
 			set { SetColor(MG_COLOR.BLackTrue, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color RedTrue
 		{
 			get { return m_Colors[(int)MG_COLOR.RedTrue]; }
 			set { SetColor(MG_COLOR.RedTrue, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color GreenTrue
 		{
 			get { return m_Colors[(int)MG_COLOR.GreenTrue]; }
 			set { SetColor(MG_COLOR.GreenTrue, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color BlueTrue
 		{
 			get { return m_Colors[(int)MG_COLOR.BlueTrue]; }
 			set { SetColor(MG_COLOR.BlueTrue, value); }
 		}
-		[Category("_MGColors")]
+		[Category("_MG_Colors")]
 		public Color WhiteTrue
 		{
 			get { return m_Colors[(int)MG_COLOR.WhiteTrue]; }

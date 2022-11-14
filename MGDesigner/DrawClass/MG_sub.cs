@@ -8,6 +8,7 @@ namespace MGDesigner
 {
 	public partial class MG
 	{
+		#region Cross
 		static public PointF[] CrossRegion(Point pos,int w,int h,int weight)
 		{
 			PointF[] pnts = new PointF[12];
@@ -38,5 +39,37 @@ namespace MGDesigner
 				g.DrawPolygon(p, pnts);
 			}
 		}
+		#endregion
+
+		#region Edge
+		static public void Edge(Graphics g, SolidBrush sb,Rectangle rct, SizeF eg, float wm, float hm)
+		{
+
+			PointF[] pnts = new PointF[4];
+			pnts[0] = new PointF(rct.Left + wm, rct.Top + hm);
+			pnts[1] = new PointF(rct.Left + wm +eg.Width, rct.Top + hm);
+			pnts[2] = new PointF(rct.Left + wm + eg.Width, rct.Top + hm + eg.Height);
+			pnts[3] = new PointF(rct.Left + wm, rct.Top + hm + eg.Height);
+			g.FillPolygon(sb,pnts);
+			pnts[0] = new PointF(rct.Right - wm - eg.Width, rct.Top + hm);
+			pnts[1] = new PointF(rct.Right - wm , rct.Top + hm);
+			pnts[2] = new PointF(rct.Right - wm, rct.Top + hm + eg.Height);
+			pnts[3] = new PointF(rct.Right - wm - eg.Width, rct.Top + hm + eg.Height);
+			g.FillPolygon(sb, pnts);
+			pnts[0] = new PointF(rct.Right - wm - eg.Width, rct.Bottom - hm - eg.Height);
+			pnts[1] = new PointF(rct.Right - wm, rct.Bottom - hm - eg.Height);
+			pnts[2] = new PointF(rct.Right - wm , rct.Bottom - hm);
+			pnts[3] = new PointF(rct.Right - wm - eg.Width, rct.Bottom - hm);
+			g.FillPolygon(sb, pnts);
+			pnts[0] = new PointF(rct.Left + wm, rct.Bottom - hm - eg.Height);
+			pnts[1] = new PointF(rct.Left + wm + eg.Width, rct.Bottom - hm - eg.Height);
+			pnts[2] = new PointF(rct.Left + wm + eg.Width, rct.Bottom - hm);
+			pnts[3] = new PointF(rct.Left + wm, rct.Bottom - hm);
+			g.FillPolygon(sb, pnts);
+
+
+		}
+
+		#endregion
 	}
 }
