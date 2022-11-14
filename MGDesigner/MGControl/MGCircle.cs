@@ -11,9 +11,9 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 namespace MGDesigner
 {
-	public partial class MGCircle : MGPlate
+	public partial class MGCircle : Z_MG
 	{
-		private int[] m_Radius = new int[] {100,50};
+		private int[] m_Radius = new int[] {100};
 		[Category("_MG")]
 		public int[] Radius
 		{
@@ -26,7 +26,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		private int[] m_Weight = new int[] {2, 2 };
+		private int[] m_Weight = new int[] {2 };
 		[Category("_MG")]
 		public int[] Weight
 		{

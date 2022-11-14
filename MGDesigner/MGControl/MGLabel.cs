@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGLabel : MGPlate
+	public partial class MGLabel : Z_MG
 	{
 		private MG_COLOR m_Label = MG_COLOR.White;
 		[Category("_MG")]
@@ -42,6 +42,28 @@ namespace MGDesigner
 			set
 			{
 				m_LabelOpacity = value;
+				this.Invalidate();
+			}
+		}
+		private MG_COLOR m_Back = MG_COLOR.Transparent;
+		[Category("_MG")]
+		public MG_COLOR Back
+		{
+			get { return m_Back; }
+			set
+			{
+				m_Back = value;
+				this.Invalidate();
+			}
+		}
+		private double m_BackOpacity = 0;
+		[Category("_MG")]
+		public double BackOpacity
+		{
+			get { return m_BackOpacity; }
+			set
+			{
+				m_BackOpacity = value;
 				this.Invalidate();
 			}
 		}
@@ -84,6 +106,17 @@ namespace MGDesigner
 			set
 			{
 				m_MGTextMargion = value;
+				this.Invalidate();
+			}
+		}
+		private int m_LeftMargion = 10;
+		[Category("_MG")]
+		public int LeftMargion
+		{
+			get { return m_LeftMargion; }
+			set
+			{
+				m_LeftMargion = value;
 				this.Invalidate();
 			}
 		}
@@ -162,11 +195,17 @@ namespace MGDesigner
 			Color c = GetMGColor(m_Label, m_LabelOpacity, this.ForeColor);
 			SolidBrush sb = new SolidBrush(c);
 			Pen p = new Pen(c);
-			int LeftM = 5;
-			Rectangle rct = new Rectangle(LeftM,0,this.Width-10,this.Height);
+			Rectangle rct = new Rectangle(m_LeftMargion, 0,this.Width-10,this.Height);
 			try
 			{
-				int ml = 5;
+				if(m_BackOpacity>0)
+				{
+					Color c2 = GetMGColor(m_Back, m_BackOpacity, this.BackColor);
+					sb.Color = c2;
+					g.FillRectangle(sb, this.ClientRectangle);
+				}
+
+				int ml = m_LeftMargion;
 				if(m_FrameWeight>0)
 				{
 					Color cp = GetMGColor(m_Frame, m_FramelOpacity, this.ForeColor);
@@ -176,7 +215,7 @@ namespace MGDesigner
 				}
 				if((m_LeftBox.Width>0)&& (m_LeftBox.Width > 0))
 				{
-					Rectangle r1 = new Rectangle(LeftM, (this.Height- m_LeftBox.Height)/2, m_LeftBox.Width, m_LeftBox.Height);
+					Rectangle r1 = new Rectangle(m_LeftMargion, (this.Height- m_LeftBox.Height)/2, m_LeftBox.Width, m_LeftBox.Height);
 					sb.Color = c;
 					g.FillRectangle(sb, r1);
 					ml += m_LeftBox.Width;

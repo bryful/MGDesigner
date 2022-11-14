@@ -13,7 +13,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGSheet : MGPlate
+	public partial class MGSheet : Z_MG
 	{
 		#region Col
 		private int m_col = 80;
@@ -231,10 +231,31 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		private MG_COLOR m_Back = MG_COLOR.Transparent;
+		[Category("_MG")]
+		public MG_COLOR Back
+		{
+			get { return m_Back; }
+			set
+			{
+				m_Back = value;
+				this.Invalidate();
+			}
+		}
+		private double m_BackOpacity = 100;
+		[Category("_MG")]
+		public double BackOpacity
+		{
+			get { return m_BackOpacity; }
+			set
+			{
+				m_BackOpacity = value;
+				this.Invalidate();
+			}
+		}
 		public MGSheet()
 		{
 			InitializeComponent();
-			Back = MG_COLOR.Transparent;
 			chkCol();
 			ChkRow();
 		}
@@ -257,9 +278,16 @@ namespace MGDesigner
 
 			Color c = GetMGColor(m_Frame, m_FrameOpacity, this.ForeColor);
 			Color l = GetMGColor(m_Line, m_LineOpacity, this.ForeColor);
+			Color b = GetMGColor(m_Back, m_BackOpacity, this.BackColor);
 			Pen p = new Pen(c);
+			SolidBrush sb = new SolidBrush(b);
 			try
 			{
+				if(m_BackOpacity>0)
+				{
+					g.FillRectangle(sb, this.ClientRectangle);
+
+				}
 				p.Color = l;
 				p.Width = m_LineWeight;
 				int y = 0;

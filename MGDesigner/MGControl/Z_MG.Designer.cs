@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGPlate
+	partial class Z_MG
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace MGDesigner
 {
-	public partial class MGPlate : Control
+	public partial class Z_MG : Control
 	{
 		public int MgTag = 100;
 
@@ -43,6 +43,7 @@ namespace MGDesigner
 			this.Invalidate();
 		}
 
+		/*
 		private MG_COLOR m_Back = MG_COLOR.Transparent;
 		[Category("_MG")]
 		public MG_COLOR Back
@@ -65,6 +66,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		*/
 		public Color GetMGColor(MG_COLOR mgc,Color def)
 		{
 			return GetMGColor(mgc,100,def);
@@ -79,7 +81,7 @@ namespace MGDesigner
 			return ret;
 		}
 		// **************************************************************************
-		public MGPlate()
+		public Z_MG()
 		{
 			this.Location = new Point(0, 0);
 			this.Size = new Size(100, 100);
@@ -109,12 +111,11 @@ namespace MGDesigner
 		}
 		protected virtual void Draw(Graphics g)
 		{
-			SolidBrush sb = new SolidBrush(this.BackColor);
+			SolidBrush sb = new SolidBrush(Color.Transparent);
 			try
 			{
-
-				sb.Color = GetMGColor(m_Back, m_BackOpacity,this.BackColor);
-				g.CompositingMode = CompositingMode.SourceOver;
+				//sb.Color = GetMGColor(m_Back, m_BackOpacity,this.BackColor);
+				//g.CompositingMode = CompositingMode.SourceOver;
 				g.FillRectangle(sb, this.ClientRectangle);
 
 			}

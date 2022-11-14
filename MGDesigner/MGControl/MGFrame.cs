@@ -14,7 +14,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGFrame : MGPlate
+	public partial class MGFrame : Z_MG
 	{
 		private MG_COLOR m_Frame = MG_COLOR.White;
 		[Category("_MG")]
@@ -49,10 +49,31 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		private MG_COLOR m_Back = MG_COLOR.Transparent;
+		[Category("_MG")]
+		public MG_COLOR Back
+		{
+			get { return m_Back; }
+			set
+			{
+				m_Back = value;
+				this.Invalidate();
+			}
+		}
+		private double m_BackOpacity = 100;
+		[Category("_MG")]
+		public double BackOpacity
+		{
+			get { return m_BackOpacity; }
+			set
+			{
+				m_BackOpacity = value;
+				this.Invalidate();
+			}
+		}
 		public MGFrame()
 		{
 			InitializeComponent();
-			Back = MG_COLOR.Transparent;
 		}
 		
 		protected override void OnPaint(PaintEventArgs pe)
@@ -66,12 +87,22 @@ namespace MGDesigner
 			base.Draw(g);
 
 			Color c = GetMGColor(m_Frame, m_FrameOpacity, this.ForeColor);
-			Debug.WriteLine(c.ToString());
+			Color b = GetMGColor(m_Back, m_BackOpacity, this.BackColor);
+
+			SolidBrush sb = new SolidBrush(b);
 			Pen p = new Pen(c);
 			try
 			{
-				p.Color = c;
-				MG.Frame(g, p, m_FrameWeight, this.ClientRectangle);
+				if(m_BackOpacity>0)
+				{
+					sb.Color = b;
+					g.FillRectangle(sb, this.ClientRectangle);
+				}
+				if (m_FrameOpacity > 0)
+				{
+					p.Color = c;
+					MG.Frame(g, p, m_FrameWeight, this.ClientRectangle);
+				}
 			}
 			catch
 			{

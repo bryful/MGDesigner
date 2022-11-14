@@ -13,50 +13,7 @@ using System.Reflection;
 
 namespace MGDesigner
 {
-	public enum MG_COLOR
-	{
-		White = 0,
-		Black,
-		Gray,
-		Red,
-		Green,
-		Blue,
-		Cyan,
-		Yellow,
-		Magenta,
-		Orange,
 
-		GrayDrak,
-		RedDark,
-		GreenDark,
-		BlueDark,
-		CyanDark,
-		YellowDark,
-		MagentaDark,
-		OrangeDark,
-
-		GrayLight,
-		RedLight,
-		GreenLight,
-		BlueLight,
-		CyanLight,
-		YellowLight,
-		MagentaLight,
-		OrangeLight,
-		C0,
-		C1,
-		C2,
-		C3,
-		C4,
-		C5,
-		C6,
-		C7,
-		C8,
-		C9,
-		ForeColor,
-		BackColor,
-		Transparent
-	}
 	public partial class MGForm : Form
 	{
 		private MG_COLOR m_Back = MG_COLOR.BackColor;
@@ -84,7 +41,6 @@ namespace MGDesigner
 			InitializeComponent();
 			Init();
 			InitColor();
-			InitColorC();
 			SetEventHandler(this);
 		}
 
@@ -209,7 +165,7 @@ namespace MGDesigner
 				foreach(Control c in this.Controls)
 				{
 					if (s != "") s += "\r\n";
-					if (c is MGPlate)
+					if (c is Z_MG)
 					{
 						s += c.Name + "MGP";
 					}
@@ -230,11 +186,11 @@ namespace MGDesigner
 			{
 				foreach (Control c in this.Controls)
 				{
-					if (c is MGPlate)
+					if (c is Z_MG)
 					{
 						try
 						{
-							Bitmap b = ((MGPlate)c).CreateBitmap();
+							Bitmap b = ((Z_MG)c).CreateBitmap();
 							g.DrawImage(b, c.Location);
 							b.Dispose();
 						}
@@ -292,7 +248,7 @@ namespace MGDesigner
 			{
 				foreach (Control c in this.Controls)
 				{
-					if (c is MGPlate)
+					if (c is Z_MG)
 					{
 						lst.Add(c);
 					}
@@ -312,7 +268,7 @@ namespace MGDesigner
 				{
 					Bitmap a = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
 					Graphics g = Graphics.FromImage(a);
-					Bitmap b = ((MGPlate)c).CreateBitmap();
+					Bitmap b = ((Z_MG)c).CreateBitmap();
 					g.DrawImage(b,c.Location);
 					nn = $"{n}_{cnt:00}_{c.Name}.png";
 					sn = Path.Combine(d, nn);

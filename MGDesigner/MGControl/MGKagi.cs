@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGKagi : MGPlate
+	public partial class MGKagi : Z_MG
 	{
 		private MG_COLOR m_Kagi = MG_COLOR.White;
 		[Category("_MG")]
@@ -74,7 +74,6 @@ namespace MGDesigner
 		public MGKagi()
 		{
 			InitializeComponent();
-			Back = MG_COLOR.Transparent;
 		}
 		private void chkKagi()
 		{

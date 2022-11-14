@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGScale : MGPlate
+	public partial class MGScale : Z_MG
 	{
 		private ScaleStlye m_ScaleStlye = ScaleStlye.Vur;
 		[Category("_MG")]

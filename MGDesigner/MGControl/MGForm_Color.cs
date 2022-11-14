@@ -7,6 +7,50 @@ using System.Threading.Tasks;
 
 namespace MGDesigner
 {
+	public enum MG_COLOR
+	{
+		White,
+		WhiteTrue,
+		Black,
+		BLackTrue,
+		Gray,
+		GrayLight,
+		GrayDrak,
+		GrayDrakDark,
+		Red,
+		RedLight,
+		RedDark,
+		Blood,
+		Pink,
+		Green,
+		GreenTrue,
+		GreenLight,
+		GreenDark,
+		Emerald,
+		Blue,
+		BlueTrue,
+		BlueLight,
+		BlueDark,
+		SkayBlue,
+		Cyan,
+		CyanLight,
+		CyanDark,
+		Yellow,
+		YellowLight,
+		YellowDark,
+		YellowGreen,
+		Cream,
+		Magenta,
+		MagentaLight,
+		MagentaDark,
+		Orange,
+		OrangeLight,
+		OrangeDark,
+		RedTrue,
+		ForeColor,
+		BackColor,
+		Transparent
+	}
 	partial class MGForm
 	{
 		public event EventHandler? ColorChangedEvent;
@@ -114,7 +158,12 @@ namespace MGDesigner
 			get { return m_Colors[(int)MG_COLOR.GrayLight]; }
 			set { SetColor(MG_COLOR.GrayLight, value); }
 		}
-
+		[Category("_MGColors")]
+		public Color GrayDrakDark
+		{
+			get { return m_Colors[(int)MG_COLOR.GrayDrakDark]; }
+			set { SetColor(MG_COLOR.GrayDrakDark, value); }
+		}
 
 		[Category("_MGColors")]
 		public Color Red
@@ -123,16 +172,41 @@ namespace MGDesigner
 			set { SetColor(MG_COLOR.Red, value); }
 		}
 		[Category("_MGColors")]
+		public Color Blood
+		{
+			get { return m_Colors[(int)MG_COLOR.Blood]; }
+			set { SetColor(MG_COLOR.Blood, value); }
+		}
+		[Category("_MGColors")]
+		public Color Pink
+		{
+			get { return m_Colors[(int)MG_COLOR.Pink]; }
+			set { SetColor(MG_COLOR.Pink, value); }
+		}
+
+		[Category("_MGColors")]
 		public Color Green
 		{
 			get { return m_Colors[(int)MG_COLOR.Green]; }
 			set { SetColor(MG_COLOR.Green, value); }
 		}
 		[Category("_MGColors")]
+		public Color Emerald
+		{
+			get { return m_Colors[(int)MG_COLOR.Emerald]; }
+			set { SetColor(MG_COLOR.Emerald, value); }
+		}
+		[Category("_MGColors")]
 		public Color Blue
 		{
 			get { return m_Colors[(int)MG_COLOR.Blue]; }
 			set { SetColor(MG_COLOR.Blue, value); }
+		}
+		[Category("_MGColors")]
+		public Color SkayBlue
+		{
+			get { return m_Colors[(int)MG_COLOR.SkayBlue]; }
+			set { SetColor(MG_COLOR.SkayBlue, value); }
 		}
 		[Category("_MGColors")]
 		public Color Cyan
@@ -145,6 +219,18 @@ namespace MGDesigner
 		{
 			get { return m_Colors[(int)MG_COLOR.Yellow]; }
 			set { SetColor(MG_COLOR.Yellow, value); }
+		}
+		[Category("_MGColors")]
+		public Color YellowGreen
+		{
+			get { return m_Colors[(int)MG_COLOR.YellowGreen]; }
+			set { SetColor(MG_COLOR.YellowGreen, value); }
+		}
+		[Category("_MGColors")]
+		public Color Cream
+		{
+			get { return m_Colors[(int)MG_COLOR.Cream]; }
+			set { SetColor(MG_COLOR.Cream, value); }
 		}
 		[Category("_MGColors")]
 		public Color Magenta
@@ -245,112 +331,83 @@ namespace MGDesigner
 			set { SetColor(MG_COLOR.OrangeLight, value); }
 		}
 		[Category("_MGColors")]
-		public Color C0
+		public Color BLackTrue
 		{
-			get { return m_Colors[(int)MG_COLOR.C0]; }
-			set { SetColor(MG_COLOR.C0, value); }
+			get { return m_Colors[(int)MG_COLOR.BLackTrue]; }
+			set { SetColor(MG_COLOR.BLackTrue, value); }
 		}
 		[Category("_MGColors")]
-		public Color C1
+		public Color RedTrue
 		{
-			get { return m_Colors[(int)MG_COLOR.C1]; }
-			set { SetColor(MG_COLOR.C1, value); }
+			get { return m_Colors[(int)MG_COLOR.RedTrue]; }
+			set { SetColor(MG_COLOR.RedTrue, value); }
 		}
 		[Category("_MGColors")]
-		public Color C2
+		public Color GreenTrue
 		{
-			get { return m_Colors[(int)MG_COLOR.C2]; }
-			set { SetColor(MG_COLOR.C2, value); }
+			get { return m_Colors[(int)MG_COLOR.GreenTrue]; }
+			set { SetColor(MG_COLOR.GreenTrue, value); }
 		}
 		[Category("_MGColors")]
-		public Color C3
+		public Color BlueTrue
 		{
-			get { return m_Colors[(int)MG_COLOR.C3]; }
-			set { SetColor(MG_COLOR.C3, value); }
+			get { return m_Colors[(int)MG_COLOR.BlueTrue]; }
+			set { SetColor(MG_COLOR.BlueTrue, value); }
 		}
 		[Category("_MGColors")]
-		public Color C4
+		public Color WhiteTrue
 		{
-			get { return m_Colors[(int)MG_COLOR.C4]; }
-			set { SetColor(MG_COLOR.C4, value); }
-		}
-		[Category("_MGColors")]
-		public Color C5
-		{
-			get { return m_Colors[(int)MG_COLOR.C5]; }
-			set { SetColor(MG_COLOR.C5, value); }
-		}
-		[Category("_MGColors")]
-		public Color C6
-		{
-			get { return m_Colors[(int)MG_COLOR.C6]; }
-			set { SetColor(MG_COLOR.C6, value); }
-		}
-		[Category("_MGColors")]
-		public Color C7
-		{
-			get { return m_Colors[(int)MG_COLOR.C7]; }
-			set { SetColor(MG_COLOR.C7, value); }
-		}
-		[Category("_MGColors")]
-		public Color C8
-		{
-			get { return m_Colors[(int)MG_COLOR.C8]; }
-			set { SetColor(MG_COLOR.C8, value); }
-		}
-		[Category("_MGColors")]
-		public Color C9
-		{
-			get { return m_Colors[(int)MG_COLOR.C9]; }
-			set { SetColor(MG_COLOR.C9, value); }
+			get { return m_Colors[(int)MG_COLOR.WhiteTrue]; }
+			set { SetColor(MG_COLOR.WhiteTrue, value); }
 		}
 		#endregion
 		public void InitColor()
 		{
-			m_Colors[(int)MG_COLOR.White] = Color.FromArgb(0xD9, 0xC5, 0xC5);
+			m_Colors[(int)MG_COLOR.White] = Color.FromArgb(231, 226, 226);
 			m_Colors[(int)MG_COLOR.Black] = Color.FromArgb(10, 10, 10);
-			m_Colors[(int)MG_COLOR.Gray] = Color.FromArgb(0x71, 0x71, 0x71);
-			m_Colors[(int)MG_COLOR.GrayDrak] = Color.FromArgb(0x22, 0x22, 0x22);
-			m_Colors[(int)MG_COLOR.GrayLight] = Color.FromArgb(0x97, 0x97, 0x97);
+			m_Colors[(int)MG_COLOR.Gray] = Color.FromArgb(95, 95, 95);
+			m_Colors[(int)MG_COLOR.GrayDrak] = Color.FromArgb(60, 60, 60);
+			m_Colors[(int)MG_COLOR.GrayLight] = Color.FromArgb(172, 158, 158);
+			m_Colors[(int)MG_COLOR.GrayDrakDark] = Color.FromArgb(30, 30, 30);
 
-			m_Colors[(int)MG_COLOR.Red] = Color.FromArgb(0x9C, 0x09, 0x09);
-			m_Colors[(int)MG_COLOR.Green] = Color.FromArgb(0x39, 0xA4, 0x6B);
-			m_Colors[(int)MG_COLOR.Blue] = Color.FromArgb(0x2A, 0x4F, 0x8D);
-			m_Colors[(int)MG_COLOR.Cyan] = Color.FromArgb(0x28, 0x8C, 0x9B);
-			m_Colors[(int)MG_COLOR.Yellow] = Color.FromArgb(0xBA, 0xB3, 0x46);
-			m_Colors[(int)MG_COLOR.Magenta] = Color.FromArgb(0x9F, 0x47, 0xAF);
-			m_Colors[(int)MG_COLOR.Orange] = Color.FromArgb(0xBD, 0x7E, 0x2C);
+			m_Colors[(int)MG_COLOR.Red] = Color.FromArgb(193, 74, 74);
+			m_Colors[(int)MG_COLOR.RedDark] = Color.FromArgb(116, 54, 54);
+			m_Colors[(int)MG_COLOR.RedLight] = Color.FromArgb(219, 151, 151);
+			m_Colors[(int)MG_COLOR.Blood] = Color.FromArgb(121, 50, 73);
+			m_Colors[(int)MG_COLOR.Pink] = Color.FromArgb(202, 167, 216);
 
-			m_Colors[(int)MG_COLOR.RedDark] = Color.FromArgb(0x2F, 0x03, 0x03);
-			m_Colors[(int)MG_COLOR.GreenDark] = Color.FromArgb(0x11, 0x31, 0x20);
-			m_Colors[(int)MG_COLOR.BlueDark] = Color.FromArgb(0x0D, 0x18, 0x2A);
-			m_Colors[(int)MG_COLOR.CyanDark] = Color.FromArgb(0x0C, 0x2A, 0x2F);
-			m_Colors[(int)MG_COLOR.YellowDark] = Color.FromArgb(0x38, 0x36, 0x15);
-			m_Colors[(int)MG_COLOR.MagentaDark] = Color.FromArgb(0x30, 0x15, 0x35);
-			m_Colors[(int)MG_COLOR.OrangeDark] = Color.FromArgb(0x39, 0x26, 0x0D);
+			m_Colors[(int)MG_COLOR.Green] = Color.FromArgb(83, 138, 68);
+			m_Colors[(int)MG_COLOR.GreenDark] = Color.FromArgb(143, 211, 125);
+			m_Colors[(int)MG_COLOR.GreenLight] = Color.FromArgb(58, 85, 49);
+			m_Colors[(int)MG_COLOR.Emerald] = Color.FromArgb(68, 138, 117);
 
-			m_Colors[(int)MG_COLOR.RedLight] = Color.FromArgb(0xB7, 0x4B, 0x4B);
-			m_Colors[(int)MG_COLOR.GreenLight] = Color.FromArgb(0x6E, 0xBD, 0x93);
-			m_Colors[(int)MG_COLOR.BlueLight] = Color.FromArgb(0x64, 0x7F, 0xAC);
-			m_Colors[(int)MG_COLOR.CyanLight] = Color.FromArgb(0x6A, 0xBE, 0xCB);
-			m_Colors[(int)MG_COLOR.YellowLight] = Color.FromArgb(0xCD, 0xC8, 0x78);
-			m_Colors[(int)MG_COLOR.MagentaLight] = Color.FromArgb(0xB9, 0x79, 0xC5);
-			m_Colors[(int)MG_COLOR.OrangeLight] = Color.FromArgb(0xCF, 0xA1, 0x65);
+			m_Colors[(int)MG_COLOR.Blue] = Color.FromArgb(67, 82, 128);
+			m_Colors[(int)MG_COLOR.BlueDark] = Color.FromArgb(47, 55, 79);
+			m_Colors[(int)MG_COLOR.BlueLight] = Color.FromArgb(121, 145, 211);
+			m_Colors[(int)MG_COLOR.SkayBlue] = Color.FromArgb(107, 172, 202);
 
+			m_Colors[(int)MG_COLOR.Cyan] = Color.FromArgb(81, 146, 140);
+			m_Colors[(int)MG_COLOR.CyanDark] = Color.FromArgb(55, 88, 85);
+			m_Colors[(int)MG_COLOR.CyanLight] = Color.FromArgb(134, 214, 207);
 
-		}
-		public void InitColorC()
-		{
-			m_Colors[(int)MG_COLOR.C0] = Color.FromArgb(0x00, 0x00, 0x00);
-			m_Colors[(int)MG_COLOR.C1] = Color.FromArgb(0xFF, 0x00, 0x00);
-			m_Colors[(int)MG_COLOR.C2] = Color.FromArgb(0x00, 0xFF, 0x00);
-			m_Colors[(int)MG_COLOR.C3] = Color.FromArgb(0x00, 0x00, 0xFF);
-			m_Colors[(int)MG_COLOR.C4] = Color.FromArgb(0xFF, 0xFF, 0x00);
-			m_Colors[(int)MG_COLOR.C5] = Color.FromArgb(0xFF, 0x00, 0xFF);
-			m_Colors[(int)MG_COLOR.C6] = Color.FromArgb(0x00, 0xFF, 0xFF);
-			m_Colors[(int)MG_COLOR.C7] = Color.FromArgb(0xFF, 0xFF, 0xFF);
-			m_Colors[(int)MG_COLOR.C8] = Color.FromArgb(0x7F, 0x7F, 0x7F);
-			m_Colors[(int)MG_COLOR.C9] = Color.FromArgb(0x3F, 0x3F, 0x3F);
+			m_Colors[(int)MG_COLOR.Magenta] = Color.FromArgb(116, 76, 131);
+			m_Colors[(int)MG_COLOR.MagentaDark] = Color.FromArgb(72, 50, 80);
+			m_Colors[(int)MG_COLOR.MagentaLight] = Color.FromArgb(189, 123, 211);
+
+			m_Colors[(int)MG_COLOR.Yellow] = Color.FromArgb(119, 117, 66);
+			m_Colors[(int)MG_COLOR.YellowDark] = Color.FromArgb(73, 71, 45);
+			m_Colors[(int)MG_COLOR.YellowLight] = Color.FromArgb(209, 206, 116);
+			m_Colors[(int)MG_COLOR.YellowGreen] = Color.FromArgb(77, 195, 91);
+			m_Colors[(int)MG_COLOR.Cream] = Color.FromArgb(212, 218, 165);
+
+			m_Colors[(int)MG_COLOR.Orange] = Color.FromArgb(195, 154, 77);
+			m_Colors[(int)MG_COLOR.OrangeDark] = Color.FromArgb(118, 96, 56);
+			m_Colors[(int)MG_COLOR.OrangeLight] = Color.FromArgb(219, 196, 153);
+			m_Colors[(int)MG_COLOR.BLackTrue] = Color.FromArgb(0x00, 0x00, 0x00);
+			m_Colors[(int)MG_COLOR.RedTrue] = Color.FromArgb(0xFF, 0x00, 0x00);
+			m_Colors[(int)MG_COLOR.GreenTrue] = Color.FromArgb(0x00, 0xFF, 0x00);
+			m_Colors[(int)MG_COLOR.BlueTrue] = Color.FromArgb(0x00, 0x00, 0xFF);
+			m_Colors[(int)MG_COLOR.WhiteTrue] = Color.FromArgb(0xFF, 0xFF, 0xFF);
 
 		}
 	}

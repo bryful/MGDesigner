@@ -13,7 +13,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGTriangle : MGPlate
+	public partial class MGTriangle : Z_MG
 	{
 		private MG_COLOR m_Triangle = MG_COLOR.White;
 		[Category("_MG")]
@@ -109,7 +109,6 @@ namespace MGDesigner
 		}
 		public MGTriangle()
 		{
-			Back = MG_COLOR.Transparent;
 			InitializeComponent();
 			ChkRegion();
 		}
@@ -148,7 +147,7 @@ namespace MGDesigner
 				Color c = GetMGColor(m_Triangle, m_TriangleOpacity, this.ForeColor);
 				p.Width = m_weight;
 				p.Color = c;
-				Color fc = GetMGColor(m_TriangleFill, m_TriangleFillOpacity, this.ForeColor);
+				Color fc = GetMGColor(m_TriangleFill, m_TriangleFillOpacity, this.BackColor);
 				sb.Color = fc;
 
 				switch (m_TraiangleStyle)

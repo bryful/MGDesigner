@@ -13,7 +13,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGPolygon : MGPlate
+	public partial class MGPolygon : Z_MG
 	{
 		private MG_COLOR m_Polygon = MG_COLOR.White;
 		[Category("_MG")]
@@ -51,7 +51,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		private float m_Length = 100;
+		private float m_Length = 50;
 		[Category("_MG")]
 		public float Length
 		{
@@ -113,7 +113,6 @@ namespace MGDesigner
 		}
 		public MGPolygon()
 		{
-			Back = MG_COLOR.Transparent;
 			InitializeComponent();
 			ChkRegion();
 		}
@@ -137,13 +136,13 @@ namespace MGDesigner
 			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			base.Draw(g);
 
-			SolidBrush sb = new SolidBrush(this.ForeColor);
+			SolidBrush sb = new SolidBrush(this.BackColor);
 			Pen p = new Pen(this.ForeColor);
 			try
 			{
 				PointF cnt = new PointF((float)this.Width / 2, (float)this.Height / 2);
 
-				Color fc = GetMGColor(m_PolygonFill, m_PolygonFillOpacity, this.ForeColor);
+				Color fc = GetMGColor(m_PolygonFill, m_PolygonFillOpacity, this.BackColor);
 				sb.Color = fc;
 				Color c = GetMGColor(m_Polygon, m_PolygonOpacity, this.ForeColor);
 				p.Width = m_weight;

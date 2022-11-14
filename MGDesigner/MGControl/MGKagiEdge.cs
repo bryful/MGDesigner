@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGKagiEdge : MGPlate
+	public partial class MGKagiEdge : Z_MG
 	{
 		private MG_COLOR m_Kagi = MG_COLOR.White;
 		[Category("_MG")]
