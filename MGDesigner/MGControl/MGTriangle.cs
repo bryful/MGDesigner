@@ -13,7 +13,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGTriangle : Z_MG
+	public partial class MGTriangle : MGNone
 	{
 		private MG_COLOR m_Triangle = MG_COLOR.White;
 		[Category("_MG")]

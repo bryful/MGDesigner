@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGCross : Z_MG
+	public partial class MGCross : MGNone
 	{
 		private MG_COLOR m_CrossFill = MG_COLOR.White;
 		[Category("_MG")]

@@ -200,7 +200,7 @@ namespace MGDesigner
 				foreach(Control c in this.Controls)
 				{
 					if (s != "") s += "\r\n";
-					if (c is Z_MG)
+					if (c is MGNone)
 					{
 						s += c.Name + "MGP";
 					}
@@ -221,11 +221,11 @@ namespace MGDesigner
 			{
 				foreach (Control c in this.Controls)
 				{
-					if (c is Z_MG)
+					if (c is MGNone)
 					{
 						try
 						{
-							Bitmap b = ((Z_MG)c).CreateBitmap();
+							Bitmap b = ((MGNone)c).CreateBitmap();
 							g.DrawImage(b, c.Location);
 							b.Dispose();
 						}
@@ -283,7 +283,7 @@ namespace MGDesigner
 			{
 				foreach (Control c in this.Controls)
 				{
-					if (c is Z_MG)
+					if (c is MGNone)
 					{
 						lst.Add(c);
 					}
@@ -303,7 +303,7 @@ namespace MGDesigner
 				{
 					Bitmap a = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
 					Graphics g = Graphics.FromImage(a);
-					Bitmap b = ((Z_MG)c).CreateBitmap();
+					Bitmap b = ((MGNone)c).CreateBitmap();
 					g.DrawImage(b,c.Location);
 					nn = $"{n}_{cnt:00}_{c.Name}.png";
 					sn = Path.Combine(d, nn);

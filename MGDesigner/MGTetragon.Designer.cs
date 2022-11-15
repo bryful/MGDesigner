@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class Z_MG
+	partial class MGTetragon
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

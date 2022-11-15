@@ -13,7 +13,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGSheet : Z_MG
+	public partial class MGSheet : MGNone
 	{
 		#region Col
 		private int m_col = 80;

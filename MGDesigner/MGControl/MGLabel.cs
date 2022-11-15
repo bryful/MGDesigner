@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGLabel : Z_MG
+	public partial class MGLabel : MGNone
 	{
 		#region Label
 		private StringFormat m_sf = new StringFormat();

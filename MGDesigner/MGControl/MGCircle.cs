@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 namespace MGDesigner
 {
-	public partial class MGCircle : Z_MG
+	public partial class MGCircle : MGNone
 	{
 		private int[] m_Radius = new int[] {100};
 		[Category("_MG_Circle")]

@@ -51,11 +51,11 @@ namespace MGDesigner
 
 			foreach(Control control in ctrl.Controls)
 			{
-				if (control is Z_MG)
+				if (control is MGNone)
 				{
-					if (((Z_MG)control).MGForm == null)
+					if (((MGNone)control).MGForm == null)
 					{
-						((Z_MG)control).SetMGForm(this);
+						((MGNone)control).SetMGForm(this);
 					}
 					SetMGForm(control);
 				}

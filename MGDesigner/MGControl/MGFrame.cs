@@ -14,7 +14,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGFrame : Z_MG
+	public partial class MGFrame : MGNone
 	{
 		private MG_COLOR m_Frame = MG_COLOR.White;
 		[Category("_MG")]

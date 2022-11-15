@@ -14,7 +14,7 @@ namespace MGDesigner
 {
 
 
-	public partial class MGPolygon : Z_MG
+	public partial class MGPolygon : MGNone
 	{
 		private MG_COLOR m_Polygon = MG_COLOR.White;
 		[Category("_MG_Polygon")]

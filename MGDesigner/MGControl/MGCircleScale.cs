@@ -21,7 +21,7 @@ namespace MGDesigner
 		Rot30 = 300,
 		Rot90 = 900
 	}
-	public partial class MGCircleScale : Z_MG
+	public partial class MGCircleScale : MGNone
 	{
 		private RotValue m_RotValue = RotValue.Rot10;
 		[Category("_MG")]

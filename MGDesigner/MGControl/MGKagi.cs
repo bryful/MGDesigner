@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGKagi : Z_MG
+	public partial class MGKagi : MGNone
 	{
 		private MG_COLOR m_Kagi = MG_COLOR.White;
 		[Category("_MG")]
