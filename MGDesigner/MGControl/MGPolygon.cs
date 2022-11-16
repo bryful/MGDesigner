@@ -126,7 +126,7 @@ namespace MGDesigner
 		private void ChkRegion()
 		{
 			PointF cntr = new PointF((float)this.Width / 2, (float)this.Height / 2);
-			this.Region = MG.PolygonRegion(m_PolygonCount, cntr, Radius() +4, m_rot);
+			this.Region = MG.PolygonRegion(m_PolygonCount, cntr, Radius() +2, m_rot);
 		}
 		protected override void Draw(Graphics g)
 		{

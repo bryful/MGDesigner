@@ -10,8 +10,59 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGTetragon : MGNone
+	public enum TetragonMode
 	{
+		Hor,
+		Vur
+	}
+	public partial class MGParallelogram : MGNone
+	{
+		private float Tan(float h, float rot)
+		{
+			float r = Math.Abs(rot);
+			if (r > 60) r = 60;
+			float v = 1;
+			if (rot < 0) v = -1;
+			return (float)Math.Tan((double)r * Math.PI / 180) * h * v;
+		}
+		private TetragonMode m_Mode = TetragonMode.Hor;
+		[Category("_MG_Parallelogram")]
+		public TetragonMode Mode
+		{
+			get { return m_Mode; }
+			set
+			{
+				m_Mode = value;
+				this.Invalidate();
+			}
+		}
+		private float m_LeftSkew = 0;
+		[Category("_MG_Parallelogram")]
+		public float LeftSkew
+		{
+			get { return m_LeftSkew; }
+			set
+			{
+				m_LeftSkew = value;
+				if (m_LeftSkew < -60) m_LeftSkew = -60;
+				else if (m_LeftSkew > 60) m_LeftSkew = 60;
+				this.Invalidate();
+			}
+		}
+		private float m_RightSkew = 0;
+		[Category("_MG_Parallelogram")]
+		public float RightSkew
+		{
+			get { return m_RightSkew; }
+			set
+			{
+				m_RightSkew = value;
+				if (m_RightSkew < -60) m_RightSkew = -60;
+				else if (m_RightSkew > 60) m_RightSkew = 60;
+				this.Invalidate();
+			}
+		}
+
 		private float m_TopLeft = 0;
 		[Category("_MG_Tetragon_corner")]
 		public float TopLeft
@@ -90,7 +141,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		public MGTetragon()
+		public MGParallelogram()
 		{
 			InitializeComponent();
 		}
@@ -104,6 +155,90 @@ namespace MGDesigner
 			ret[3] = new PointF(this.Width * m_BottomLeft / 100, this.Height);
 			return ret;
 		}
+		private PointF[] Parallelogram()
+		{
+			PointF[] ret = new PointF[4];
+
+			float lt;
+			float rt;
+			float lb;
+			float rb;
+			if (m_Mode==TetragonMode.Hor)
+			{
+				lt = 0;
+				rt = this.Width;
+				lb = 0;
+				rb = this.Width;
+
+				float l = Tan(this.Height, m_LeftSkew);
+				if (l >= 0)
+				{
+					lt = l;
+					if (lt > this.Width) lt = this.Width;
+				}
+				else
+				{
+					lb = -l;
+					if (lb > this.Width) lb = this.Width;
+				}
+				float r = Tan(this.Height, m_RightSkew);
+				if (r>=0)
+				{
+					rb = this.Width - r;
+					if (rb < 0)  rb = 0;
+				}
+				else
+				{
+					rt = this.Width - r;
+					if (rt < 0) rt = 0;
+				}
+				ret[0] = new PointF(lt, 0);
+				ret[1] = new PointF(rt, 0);
+				ret[2] = new PointF(rb, this.Height);
+				ret[3] = new PointF(lb, this.Height);
+			}
+			else
+			{
+				lt = 0;
+				rt = 0;
+				lb = this.Height;
+				rb = this.Height;
+				float l = Tan(this.Width, m_LeftSkew);
+				if (l >= 0)
+				{
+					lt = l;
+					if (lt > this.Height) lt = this.Height;
+				}
+				else
+				{
+					rt = -l;
+					if (rt > this.Height) rt = this.Height;
+				}
+				float r = Tan(this.Width, m_RightSkew);
+				if (r >= 0)
+				{
+					rb = this.Height - (r);
+					if (rb < 0) rb = 0;
+
+				}
+				else
+				{
+					lb = this.Height - (-r);
+					if (lb < 0) lb = 0;
+				}
+				ret[0] = new PointF(0, lt);
+				ret[1] = new PointF(this.Width, rt);
+				ret[2] = new PointF(this.Width, rb);
+				ret[3] = new PointF(0, lb);
+
+				//ret[1] = new PointF(this.Width, rt);
+				//ret[2] = new PointF(this.Width, rb);
+				//ret[3] = new PointF(0, lb);
+			}
+
+			return ret;
+		}
+
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//base.OnPaint(pe);
@@ -118,7 +253,8 @@ namespace MGDesigner
 			//Pen p = new Pen(c);
 			try
 			{
-				PointF[] points = Tetragon();
+				//PointF[] points = Tetragon();
+				PointF[] points = Parallelogram();
 
 				if (m_BackOpacity > 0)
 				{

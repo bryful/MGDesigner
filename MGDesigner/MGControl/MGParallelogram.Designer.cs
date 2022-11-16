@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGTetragon
+	partial class MGParallelogram
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
