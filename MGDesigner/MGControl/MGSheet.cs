@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace MGDesigner
 		}
 		private void chkCol()
 		{
-			int w = 0;
+			float w = 0;
 			int idx = -1;
 			if (m_cols.Length > 0)
 			{
@@ -49,7 +50,7 @@ namespace MGDesigner
 			}
 			else if (w < this.Width)
 			{
-				int a = (this.Width - w) / m_col;
+				int a = (int)((this.Width - w) / m_col);
 				if (a > 0)
 				{
 					int d = m_cols.Length;
@@ -76,9 +77,9 @@ namespace MGDesigner
 			}
 			chkCol();
 		}
-		private int[] m_cols = new int[] { 80, 80, 80, 80 };
+		private float[] m_cols = new float[] { 80, 80, 80, 80 };
 		[Category("_MG")]
-		public int[] Cols
+		public float[] Cols
 		{
 			get { return m_cols; }
 			set
@@ -104,7 +105,7 @@ namespace MGDesigner
 		}
 		private void ChkRow()
 		{
-			int h = 0;
+			float h = 0;
 			int idx = -1;
 			if (m_Rows.Length > 0)
 			{
@@ -124,7 +125,7 @@ namespace MGDesigner
 			}
 			else if (h < this.Height)
 			{
-				int a = (this.Height - h) / m_Row;
+				int a = (int)((this.Height - h) / m_Row);
 				if (a > 0)
 				{
 					int d = m_Rows.Length;
@@ -151,9 +152,9 @@ namespace MGDesigner
 			}
 			ChkRow();
 		}
-		private int[] m_Rows = new int[] { 25, 25, 25, 25 };
+		private float[] m_Rows = new float[] { 25, 25, 25, 25 };
 		[Category("_MG")]
-		public int[] Rows
+		public float[] Rows
 		{
 			get { return m_Rows; }
 			set
@@ -268,8 +269,9 @@ namespace MGDesigner
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
 		
 		protected override void Draw(Graphics g)
@@ -290,13 +292,13 @@ namespace MGDesigner
 				}
 				p.Color = l;
 				p.Width = m_LineWeight;
-				int y = 0;
+				float y = 0;
 				for(int i = 0; i < m_Rows.Length; i++)
 				{
 					y += m_Rows[i];
 					g.DrawLine(p, 0, y, this.Width, y);
 				}
-				int x = 0;
+				float x = 0;
 				for (int i = 0; i < m_cols.Length; i++)
 				{
 					x += m_cols[i];

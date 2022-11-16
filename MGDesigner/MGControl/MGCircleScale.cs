@@ -104,7 +104,9 @@ namespace MGDesigner
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
 		private void ChkRegopn()
 		{
@@ -123,7 +125,6 @@ namespace MGDesigner
 		protected override void Draw(Graphics g)
 		{
 			base.Draw(g);
-			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			Color ca = GetMGColor(m_ScaleA, 100, this.ForeColor);
 			Color cb = GetMGColor(m_ScaleB, 100, this.ForeColor);
 			Color cc = GetMGColor(m_ScaleC, 100, this.ForeColor);
@@ -171,7 +172,6 @@ namespace MGDesigner
 			}
 			catch
 			{
-				MessageBox.Show("a");
 			}
 			finally
 			{

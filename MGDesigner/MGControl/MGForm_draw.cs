@@ -7,8 +7,19 @@ using System.Threading.Tasks;
 
 namespace MGDesigner
 {
+
+
 	partial class MGForm
 	{
+		private FormDrawStyle[] m_FormDrawStyle = new FormDrawStyle[] {FormDrawStyle.Grid,FormDrawStyle.Frame};
+		public FormDrawStyle[] DrawStyle
+		{
+			get { return m_FormDrawStyle; }
+			set { m_FormDrawStyle = value; this.Invalidate(); }
+		}
+
+
+
 		#region Frame
 		private MG_COLOR m_Frame = MG_COLOR.White;
 		[Category("_MG")]

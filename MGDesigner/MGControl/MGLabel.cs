@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -203,8 +204,9 @@ namespace MGDesigner
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
 		protected override void Draw(Graphics g)
 		{
@@ -259,7 +261,7 @@ namespace MGDesigner
 			}
 			catch
 			{
-				MessageBox.Show("a");
+				
 			}
 			finally
 			{

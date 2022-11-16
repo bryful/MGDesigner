@@ -13,42 +13,39 @@ namespace MGDesigner
 {
 	public partial class MGCircle : MGNone
 	{
-		private int[] m_Radius = new int[] {100};
+		private float m_Weight = 4;
 		[Category("_MG_Circle")]
-		public int[] Radius
-		{
-			get { return m_Radius; }
-			set
-			{
-				m_Radius = value;
-				if (m_Radius.Length <= 0) m_Radius = new int[] { CRadius() };
-				ChkCircle();
-				this.Invalidate();
-			}
-		}
-		private int[] m_Weight = new int[] {2 };
-		[Category("_MG_Circle")]
-		public int[] Weight
+		public float Weight
 		{
 			get { return m_Weight; }
 			set
 			{
 				m_Weight = value;
-				if (m_Weight.Length <= 0) m_Weight = new int[] { 2 };
 				ChkCircle();
 				this.Invalidate();
 			}
 		}
-		private Color[] m_Colors = new Color[] { Color.White,Color.White };
+		private MG_COLOR m_Circle = MG_COLOR.White;
 		[Category("_MG_Circle")]
-		public Color[] Colors
+		public MG_COLOR Circle
 		{
-			get { return m_Colors; }
+			get { return m_Circle; }
 			set
 			{
-				m_Colors = value;
-				if (m_Colors.Length <= 0) m_Colors = new Color[] { Color.White };
-
+				m_Circle = value;
+				ChkCircle();
+				this.Invalidate();
+			}
+		}
+		private double m_CircleOpacity = 0;
+		[Category("_MG_Circle")]
+		public double CircleOpacity
+		{
+			get { return m_CircleOpacity; }
+			set
+			{
+				m_CircleOpacity = value;
+				ChkCircle();
 				this.Invalidate();
 			}
 		}
@@ -71,14 +68,14 @@ namespace MGDesigner
 			set
 			{
 				m_CircleFillOpacity = value;
-
+				ChkCircle();
 				this.Invalidate();
 			}
 		}
-		private int CRadius()
+		private float CRadius()
 		{
-			int ret = this.Width / 2 - m_Weight[0] / 2;
-			int h = this.Height / 2 - m_Weight[0] / 2;
+			float ret = this.Width / 2 - m_Weight / 2;
+			float h = this.Height / 2 - m_Weight / 2;
 			if (ret > h) ret = h;
 			return ret;
 		}
@@ -96,76 +93,55 @@ namespace MGDesigner
 		}
 		private void ChkCircle()
 		{
-			int sr = m_Radius[0];
-			int dr = CRadius();
-			m_Radius[0] = dr;
-			if(m_Radius.Length>1)
-			{
-				int a = dr - sr;
-				for(int i=1; i< m_Radius.Length;i++) m_Radius[i] += a;
-			}
+			float r = (float)this.Width;
+			if (r > (float)this.Height) r = (float)this.Height;
+
 			GraphicsPath path =new GraphicsPath();
-			//丸を描く
-			int mx = this.Width;
-			if (mx > this.Height) mx = this.Height;
-			mx /= 2;
+			float cx = (float)this.Width / 2;
+			float cy = (float)this.Height / 2;
 
 
-			path.AddEllipse(new Rectangle(this.Width / 2 - mx, this.Height / 2 - mx, mx * 2, mx * 2));
-
+			path.AddEllipse(new RectangleF(cx - r / 2, cy - r / 2, r, r));
+			if ((m_CircleFillOpacity == 0) || (m_Circle == MG_COLOR.Transparent))
+			{
+				float r2 = r - m_Weight;
+				path.AddEllipse(new RectangleF(cx - r2 / 2, cy - r2 / 2, r2, r2));
+			}
 			this.Region = new Region(path);
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
-		private Rectangle CircleRect(int r)
+		private RectangleF CircleRect(float r)
 		{
-			int cx = this.Width / 2;
-			int cy = this.Height / 2;
+			float cx = this.Width / 2;
+			float cy = this.Height / 2;
 
-			return new Rectangle(cx-r, cy-r, r*2, r*2);
+			return new RectangleF(cx-r, cy-r, r*2, r*2);
 		}
 		protected override void Draw(Graphics g)
 		{
 			base.Draw(g);
 
-			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			Pen p = new Pen(this.ForeColor);
 			SolidBrush sb = new SolidBrush(this.BackColor);
 			try
 			{
-				if (m_CircleFillOpacity > 0)
+				RectangleF rct = CircleRect(CRadius());
+				if ((m_CircleFillOpacity > 0)&&(m_Circle != MG_COLOR.Transparent))
 				{
 					Color f = GetMGColor(m_CircleFill, m_CircleFillOpacity, this.BackColor);
 					sb.Color = f;
-					g.FillEllipse(sb, CircleRect(m_Radius[0]));
+					g.FillEllipse(sb, rct);
 				}
 
-				p.Color =m_Colors[0];
-				p.Width = m_Weight[0];
-				g.DrawEllipse(p, CircleRect(m_Radius[0]));
-
-				if (m_Radius.Length > 1)
-				{
-					int idx = 0;
-					for(int i=1; i < m_Radius.Length; i++)
-					{
-						int r = m_Radius[i];
-						if ((r >= m_Radius[0])||(r<0)) continue;
-						idx = i;
-						if (idx >= m_Weight.Length) idx = m_Weight.Length - 1;
-						int w = m_Weight[idx];
-						idx = i;
-						if (idx >= m_Colors.Length) idx = m_Colors.Length - 1;
-						Color c = m_Colors[idx];
-						p.Color = c;
-						p.Width = w;
-						g.DrawEllipse(p, CircleRect(r));
-
-					}
-				}
+				p.Color = GetMGColor(m_Circle, m_CircleOpacity, this.ForeColor);
+				p.Width = m_Weight;
+				g.DrawEllipse(p, rct);
 
 			}
 			catch

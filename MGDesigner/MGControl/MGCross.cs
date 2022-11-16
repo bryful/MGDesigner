@@ -95,8 +95,9 @@ namespace MGDesigner
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
 		private void ChkRegion()
 		{

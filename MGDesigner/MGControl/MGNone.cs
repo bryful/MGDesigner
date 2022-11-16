@@ -18,6 +18,18 @@ namespace MGDesigner
 		public int MgTag = 100;
 
 		private MGForm? m_MGForm = null;
+		private bool m_Anti = false;
+		[Category("_MG")]
+		public bool Anti
+		{
+			get { return m_Anti; }
+			set
+			{
+				m_Anti = value;
+				this.Invalidate();
+			}
+		}
+
 		[Category("__MG")]
 		public MGForm? MGForm
 		{
@@ -32,10 +44,21 @@ namespace MGDesigner
 			m_MGForm = m;
 			if(m_MGForm != null)
 			{
+				m_Anti = m.Anti;
 				m_MGForm.ColorChangedEvent += Mgf_ColorChangedEvent;
+				m_MGForm.AntiChangeEvent += M_MGForm_AntiChangeEvent;
 				m_MGForm.Invalidate();
 			}
 			this.Invalidate();
+		}
+
+		private void M_MGForm_AntiChangeEvent(object? sender, EventArgs e)
+		{
+			if (m_MGForm != null)
+			{
+				m_Anti = m_MGForm.Anti;
+				this.Invalidate();
+			}
 		}
 
 		private void Mgf_ColorChangedEvent(object? sender, EventArgs e)
@@ -107,15 +130,16 @@ namespace MGDesigner
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
-		protected virtual void Draw(Graphics g)
+		public void ClearFill(Graphics g)
 		{
+
 			SolidBrush sb = new SolidBrush(Color.Transparent);
 			try
 			{
-				//sb.Color = GetMGColor(m_Back, m_BackOpacity,this.BackColor);
-				//g.CompositingMode = CompositingMode.SourceOver;
 				g.FillRectangle(sb, this.ClientRectangle);
 
 			}
@@ -124,10 +148,15 @@ namespace MGDesigner
 				sb.Dispose();
 			}
 		}
+		protected virtual void Draw(Graphics g)
+		{
+			ClearFill(g);
+		}
 		public Bitmap CreateBitmap()
 		{
 			Bitmap bmp = new Bitmap(this.Width, this.Height,PixelFormat.Format32bppArgb);
 			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
 			Draw(g);
 			return bmp;
 		}

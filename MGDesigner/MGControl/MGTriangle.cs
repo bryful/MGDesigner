@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -119,8 +120,9 @@ namespace MGDesigner
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
-			Draw(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			Draw(g);
 		}
 		private void ChkRegion()
 		{
@@ -137,7 +139,6 @@ namespace MGDesigner
 		}
 		protected override void Draw(Graphics g)
 		{
-			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			base.Draw(g);
 
 			Pen p = new Pen(this.ForeColor);

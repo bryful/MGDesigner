@@ -13,9 +13,36 @@ using System.Reflection;
 
 namespace MGDesigner
 {
-
+	public enum FormDrawStyle
+	{
+		Frame = 0,
+		Grid,
+		Edge,
+		Kagi
+	}
 	public partial class MGForm : Form
 	{
+		public event EventHandler? AntiChangeEvent;
+		protected virtual void OnAntiChangeEvent(EventArgs e)
+		{
+			if (AntiChangeEvent != null)
+			{
+				AntiChangeEvent(this, e);
+			}
+		}
+		private bool m_Anti = false;
+		[Category("_MG")]
+		public bool Anti
+		{
+			get { return m_Anti; }
+			set
+			{
+				m_Anti = value;
+				OnAntiChangeEvent(EventArgs.Empty);
+				this.Invalidate();
+			}
+		}
+
 		private MG_COLOR m_Back = MG_COLOR.BackColor;
 		[Category("_MG")]
 		public MG_COLOR Back
@@ -42,6 +69,7 @@ namespace MGDesigner
 			Init();
 			InitColor();
 			SetEventHandler(this);
+			SetMGNone(this, this);
 		}
 
 		public void Init()
@@ -81,6 +109,21 @@ namespace MGDesigner
 			}
 
 		}
+		public void SetMGNone(Control ctrl,MGForm mg)
+		{
+			if(ctrl is MGNone)
+			{
+				if (((MGNone)ctrl).MGForm == null)
+					((MGNone)ctrl).MGForm = mg;
+			}
+			if (ctrl.Controls.Count > 0)
+			{
+				foreach (Control c in ctrl.Controls)
+				{
+					SetMGNone(c,mg);
+				}
+			}
+		}
 		private Point m_MD = new Point(0, 0);
 		private int m_MD_Mode = 0;
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -119,8 +162,13 @@ namespace MGDesigner
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//base.OnPaint(pe);
-			Draw(pe.Graphics);
-			DrawTop(pe.Graphics);
+			Graphics g = pe.Graphics;
+			if(m_Anti)
+			{
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+			}
+			Draw(g);
+			DrawTop(g);
 		}
 		protected virtual void DrawTop(Graphics g)
 		{
@@ -184,11 +232,19 @@ namespace MGDesigner
 				p.Dispose();
 			}
 		}
-		public Bitmap CreateBitmap()
+		public Bitmap CreateBitmap(bool IsDraw=true, bool IsDrawTop = true)
 		{
 			Bitmap bmp = new Bitmap(this.Width, this.Height,PixelFormat.Format32bppArgb);
 			Graphics g = Graphics.FromImage(bmp);
-			Draw(g);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			if (IsDraw)
+			{
+				Draw(g);
+			}
+			if (IsDrawTop)
+			{
+				DrawTop(g);
+			}
 			return bmp;
 		}
 
@@ -289,15 +345,22 @@ namespace MGDesigner
 					}
 				}
 			}
-			int cnt = lst.Count+1;
+			int cnt = lst.Count+2;
 
-			Bitmap formMG = CreateBitmap();
+			Bitmap formMG = CreateBitmap(true,false);
 			string nn = $"{n}_{cnt:00}_{this.Name}.png";
 			string sn = Path.Combine(d, nn);
 			formMG.Save(sn,ImageFormat.Png);
 			formMG.Dispose();
 			cnt--;
-			if(lst.Count > 0)
+			Bitmap formMG2 = CreateBitmap(false,true);
+			nn = $"{n}_{cnt:00}_{this.Name}.png";
+			sn = Path.Combine(d, nn);
+			formMG2.Save(sn, ImageFormat.Png);
+			formMG2.Dispose();
+			cnt--;
+
+			if (lst.Count > 0)
 			{
 				foreach(var c in lst)
 				{
