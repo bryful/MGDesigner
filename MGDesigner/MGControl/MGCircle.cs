@@ -37,7 +37,7 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
-		private double m_CircleOpacity = 0;
+		private double m_CircleOpacity = 100;
 		[Category("_MG_Circle")]
 		public double CircleOpacity
 		{

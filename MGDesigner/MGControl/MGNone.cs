@@ -29,6 +29,48 @@ namespace MGDesigner
 				this.Invalidate();
 			}
 		}
+		[Category("_MG")]
+		public PointF CenterPos
+		{
+			get 
+			{
+				float x = (float)this.Left + (float)this.Width / 2;
+				float y = (float)this.Top + (float)this.Height / 2;
+				return new PointF(x,y); 
+			}
+			set
+			{
+				float x = value.X - (float)this.Width / 2;
+				float y = value.Y - (float)this.Height / 2;
+				this.Location = new Point((int)x, (int)y);
+			}
+		}
+		[Category("_MG")]
+		public float CenterX
+		{
+			get
+			{
+				return (float)this.Left + (float)this.Width / 2;
+			}
+			set
+			{
+				float x = value - (float)this.Width / 2;
+				this.Location = new Point((int)x, this.Top);
+			}
+		}
+		[Category("_MG")]
+		public float CenterY
+		{
+			get
+			{
+				return (float)this.Top + (float)this.Height / 2;
+			}
+			set
+			{
+				float y = value - (float)this.Height / 2;
+				this.Location = new Point(this.Left, (int)y);
+			}
+		}
 
 		[Category("__MG")]
 		public MGForm? MGForm

@@ -11,18 +11,10 @@ namespace MGDesigner
 
 	partial class MGForm
 	{
-		private FormDrawStyle[] m_FormDrawStyle = new FormDrawStyle[] {FormDrawStyle.Grid,FormDrawStyle.Frame};
-		public FormDrawStyle[] DrawStyle
-		{
-			get { return m_FormDrawStyle; }
-			set { m_FormDrawStyle = value; this.Invalidate(); }
-		}
-
-
 
 		#region Frame
 		private MG_COLOR m_Frame = MG_COLOR.White;
-		[Category("_MG")]
+		[Category("_MG_Frame")]
 		public MG_COLOR Frame
 		{
 			get { return m_Frame; }
@@ -33,7 +25,7 @@ namespace MGDesigner
 			}
 		}
 		private int m_FrameWeight = 0;
-		[Category("_MG")]
+		[Category("_MG_Frame")]
 		public int FrameWeight
 		{
 			get { return m_FrameWeight; }
@@ -44,7 +36,7 @@ namespace MGDesigner
 			}
 		}
 		private double m_FrameOpacity = 100;
-		[Category("_MG")]
+		[Category("_MG_Frame")]
 		public double FrameOpacity
 		{
 			get { return m_FrameOpacity; }

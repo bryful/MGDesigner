@@ -168,41 +168,58 @@ namespace MGDesigner
 				g.SmoothingMode = SmoothingMode.AntiAlias;
 			}
 			Draw(g);
-			DrawTop(g);
 		}
-		protected virtual void DrawTop(Graphics g)
+		// *****************************************************************
+		private void DrawFrame(Graphics g,Pen p,Rectangle r)
 		{
-			SolidBrush sb = new SolidBrush(Color.Transparent);
-			try
+			if ((m_FrameWeight > 0)&&(m_Frame!=MG_COLOR.Transparent))
 			{
-				if (m_EdgeOpacity > 0)
-				{
-					sb.Color = (Color)GetColor(m_Edge, m_EdgeOpacity);
-
-					MG.Edge(g, sb,
-						this.ClientRectangle,
-						new SizeF(m_EdgeWidth, m_EdgeHeight),
-						m_EdgeHorMargin,
-						m_EdgeVurMargin
-						);
-				}
-				if(m_KagiOpacity>0)
-				{
-					sb.Color = (Color)GetColor(m_Kagi, m_KagiOpacity);
-					MGDrawKagi kagi = new MGDrawKagi();
-					kagi.KagiWidth = m_kagiWidth;
-					kagi.KagiHeight = m_kagiHeight;
-					kagi.KagiWeightH = m_kagiWeightH;
-					kagi.KagiWeightV = m_kagiWeightV;
-					kagi.DrawEdge(g, sb, this.ClientRectangle, m_KagiEnabled, m_kagiMarginH, m_kagiMarginV);
-				}
-
-			}
-			finally
-			{
-				sb.Dispose();
+				p.Color = (Color)GetColor(m_Frame, m_FrameOpacity);
+				MG.Frame(g, p, m_FrameWeight, r);
 			}
 		}
+		// *****************************************************************
+		private void DrawGrid(Graphics g, Pen p, Rectangle r)
+		{
+			if ((m_GridWeight > 0)&&(m_Grid!=MG_COLOR.Transparent))
+			{
+				p.Color = (Color)GetColor(m_Grid, m_GridOpacity);
+				p.Width = m_GridWeight;
+				MG.Grid(g, p, m_GridWidth, m_GridHeight, r);
+			}
+		}
+		// *****************************************************************
+		private void DrawEdge(Graphics g, SolidBrush sb, Rectangle r)
+		{
+
+			if ((m_EdgeOpacity > 0)&&(m_Edge!=MG_COLOR.Transparent))
+			{
+				sb.Color = (Color)GetColor(m_Edge, m_EdgeOpacity);
+
+				MG.Edge(g, sb,
+					r,
+					new SizeF(m_EdgeWidth, m_EdgeHeight),
+					m_EdgeHorMargin,
+					m_EdgeVurMargin
+					);
+			}
+		}
+		// *****************************************************************
+		private void DrawKagi(Graphics g, SolidBrush sb, Rectangle r)
+		{
+
+			if ((m_KagiOpacity > 0)&&(m_Kagi!=MG_COLOR.Transparent))
+			{
+				sb.Color = (Color)GetColor(m_Kagi, m_KagiOpacity);
+				MGDrawKagi kagi = new MGDrawKagi();
+				kagi.KagiWidth = m_kagiWidth;
+				kagi.KagiHeight = m_kagiHeight;
+				kagi.KagiWeightH = m_kagiWeightH;
+				kagi.KagiWeightV = m_kagiWeightV;
+				kagi.DrawEdge(g, sb, r, m_KagiEnabled, m_kagiMarginH, m_kagiMarginV);
+			}
+		}
+		// *****************************************************************
 		protected virtual void Draw(Graphics g)
 		{
 			SolidBrush sb = new SolidBrush(Color.Transparent);
@@ -212,19 +229,10 @@ namespace MGDesigner
 				sb.Color = BackCol;
 				g.FillRectangle(sb, this.ClientRectangle);
 
-				if (m_GridWeight>0)
-				{
-					p.Color = (Color)GetColor(m_Grid,m_GridOpacity);
-					p.Width = m_GridWeight;
-					MG.Grid(g, p, m_GridWidth, m_GridHeight, this.ClientRectangle);
-				}
-
-
-				if(m_FrameWeight > 0)
-				{
-					p.Color = (Color)GetColor(m_Frame,m_FrameOpacity);
-					MG.Frame(g, p, m_FrameWeight,this.ClientRectangle);
-				}
+				DrawGrid(g, p, this.ClientRectangle);
+				DrawEdge(g, sb, this.ClientRectangle);
+				DrawKagi(g, sb, this.ClientRectangle);
+				DrawFrame(g, p, this.ClientRectangle);
 			}
 			finally
 			{
@@ -232,42 +240,111 @@ namespace MGDesigner
 				p.Dispose();
 			}
 		}
-		public Bitmap CreateBitmap(bool IsDraw=true, bool IsDrawTop = true)
+		private Bitmap CreateBitmapBase()
 		{
-			Bitmap bmp = new Bitmap(this.Width, this.Height,PixelFormat.Format32bppArgb);
+			Bitmap bmp = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
 			Graphics g = Graphics.FromImage(bmp);
-			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
-			if (IsDraw)
+			
+			SolidBrush sb = new SolidBrush(Color.Transparent);
+			try
 			{
-				Draw(g);
+				sb.Color = BackCol;
+				g.FillRectangle(sb, this.ClientRectangle);
 			}
-			if (IsDrawTop)
+			finally
 			{
-				DrawTop(g);
+				sb.Dispose();
 			}
 			return bmp;
 		}
-
-		public void ChkCntrol()
+		public Bitmap CreateBitmap()
 		{
-			string s = "";
-			if(this.Controls.Count>0)
-			{
-				foreach(Control c in this.Controls)
-				{
-					if (s != "") s += "\r\n";
-					if (c is MGNone)
-					{
-						s += c.Name + "MGP";
-					}
-					else
-					{
-						s += c.Name + "None";
-					}
-				}
-			}
-			MessageBox.Show(s);
+			Bitmap bmp = CreateBitmapBase();
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
 			
+			SolidBrush sb = new SolidBrush(Color.Transparent);
+			Pen p = new Pen(this.ForeColor, 2);
+			try
+			{
+				DrawGrid(g, p, this.ClientRectangle);
+				DrawEdge(g, sb, this.ClientRectangle);
+				DrawKagi(g, sb, this.ClientRectangle);
+				DrawFrame(g, p, this.ClientRectangle);
+			}
+			finally
+			{
+				sb.Dispose();
+				p.Dispose();
+			}
+			return bmp;
+		}
+		public Bitmap CreateBitmapGrid()
+		{
+			Bitmap bmp = CreateBitmapBase();
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+
+			Pen p = new Pen(this.ForeColor, 2);
+			try
+			{
+				DrawGrid(g, p, this.ClientRectangle);
+			}
+			finally
+			{
+				p.Dispose();
+			}
+			return bmp;
+		}
+		public Bitmap CreateBitmapEdge()
+		{
+			Bitmap bmp = CreateBitmapBase();
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+
+			SolidBrush sb = new SolidBrush(Color.Transparent);
+			try
+			{
+				DrawEdge(g, sb, this.ClientRectangle);
+			}
+			finally
+			{
+				sb.Dispose();
+			}
+			return bmp;
+		}
+		public Bitmap CreateBitmapKagi()
+		{
+			Bitmap bmp = CreateBitmapBase();
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+			SolidBrush sb = new SolidBrush(Color.Transparent);
+			try
+			{
+				DrawKagi(g, sb, this.ClientRectangle);
+			}
+			finally
+			{
+				sb.Dispose();
+			}
+			return bmp;
+		}
+		public Bitmap CreateBitmapFrame()
+		{
+			Bitmap bmp = CreateBitmapBase();
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+
+			Pen p = new Pen(this.ForeColor, 2);
+			try
+			{
+				DrawFrame(g, p, this.ClientRectangle);
+			}
+			finally
+			{
+				p.Dispose();
+			}
+			return bmp;
 		}
 		public Bitmap ExportMix()
 		{
@@ -347,17 +424,40 @@ namespace MGDesigner
 			}
 			int cnt = lst.Count+2;
 
-			Bitmap formMG = CreateBitmap(true,false);
+			Bitmap formMG = CreateBitmapBase();
 			string nn = $"{n}_{cnt:00}_{this.Name}.png";
 			string sn = Path.Combine(d, nn);
 			formMG.Save(sn,ImageFormat.Png);
 			formMG.Dispose();
 			cnt--;
-			Bitmap formMG2 = CreateBitmap(false,true);
+
+			Bitmap formMG2 = CreateBitmapGrid();
 			nn = $"{n}_{cnt:00}_{this.Name}.png";
 			sn = Path.Combine(d, nn);
 			formMG2.Save(sn, ImageFormat.Png);
 			formMG2.Dispose();
+			cnt--;
+
+
+			Bitmap formMG3 = CreateBitmapEdge();
+			nn = $"{n}_{cnt:00}_{this.Name}.png";
+			sn = Path.Combine(d, nn);
+			formMG3.Save(sn, ImageFormat.Png);
+			formMG3.Dispose();
+			cnt--;
+
+			Bitmap formMG4 = CreateBitmapKagi();
+			nn = $"{n}_{cnt:00}_{this.Name}.png";
+			sn = Path.Combine(d, nn);
+			formMG4.Save(sn, ImageFormat.Png);
+			formMG4.Dispose();
+			cnt--;
+
+			Bitmap formMG5 = CreateBitmapFrame();
+			nn = $"{n}_{cnt:00}_{this.Name}.png";
+			sn = Path.Combine(d, nn);
+			formMG5.Save(sn, ImageFormat.Png);
+			formMG5.Dispose();
 			cnt--;
 
 			if (lst.Count > 0)
