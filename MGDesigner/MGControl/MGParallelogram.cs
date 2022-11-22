@@ -34,6 +34,7 @@ namespace MGDesigner
 			set
 			{
 				m_Mode = value;
+				ChkRegion();
 				this.Invalidate();
 			}
 		}
@@ -47,6 +48,7 @@ namespace MGDesigner
 				m_LeftSkew = value;
 				if (m_LeftSkew < -60) m_LeftSkew = -60;
 				else if (m_LeftSkew > 60) m_LeftSkew = 60;
+				ChkRegion();
 				this.Invalidate();
 			}
 		}
@@ -60,66 +62,51 @@ namespace MGDesigner
 				m_RightSkew = value;
 				if (m_RightSkew < -60) m_RightSkew = -60;
 				else if (m_RightSkew > 60) m_RightSkew = 60;
+				ChkRegion();
 				this.Invalidate();
 			}
 		}
 
-		private float m_TopLeft = 0;
-		[Category("_MG_Tetragon_corner")]
-		public float TopLeft
+		private MG_COLOR m_Parallelogram = MG_COLOR.White;
+		[Category("_MG_Parallelogram")]
+		public MG_COLOR Parallelogram
 		{
-			get { return m_TopLeft; }
+			get { return m_Parallelogram; }
 			set
 			{
-				m_TopLeft = value;
-				if (m_TopLeft < 0) m_TopLeft = 0;
-				else if (m_TopLeft > m_TopRight) m_TopLeft = m_TopRight;
+				m_Parallelogram = value;
+				//ChkRegopn();
 				this.Invalidate();
 			}
 		}
-		private float m_TopRight = 100;
-		[Category("_MG_Tetragon_corner")]
-		public float TopRight
+		private double m_ParallelogramOpacity = 100;
+		[Category("_MG_Parallelogram")]
+		public double ParallelogramOpacity
 		{
-			get { return m_TopRight; }
+			get { return m_ParallelogramOpacity; }
 			set
 			{
-				m_TopRight = value;
-				if (m_TopRight > 100) m_TopRight = 100;
-				else if(m_TopRight < m_TopLeft) m_TopRight = m_TopLeft;
+				m_ParallelogramOpacity = value;
+				//ChkRegopn();
 				this.Invalidate();
 			}
 		}
-		private float m_BottomLeft = 0;
-		[Category("_MG_Tetragon_corner")]
-		public float BottomLeft
+		private float m_ParallelogramWeight = 1;
+		[Category("_MG_Parallelogram")]
+		public float ParallelogramWeight
 		{
-			get { return m_BottomLeft; }
+			get { return m_ParallelogramWeight; }
 			set
 			{
-				m_BottomLeft = value;
-				if (m_BottomLeft < 0) m_BottomLeft = 0;
-				else if (m_BottomLeft > m_BottomRight) m_BottomLeft = m_BottomRight;
-				this.Invalidate();
-			}
-		}
-		private float m_BottomRight = 100;
-		[Category("_MG_Tetragon_corner")]
-		public float BottomRight
-		{
-			get { return m_BottomRight; }
-			set
-			{
-				m_BottomRight = value;
-				if (m_BottomRight > 100) m_BottomRight = 100;
-				else if (m_BottomRight < m_BottomLeft) m_BottomRight = m_BottomLeft;
+				m_ParallelogramWeight = value;
+				ChkRegion();
 				this.Invalidate();
 			}
 		}
 
 
 		private MG_COLOR m_Back = MG_COLOR.Black;
-		[Category("_MG_Tetragon")]
+		[Category("_MG_Parallelogram")]
 		public MG_COLOR Back
 		{
 			get { return m_Back; }
@@ -131,7 +118,7 @@ namespace MGDesigner
 			}
 		}
 		private double m_BackOpacity = 100;
-		[Category("_MG_Tetragon")]
+		[Category("_MG_Parallelogram")]
 		public double BackOpacity
 		{
 			get { return m_BackOpacity; }
@@ -146,17 +133,8 @@ namespace MGDesigner
 		{
 			InitializeComponent();
 		}
-		private PointF[] Tetragon()
-		{
-			PointF[] ret = new PointF[4];
 
-			ret[0] = new PointF(this.Width * m_TopLeft / 100, 0);
-			ret[1] = new PointF(this.Width * m_TopRight / 100, 0);
-			ret[2] = new PointF(this.Width * m_BottomRight / 100, this.Height);
-			ret[3] = new PointF(this.Width * m_BottomLeft / 100, this.Height);
-			return ret;
-		}
-		private PointF[] Parallelogram()
+		private PointF[] ParallelogramCalc(RectangleF rct)
 		{
 			PointF[] ret = new PointF[4];
 
@@ -167,25 +145,25 @@ namespace MGDesigner
 			if (m_Mode==TetragonMode.Hor)
 			{
 				lt = 0;
-				rt = this.Width;
+				rt = rct.Width;
 				lb = 0;
-				rb = this.Width;
+				rb = rct.Width;
 
-				float l = Tan(this.Height, m_LeftSkew);
+				float l = Tan(rct.Height, m_LeftSkew);
 				if (l >= 0)
 				{
 					lt = l;
-					if (lt > this.Width) lt = this.Width;
+					if (lt > rct.Width) lt = rct.Width;
 				}
 				else
 				{
 					lb = -l;
 					if (lb > this.Width) lb = this.Width;
 				}
-				float r = Tan(this.Height, m_RightSkew);
+				float r = Tan(rct.Height, m_RightSkew);
 				if (r>=0)
 				{
-					rb = this.Width - r;
+					rb = rct.Width - r;
 					if (rb < 0)  rb = 0;
 				}
 				else
@@ -195,51 +173,63 @@ namespace MGDesigner
 				}
 				ret[0] = new PointF(lt, 0);
 				ret[1] = new PointF(rt, 0);
-				ret[2] = new PointF(rb, this.Height);
-				ret[3] = new PointF(lb, this.Height);
+				ret[2] = new PointF(rb, rct.Height);
+				ret[3] = new PointF(lb, rct.Height);
 			}
 			else
 			{
 				lt = 0;
 				rt = 0;
-				lb = this.Height;
-				rb = this.Height;
-				float l = Tan(this.Width, m_LeftSkew);
+				lb = rct.Height;
+				rb = rct.Height;
+				float l = Tan(rct.Width, m_LeftSkew);
 				if (l >= 0)
 				{
 					lt = l;
-					if (lt > this.Height) lt = this.Height;
+					if (lt > rct.Height) lt = rct.Height;
 				}
 				else
 				{
 					rt = -l;
-					if (rt > this.Height) rt = this.Height;
+					if (rt > rct.Height) rt = rct.Height;
 				}
-				float r = Tan(this.Width, m_RightSkew);
+				float r = Tan(rct.Width, m_RightSkew);
 				if (r >= 0)
 				{
-					rb = this.Height - (r);
+					rb = rct.Height - (r);
 					if (rb < 0) rb = 0;
 
 				}
 				else
 				{
-					lb = this.Height - (-r);
+					lb = rct.Height - (-r);
 					if (lb < 0) lb = 0;
 				}
 				ret[0] = new PointF(0, lt);
-				ret[1] = new PointF(this.Width, rt);
-				ret[2] = new PointF(this.Width, rb);
+				ret[1] = new PointF(rct.Width, rt);
+				ret[2] = new PointF(rct.Width, rb);
 				ret[3] = new PointF(0, lb);
 
-				//ret[1] = new PointF(this.Width, rt);
-				//ret[2] = new PointF(this.Width, rb);
-				//ret[3] = new PointF(0, lb);
+
 			}
 
 			return ret;
 		}
+		private void ChkRegion()
+		{
+			byte[] types = new byte[4];
+			for (int i = 0; i < 4; i++) types[i] = (byte)PathPointType.Line;
 
+
+			PointF[] pnts = ParallelogramCalc(this.ClientRectangle);
+			GraphicsPath path = new GraphicsPath(pnts, types);
+			this.Region = new Region(path);
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			ChkRegion();
+		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			Graphics g = pe.Graphics;
@@ -250,18 +240,34 @@ namespace MGDesigner
 		{
 			base.Draw(g);
 			Color b = GetMGColor(m_Back, m_BackOpacity, this.BackColor);
+			Color l = GetMGColor(m_Parallelogram, m_ParallelogramOpacity, this.ForeColor);
 
 			SolidBrush sb = new SolidBrush(b);
+			Pen p = new Pen(l);
 			//Pen p = new Pen(c);
 			try
 			{
+				float ww = m_ParallelogramWeight / 2;
+				RectangleF rct = new RectangleF(
+					ww,
+					ww,
+					this.Width-ww,
+					this.Height-ww
+					);
 				//PointF[] points = Tetragon();
-				PointF[] points = Parallelogram();
+				PointF[] points = ParallelogramCalc(rct);
 
 				if (m_BackOpacity > 0)
 				{
 					sb.Color = b;
 					g.FillPolygon(sb, points);
+				}
+				if((m_ParallelogramOpacity>0)&&(m_ParallelogramWeight>0))
+				{
+					p.Color = l;
+					p.Width = m_ParallelogramWeight;
+					g.DrawPolygon(p, points);
+
 				}
 			}
 			catch
@@ -269,7 +275,7 @@ namespace MGDesigner
 			}
 			finally
 			{
-				//p.Dispose();
+				p.Dispose();
 				sb.Dispose();
 			}
 		}
