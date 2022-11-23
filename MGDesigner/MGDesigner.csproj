@@ -27,7 +27,6 @@
     <Compile Remove="MGControl\MGKagiEdge.cs" />
     <Compile Remove="MGControl\MGLabel.cs" />
     <Compile Remove="MGControl\MGNone.cs" />
-    <Compile Remove="MGControl\MGScale.cs" />
     <Compile Remove="MGControl\Nouse\backup\MGForm.cs" />
     <Compile Remove="MGControl\Nouse\backup\MGForm.Designer.cs" />
     <Compile Remove="MGControl\Nouse\backup\MGForm_Color.cs" />
