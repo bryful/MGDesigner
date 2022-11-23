@@ -140,7 +140,7 @@ namespace MGDesigner
 			SetLocSize();
 		}
 
-		private MGScaleType m_ScaleStlye = MGScaleType.Vur;
+		private MGScaleType m_ScaleStlye = MGScaleType.Left;
 		[Category("_MG_Scale")]
 		public MGScaleType ScaleType
 		{
@@ -198,7 +198,7 @@ namespace MGDesigner
 				ChkOffScr();
 			}
 		}
-		private float m_Length = 0;
+		private float m_Length = 20;
 		[Category("_MG_Scale")]
 		public float Length
 		{
@@ -210,7 +210,7 @@ namespace MGDesigner
 				ChkOffScr();
 			}
 		}
-		private float m_LengthHPer = 0;
+		private float m_LengthHPer = 0.5f;
 		[Category("_MG_Scale")]
 		public float LengthHPer
 		{
@@ -233,7 +233,7 @@ namespace MGDesigner
 				ChkOffScr();
 			}
 		}
-		private MG_COLORS m_ScaleColorH = MG_COLORS.White;
+		private MG_COLORS m_ScaleColorH = MG_COLORS.GrayLight;
 		[Category("_MG_Scale")]
 		public MG_COLORS ScaleColorH
 		{
