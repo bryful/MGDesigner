@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGNone
+	partial class MGControl
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

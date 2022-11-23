@@ -9,7 +9,7 @@ namespace MGDesigner
 	public partial class MG
 	{
 		#region Cross
-		static public PointF[] CrossRegion(Point pos,int w,int h,int weight)
+		static public PointF[] CrossRegion(PointF pos, float w, float h, float weight)
 		{
 			PointF[] pnts = new PointF[12];
 			float c = weight / 2;
@@ -27,7 +27,7 @@ namespace MGDesigner
 			pnts[11] = new PointF(pos.X - c, pos.Y - c);
 			return pnts;
 		}
-		static public void Cross(Graphics g, Pen p,SolidBrush sb, Point pos, int w, int h, int weight)
+		static public void Cross(Graphics g, Pen p,SolidBrush sb, PointF pos, float w, float h, float weight)
 		{
 			PointF[] pnts = CrossRegion(pos, w, h, weight);
 			if((sb.Color.A>0))

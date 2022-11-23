@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +16,7 @@ namespace MGDesigner
 		Hor,
 		Vur
 	}
-	public partial class MGParallelogram : MGNone
+	public partial class MGParallelogram : MGControl
 	{
 		private float Tan(float h, float rot)
 		{
@@ -34,8 +34,7 @@ namespace MGDesigner
 			set
 			{
 				m_Mode = value;
-				ChkRegion();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private float m_LeftSkew = 0;
@@ -48,8 +47,7 @@ namespace MGDesigner
 				m_LeftSkew = value;
 				if (m_LeftSkew < -60) m_LeftSkew = -60;
 				else if (m_LeftSkew > 60) m_LeftSkew = 60;
-				ChkRegion();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private float m_RightSkew = 0;
@@ -62,21 +60,19 @@ namespace MGDesigner
 				m_RightSkew = value;
 				if (m_RightSkew < -60) m_RightSkew = -60;
 				else if (m_RightSkew > 60) m_RightSkew = 60;
-				ChkRegion();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 
-		private MG_COLOR m_Parallelogram = MG_COLOR.White;
+		private MG_COLORS m_Parallelogram = MG_COLORS.White;
 		[Category("_MG_Parallelogram")]
-		public MG_COLOR Parallelogram
+		public MG_COLORS Parallelogram
 		{
 			get { return m_Parallelogram; }
 			set
 			{
 				m_Parallelogram = value;
-				//ChkRegopn();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private double m_ParallelogramOpacity = 100;
@@ -87,8 +83,7 @@ namespace MGDesigner
 			set
 			{
 				m_ParallelogramOpacity = value;
-				//ChkRegopn();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private float m_ParallelogramWeight = 1;
@@ -99,22 +94,20 @@ namespace MGDesigner
 			set
 			{
 				m_ParallelogramWeight = value;
-				ChkRegion();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 
 
-		private MG_COLOR m_Back = MG_COLOR.Black;
+		private MG_COLORS m_Back = MG_COLORS.Black;
 		[Category("_MG_Parallelogram")]
-		public MG_COLOR Back
+		public MG_COLORS Back
 		{
 			get { return m_Back; }
 			set
 			{
 				m_Back = value;
-				//ChkRegopn();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private double m_BackOpacity = 100;
@@ -125,15 +118,13 @@ namespace MGDesigner
 			set
 			{
 				m_BackOpacity = value;
-				//ChkRegopn();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		public MGParallelogram()
 		{
 			InitializeComponent();
 		}
-
 		private PointF[] ParallelogramCalc(RectangleF rct)
 		{
 			PointF[] ret = new PointF[4];
@@ -142,7 +133,7 @@ namespace MGDesigner
 			float rt;
 			float lb;
 			float rb;
-			if (m_Mode==TetragonMode.Hor)
+			if (m_Mode == TetragonMode.Hor)
 			{
 				lt = 0;
 				rt = rct.Width;
@@ -161,10 +152,10 @@ namespace MGDesigner
 					if (lb > this.Width) lb = this.Width;
 				}
 				float r = Tan(rct.Height, m_RightSkew);
-				if (r>=0)
+				if (r >= 0)
 				{
 					rb = rct.Width - r;
-					if (rb < 0)  rb = 0;
+					if (rb < 0) rb = 0;
 				}
 				else
 				{
@@ -215,58 +206,42 @@ namespace MGDesigner
 
 			return ret;
 		}
-		private void ChkRegion()
-		{
-			byte[] types = new byte[4];
-			for (int i = 0; i < 4; i++) types[i] = (byte)PathPointType.Line;
-
-
-			PointF[] pnts = ParallelogramCalc(this.ClientRectangle);
-			GraphicsPath path = new GraphicsPath(pnts, types);
-			this.Region = new Region(path);
-		}
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			ChkRegion();
-		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			Graphics g = pe.Graphics;
-			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
-			Draw(g);
+			//base.OnPaint(pe);
 		}
-		protected override void Draw(Graphics g)
+		public override void Draw(Graphics g, Rectangle rct, bool IsClear = true)
 		{
-			base.Draw(g);
-			Color b = GetMGColor(m_Back, m_BackOpacity, this.BackColor);
-			Color l = GetMGColor(m_Parallelogram, m_ParallelogramOpacity, this.ForeColor);
+			Color b = GetMG_Colors(m_Back, m_BackOpacity);
+			Color l = GetMG_Colors(m_Parallelogram, m_ParallelogramOpacity);
 
 			SolidBrush sb = new SolidBrush(b);
 			Pen p = new Pen(l);
 			//Pen p = new Pen(c);
 			try
 			{
-				float ww = m_ParallelogramWeight / 2;
-				RectangleF rct = new RectangleF(
-					ww,
-					ww,
-					this.Width-ww,
-					this.Height-ww
-					);
-				//PointF[] points = Tetragon();
-				PointF[] points = ParallelogramCalc(rct);
+				if(IsClear) g.Clear(Color.Transparent);
+				Rectangle rct2 = MarginRect(rct);
 
-				if (m_BackOpacity > 0)
+				if ((m_BackOpacity > 0)&&(m_Back!=MG_COLORS.Transparent))
 				{
+					PointF[] points2 = ParallelogramCalc(rct2);
 					sb.Color = b;
-					g.FillPolygon(sb, points);
+					g.FillPolygon(sb, points2);
 				}
-				if((m_ParallelogramOpacity>0)&&(m_ParallelogramWeight>0))
+				if ((m_ParallelogramOpacity > 0) && (m_ParallelogramWeight > 0))
 				{
+					float ww = m_ParallelogramWeight / 2;
+					RectangleF rct3 = new RectangleF(
+						rct2.Left+ww,
+						rct2.Top+ww,
+						rct2.Width-m_ParallelogramWeight,
+						rct2.Height - m_ParallelogramWeight
+						);
+					PointF[] points3 = ParallelogramCalc(rct3);
 					p.Color = l;
 					p.Width = m_ParallelogramWeight;
-					g.DrawPolygon(p, points);
+					g.DrawPolygon(p, points3);
 
 				}
 			}

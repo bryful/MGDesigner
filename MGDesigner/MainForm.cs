@@ -11,7 +11,7 @@ using static System.Windows.Forms.DataFormats;
 
 namespace MGDesigner
 {
-	public partial class MainForm : MGForm
+	public partial class MainForm : MGMainForm
 	{
 		private string m_FileName = "";
 		// ********************************************************************
@@ -41,27 +41,10 @@ namespace MGDesigner
 		{
 			InitializeComponent();
 			SetEventHandler(this);
-			SetMGForm(this);
 		}
 
 		// ********************************************************************
-		public void SetMGForm(Control ctrl)
-		{
-			if (ctrl.Controls.Count <= 0) return;
 
-			foreach(Control control in ctrl.Controls)
-			{
-				if (control is MGNone)
-				{
-					if (((MGNone)control).MGForm == null)
-					{
-						((MGNone)control).SetMGForm(this);
-					}
-					SetMGForm(control);
-				}
-			}
-
-		}
 		// ********************************************************************
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -116,12 +99,12 @@ namespace MGDesigner
 		private void exportPartsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			//ChkCntrol();
-			ExportPartsToFile();
+			//ExportPartsToFile();
 		}
 
 		private void exportMixToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ExportMixToFile();
+			//ExportMixToFile();
 		}
 
 		private void mgCircle2_Click(object sender, EventArgs e)
@@ -130,6 +113,16 @@ namespace MGDesigner
 		}
 
 		private void mgKagi2_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void mgZebra1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void mgCircle1_Click(object sender, EventArgs e)
 		{
 
 		}

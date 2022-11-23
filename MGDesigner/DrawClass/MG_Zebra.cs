@@ -20,6 +20,32 @@ namespace MGDesigner
 			if (rot < 0) v = 1;
 			return (float)Math.Tan((double)r * Math.PI / 180) * h *v;
 		}
+		static private bool CrossPoint(PointF A, PointF B, PointF C, PointF D, ref PointF R)
+		{
+			R = new PointF(0, 0);
+
+			double dBunbo = (B.X - A.X)
+				  * (D.Y - C.Y)
+				  - (B.Y - A.Y)
+				  * (D.X - C.X);
+			if (0 == dBunbo)
+			{   // 平行
+				return false;
+			}
+
+			PointF AC = new PointF(C.X - A.X, C.Y - A.Y);
+
+			double dr = ((D.Y - C.Y) * AC.X
+						 - (D.X - C.X) * AC.Y) / dBunbo;
+			double ds = ((B.Y - A.Y) * AC.X
+						 - (B.X - A.X) * AC.Y) / dBunbo;
+
+			double x = A.X + dr * (B.X - A.X);
+			double y = A.Y + ds * (B.Y - A.Y);
+			R = new PointF((float)x, (float)y);
+
+			return true;
+		}       
 		/// <summary>
 		/// 平行四辺形のポリゴンを返す
 		/// </summary>
@@ -30,7 +56,6 @@ namespace MGDesigner
 		static public PointF[] Parallelogram(float x, float y, float w, float h , float rot)
 		{
 			PointF[] points = new PointF[4];
-			bool mflag = (rot < 0);
 			float ax = Tan(h,rot);
 			points[0] = new PointF(x, y);
 			points[1] = new PointF(x + w, y);
@@ -51,6 +76,7 @@ namespace MGDesigner
 			}
 			return ret;
 		}
+
 		static public void DrawZebra(Graphics g, SolidBrush sb, Rectangle r, float w, float rot)
 		{
 			bool mflag = (rot < 0);

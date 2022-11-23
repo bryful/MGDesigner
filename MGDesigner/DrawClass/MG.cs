@@ -92,7 +92,7 @@ namespace MGDesigner
 			Left,
 			Center
 		}
-		static public void Polygon(Graphics g, Pen p,SolidBrush? sb, int cnt,PointF pos, float length, float rot)
+		static public PointF[] PolygonPolygon(int cnt, PointF pos, float length, float rot)
 		{
 			if (cnt < 3) cnt = 3; else if (cnt > 12) cnt = 12;
 			PointF[] pnts = new PointF[cnt];
@@ -106,6 +106,12 @@ namespace MGDesigner
 				pnts[i] = new PointF((float)x + pos.X, -(float)y + pos.Y);
 				r += 360 / cnt;
 			}
+			return pnts;
+
+		}
+		static public void Polygon(Graphics g, Pen p,SolidBrush? sb, int cnt,PointF pos, float length, float rot)
+		{
+			PointF[] pnts = PolygonPolygon(cnt, pos, length, rot);
 			if ((sb != null) && (sb.Color.A > 0)) ;
 			{
 				g.FillPolygon(sb, pnts);
@@ -130,53 +136,64 @@ namespace MGDesigner
 			GraphicsPath path = new GraphicsPath(pnts, types);
 			return new Region(path);
 		}
-		static public void Triangle(Graphics g,Pen p,SolidBrush? sb, PointF pos, float length,float rot)
+		static public PointF[] TrianglePolygon(PointF pos, float length, float rot)
 		{
 			PointF[] pnts = new PointF[3];
-
-
 			float r = rot;
-			for(int i=0; i<3;i++)
+			for (int i = 0; i < 3; i++)
 			{
 				double x = (double)length * Math.Sin(r * Math.PI / 180);
 				double y = (double)length * Math.Cos(r * Math.PI / 180);
-				pnts[i] = new PointF((float)x+pos.X, -(float)y+pos.Y);
+				pnts[i] = new PointF((float)x + pos.X, -(float)y + pos.Y);
 				r += 360 / 3;
 			}
+			return pnts;
+		}
+		static public void Triangle(Graphics g,Pen p,SolidBrush? sb, PointF pos, float length,float rot)
+		{
+			PointF[] pnts = TrianglePolygon(pos,length,rot);
+
+
 			if ((sb != null) && (sb.Color.A > 0)) ;
 			{
 				g.FillPolygon(sb, pnts);
 			}
 			g.DrawPolygon(p,pnts);
 		}
-		static public void Triangle(Graphics g, Pen p, SolidBrush? sb, Rectangle rct , float pw,TrainglrStyle ts = TrainglrStyle.Top)
+		static public PointF[] TrianglePolygon(RectangleF rct, TrainglrStyle ts = TrainglrStyle.Top)
 		{
-			
 			PointF[] pnts = new PointF[3];
-			switch(ts)
+			switch (ts)
 			{
 				case TrainglrStyle.Top:
-					pnts[0] = new PointF((float)rct.Left + (float)rct.Width / 2, (float)rct.Top + pw);
-					pnts[1] = new PointF((float)rct.Left + (float)rct.Width-pw, (float)rct.Bottom-pw);
-					pnts[2] = new PointF((float)rct.Left +pw, (float)rct.Bottom-pw);
+					pnts[0] = new PointF((float)rct.Left + (float)rct.Width / 2, (float)rct.Top);
+					pnts[1] = new PointF((float)rct.Left + (float)rct.Width-1, (float)rct.Bottom-1);
+					pnts[2] = new PointF((float)rct.Left, (float)rct.Bottom -1);
 					break;
 				case TrainglrStyle.Right:
-					pnts[0] = new PointF((float)rct.Left + pw, (float)rct.Top + pw);
-					pnts[1] = new PointF((float)rct.Left + (float)rct.Width - pw, (float)rct.Top + (float)rct.Height/2);
-					pnts[2] = new PointF((float)rct.Left + pw, (float)rct.Bottom - pw);
+					pnts[0] = new PointF((float)rct.Left, (float)rct.Top);
+					pnts[1] = new PointF((float)rct.Left + (float)rct.Width - 1, (float)rct.Top + (float)rct.Height / 2 - 1);
+					pnts[2] = new PointF((float)rct.Left, (float)rct.Bottom - 1);
 					break;
 				case TrainglrStyle.Bottom:
-					pnts[0] = new PointF((float)rct.Left + pw, (float)rct.Top + pw);
-					pnts[1] = new PointF((float)rct.Left + (float)rct.Width - pw, (float)rct.Top + pw);
-					pnts[2] = new PointF((float)rct.Left + (float)rct.Width/2, (float)rct.Bottom - pw);
+					pnts[0] = new PointF((float)rct.Left, (float)rct.Top);
+					pnts[1] = new PointF((float)rct.Left + (float)rct.Width-1, (float)rct.Top);
+					pnts[2] = new PointF((float)rct.Left + (float)rct.Width / 2, (float)rct.Bottom - 1);
 					break;
 				case TrainglrStyle.Left:
-					pnts[0] = new PointF((float)rct.Left + (float)rct.Width - pw, (float)rct.Top + pw);
-					pnts[1] = new PointF((float)rct.Left +  pw, (float)rct.Top + (float)rct.Height / 2);
-					pnts[2] = new PointF((float)rct.Left + (float)rct.Width - pw, (float)rct.Bottom - pw);
+				default:
+					pnts[0] = new PointF((float)rct.Left + (float)rct.Width - 1, (float)rct.Top);
+					pnts[1] = new PointF((float)rct.Left, (float)rct.Top + (float)rct.Height / 2 - 1);
+					pnts[2] = new PointF((float)rct.Left + (float)rct.Width - 1, (float)rct.Bottom - 1);
 					break;
 			}
-			if(sb!=null)
+			return pnts;
+		}
+		static public void Triangle(Graphics g, Pen p, SolidBrush? sb, Rectangle rct , float pw,TrainglrStyle ts = TrainglrStyle.Top)
+		{
+			PointF[] pnts = TrianglePolygon(rct, ts);
+
+			if (sb!=null)
 			{
 				g.FillPolygon(sb, pnts);
 			}

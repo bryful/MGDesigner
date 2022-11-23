@@ -11,29 +11,39 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGZebra : MGNone
+	public partial class MGZebra : MGControl
 	{
-		private MG_COLOR m_Zebra = MG_COLOR.Red;
+		private MG_COLORS m_Zebra = MG_COLORS.Red;
 		[Category("_MG_Zebra")]
-		public MG_COLOR Zebra
+		public MG_COLORS Zebra
 		{
 			get { return m_Zebra; }
 			set
 			{
 				m_Zebra = value;
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
-		private MG_COLOR m_Back = MG_COLOR.Black;
+		private MG_COLORS m_ZebraBack = MG_COLORS.Black;
 		[Category("_MG_Zebra")]
-		public MG_COLOR Back
+		public MG_COLORS ZebraBack
 		{
-			get { return m_Back; }
+			get { return m_ZebraBack; }
 			set
 			{
-				m_Back = value;
-				ChkRegopn();
-				this.Invalidate();
+				m_ZebraBack = value;
+				ChkOffScr();
+			}
+		}
+		private MG_COLORS m_ZebraFrame = MG_COLORS.Black;
+		[Category("_MG_Zebra")]
+		public MG_COLORS ZebraFrame
+		{
+			get { return m_ZebraFrame; }
+			set
+			{
+				m_ZebraFrame = value;
+				ChkOffScr();
 			}
 		}
 		private float m_Rot = 45;
@@ -46,21 +56,30 @@ namespace MGDesigner
 				m_Rot = value;
 				if (m_Rot < -45) m_Rot = -45;
 				else if (m_Rot > 45) m_Rot = 45;
-				ChkRegopn();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
-		private float m_Weight = 20;
+		private float m_ZebraWeight = 20;
 		[Category("_MG_Zebra")]
-		public float Weight
+		public float ZebraWeight
 		{
-			get { return m_Weight; }
+			get { return m_ZebraWeight; }
 			set
 			{
-				m_Weight = value;
-				if (m_Weight < 5) m_Weight = 5;
-				ChkRegopn(); 
-				this.Invalidate();
+				m_ZebraWeight = value;
+				if (m_ZebraWeight < 1) m_ZebraWeight = 1;
+				ChkOffScr();
+			}
+		}
+		private float m_ZebraFrameWeight = 2;
+		[Category("_MG_Zebra")]
+		public float ZebraFrameWeight
+		{
+			get { return m_ZebraFrameWeight; }
+			set
+			{
+				m_ZebraFrameWeight = value;
+				ChkOffScr();
 			}
 		}
 		private double m_ZebraOpacity = 100;
@@ -71,73 +90,92 @@ namespace MGDesigner
 			set
 			{
 				m_ZebraOpacity = value;
-				ChkRegopn();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
-		private double m_BackOpacity = 100;
+		private double m_ZebraBackOpacity = 100;
 		[Category("_MG_Zebra")]
-		public double BackOpacity
+		public double ZebraBackOpacity
 		{
-			get { return m_BackOpacity; }
+			get { return m_ZebraBackOpacity; }
 			set
 			{
-				m_BackOpacity = value;
-				ChkRegopn();
-				this.Invalidate();
+				m_ZebraBackOpacity = value;
+				ChkOffScr();
+			}
+		}
+		private double m_ZebraFrameOpacity = 100;
+		[Category("_MG_Zebra")]
+		public double ZebraFrameOpacity
+		{
+			get { return m_ZebraFrameOpacity; }
+			set
+			{
+				m_ZebraFrameOpacity = value;
+				ChkOffScr();
 			}
 		}
 		public MGZebra()
 		{
 			InitializeComponent();
-			ChkRegopn();
 		}
-		private void ChkRegopn()
-		{
-			if ((m_BackOpacity == 0) || (m_Back == MG_COLOR.Transparent))
-			{
-				this.Region = MG.ZebraRegion(this.ClientRectangle, m_Weight, m_Rot);
-			}
-			else
-			{
-				GraphicsPath path = new GraphicsPath();
-				path.AddRectangle(this.ClientRectangle);
-				this.Region = new Region(path);
-			}
-		}
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			ChkRegopn();
-		}
+
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			Graphics g = pe.Graphics;
-			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
-			Draw(g);
+			//base.OnPaint(pe);
 		}
-		protected override void Draw(Graphics g)
+		public override void Draw(Graphics g, Rectangle rct, bool IsClear=true)
 		{
-			base.Draw(g);
-			Color c  = GetMGColor(m_Zebra, m_ZebraOpacity, this.ForeColor);
-			Color b = GetMGColor(m_Back, m_BackOpacity, this.BackColor);
+			Color c = GetMG_Colors(m_Zebra, m_ZebraOpacity);
+			Color b = GetMG_Colors(m_ZebraBack, m_ZebraBackOpacity);
 
 			SolidBrush sb = new SolidBrush(b);
-			//Pen p = new Pen(c);
+			Pen p = new Pen(c);
 			try
 			{
+				if(IsClear)g.Clear(Color.Transparent);
 
-				if(m_BackOpacity > 0)
+				Rectangle rct2 = MarginRect(rct);
+				Point[] ps = new Point[]
+				{
+					new Point(rct2.Left,rct2.Top),
+					new Point(rct2.Right,rct2.Top),
+					new Point(rct2.Right,rct2.Bottom),
+					new Point(rct2.Left,rct2.Bottom)
+				};
+				GraphicsPath path = new GraphicsPath();
+				path.AddPolygon(ps);
+				Region region = new Region(path);
+				g.SetClip(region, CombineMode.Replace);
+
+				if ((m_ZebraBackOpacity > 0)&&(m_ZebraBack !=MG_COLORS.Transparent))
 				{
 					sb.Color = b;
-					g.FillRectangle(sb, this.ClientRectangle);
+					g.FillRectangle(sb, rct2);
 				}
-				if(m_ZebraOpacity>0)
+				if (m_ZebraOpacity > 0)
 				{
 					sb.Color = c;
-					MG.DrawZebra(g, sb, this.ClientRectangle, m_Weight, m_Rot);
-					//int cnt = this.Width
+					MG.DrawZebra(g, sb, rct2, m_ZebraWeight, m_Rot);
 				}
+				if ((m_ZebraFrameOpacity > 0) && (m_ZebraFrame != MG_COLORS.Transparent)
+					&&(m_ZebraFrameWeight>0))
+				{
+					p.Color = GetMG_Colors(m_ZebraFrame, m_ZebraFrameOpacity);
+					p.Width = m_ZebraFrameWeight;
+					int w = (int)(m_ZebraFrameWeight / 2+0.5);
+					if ((w <= 0) && (m_ZebraFrameWeight > 0)) w = 1;
+					int w2 = w * 2; 
+					Rectangle rct3 = new Rectangle
+						(
+							rct2.Left + w,
+							rct2.Top + w,
+							rct2.Width - w2,
+							rct2.Height - w2
+						); 
+					g.DrawRectangle(p, rct3);
+				}
+
 			}
 			catch
 			{
@@ -147,6 +185,9 @@ namespace MGDesigner
 				//p.Dispose();
 				sb.Dispose();
 			}
+
+
+
 		}
 	}
 }

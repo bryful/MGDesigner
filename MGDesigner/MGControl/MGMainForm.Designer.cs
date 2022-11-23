@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGForm
+	partial class MGMainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,16 +30,16 @@
 		{
 			this.SuspendLayout();
 			// 
-			// MGForm
+			// MGMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(749, 459);
-			this.ForeColor = System.Drawing.Color.White;
+			this.ClientSize = new System.Drawing.Size(486, 334);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.Name = "MGForm";
-			this.Text = "MGForm";
+			this.Name = "MGMainForm";
+			this.Text = "MGMainForm";
 			this.ResumeLayout(false);
 
 		}

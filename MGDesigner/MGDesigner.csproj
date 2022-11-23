@@ -17,6 +17,77 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="MGControl\MGCircleScale.cs" />
+    <Compile Remove="MGControl\MGForm.cs" />
+    <Compile Remove="MGControl\MGForm_Color.cs" />
+    <Compile Remove="MGControl\MGForm_draw.cs" />
+    <Compile Remove="MGControl\MGFrame.cs" />
+    <Compile Remove="MGControl\MGGrid.cs" />
+    <Compile Remove="MGControl\MGKagi.cs" />
+    <Compile Remove="MGControl\MGKagiEdge.cs" />
+    <Compile Remove="MGControl\MGLabel.cs" />
+    <Compile Remove="MGControl\MGNone.cs" />
+    <Compile Remove="MGControl\MGScale.cs" />
+    <Compile Remove="MGControl\Nouse\backup\MGForm.cs" />
+    <Compile Remove="MGControl\Nouse\backup\MGForm.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\backup\MGForm_Color.cs" />
+    <Compile Remove="MGControl\Nouse\backup\MGForm_draw.cs" />
+    <Compile Remove="MGControl\Nouse\MGCircle.cs" />
+    <Compile Remove="MGControl\Nouse\MGCircle.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGCircleScale.cs" />
+    <Compile Remove="MGControl\Nouse\MGCircleScale.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGCross.cs" />
+    <Compile Remove="MGControl\Nouse\MGCross.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGForm.cs" />
+    <Compile Remove="MGControl\Nouse\MGForm.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGForm_Color.cs" />
+    <Compile Remove="MGControl\Nouse\MGForm_draw.cs" />
+    <Compile Remove="MGControl\Nouse\MGFrame.cs" />
+    <Compile Remove="MGControl\Nouse\MGFrame.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGGrid.cs" />
+    <Compile Remove="MGControl\Nouse\MGGrid.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGKagi.cs" />
+    <Compile Remove="MGControl\Nouse\MGKagi.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGKagiEdge.cs" />
+    <Compile Remove="MGControl\Nouse\MGKagiEdge.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGLabel.cs" />
+    <Compile Remove="MGControl\Nouse\MGLabel.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGNone.cs" />
+    <Compile Remove="MGControl\Nouse\MGNone.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGParallelogram.cs" />
+    <Compile Remove="MGControl\Nouse\MGParallelogram.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGPolygon.cs" />
+    <Compile Remove="MGControl\Nouse\MGPolygon.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGScale.cs" />
+    <Compile Remove="MGControl\Nouse\MGScale.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGSheet.cs" />
+    <Compile Remove="MGControl\Nouse\MGSheet.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGTriangle.cs" />
+    <Compile Remove="MGControl\Nouse\MGTriangle.Designer.cs" />
+    <Compile Remove="MGControl\Nouse\MGZebra.cs" />
+    <Compile Remove="MGControl\Nouse\MGZebra.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="MGControl\Nouse\backup\MGForm.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGCircle.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGCircleScale.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGCross.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGForm.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGFrame.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGGrid.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGKagi.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGKagiEdge.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGLabel.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGNone.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGParallelogram.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGPolygon.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGScale.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGTriangle.resx" />
+    <EmbeddedResource Remove="MGControl\Nouse\MGZebra.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -32,6 +103,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="MGControl\Nouse\" />
+    <Folder Include="MGControl\Nouse\backup\" />
     <Folder Include="Resources\" />
   </ItemGroup>
 

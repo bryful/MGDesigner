@@ -4,14 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
+
 namespace MGDesigner
 {
-	public partial class MGCircle : MGNone
+	public partial class MGCircle : MGControl
 	{
 		private float m_Weight = 4;
 		[Category("_MG_Circle")]
@@ -21,20 +20,18 @@ namespace MGDesigner
 			set
 			{
 				m_Weight = value;
-				ChkCircle();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
-		private MG_COLOR m_Circle = MG_COLOR.White;
+		private MG_COLORS m_Circle = MG_COLORS.White;
 		[Category("_MG_Circle")]
-		public MG_COLOR Circle
+		public MG_COLORS Circle
 		{
 			get { return m_Circle; }
 			set
 			{
 				m_Circle = value;
-				ChkCircle();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private double m_CircleOpacity = 100;
@@ -45,19 +42,18 @@ namespace MGDesigner
 			set
 			{
 				m_CircleOpacity = value;
-				ChkCircle();
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
-		private MG_COLOR m_CircleFill = MG_COLOR.Gray;
+		private MG_COLORS m_CircleFill = MG_COLORS.Gray;
 		[Category("_MG_Circle")]
-		public MG_COLOR CircleFill
+		public MG_COLORS CircleFill
 		{
 			get { return m_CircleFill; }
 			set
 			{
 				m_CircleFill = value;
-				this.Invalidate();
+				ChkOffScr();
 			}
 		}
 		private double m_CircleFillOpacity = 0;
@@ -68,80 +64,45 @@ namespace MGDesigner
 			set
 			{
 				m_CircleFillOpacity = value;
-				ChkCircle();
-				this.Invalidate();
+				ChkOffScr();
 			}
-		}
-		private float CRadius()
-		{
-			float ret = this.Width / 2 - m_Weight / 2;
-			float h = this.Height / 2 - m_Weight / 2;
-			if (ret > h) ret = h;
-			return ret;
 		}
 		public MGCircle()
 		{
-			this.Size = new Size(50, 50);
 			InitializeComponent();
-			ChkCircle();
 		}
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			ChkCircle();
-			this.Invalidate();
-		}
-		private void ChkCircle()
-		{
-			float r = (float)this.Width;
-			if (r > (float)this.Height) r = (float)this.Height;
 
-			GraphicsPath path =new GraphicsPath();
-			float cx = (float)this.Width / 2;
-			float cy = (float)this.Height / 2;
-
-
-			path.AddEllipse(new RectangleF(cx - r / 2, cy - r / 2, r, r));
-			if ((m_CircleFillOpacity == 0) || (m_Circle == MG_COLOR.Transparent))
-			{
-				float r2 = r - m_Weight;
-				path.AddEllipse(new RectangleF(cx - r2 / 2, cy - r2 / 2, r2, r2));
-			}
-			this.Region = new Region(path);
-		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//base.OnPaint(pe);
-			Graphics g = pe.Graphics;
-			if (Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
-			Draw(g);
 		}
-		private RectangleF CircleRect(float r)
+		public override void Draw(Graphics g, Rectangle rct,bool IsClear=true)
 		{
-			float cx = this.Width / 2;
-			float cy = this.Height / 2;
-
-			return new RectangleF(cx-r, cy-r, r*2, r*2);
-		}
-		protected override void Draw(Graphics g)
-		{
-			base.Draw(g);
-
+			Rectangle rct2 = MarginRect(rct);
 			Pen p = new Pen(this.ForeColor);
 			SolidBrush sb = new SolidBrush(this.BackColor);
 			try
 			{
-				RectangleF rct = CircleRect(CRadius());
-				if ((m_CircleFillOpacity > 0)&&(m_Circle != MG_COLOR.Transparent))
+				if (IsClear) g.Clear(Color.Transparent);
+				float radius = rct2.Width / 2;
+				float h = rct2.Height / 2;
+				if (radius > h) radius = h;
+				float cx = rct2.X + rct2.Width / 2;
+				float cy = rct2.Y + rct2.Height / 2;
+				if ((m_CircleFillOpacity > 0) && (m_CircleFill != MG_COLORS.Transparent))
 				{
-					Color f = GetMGColor(m_CircleFill, m_CircleFillOpacity, this.BackColor);
+					Color f = GetMG_Colors(m_CircleFill, m_CircleFillOpacity);
 					sb.Color = f;
-					g.FillEllipse(sb, rct);
+					g.FillEllipse(sb, new RectangleF(cx - radius, cy - radius, radius * 2, radius * 2));
 				}
 
-				p.Color = GetMGColor(m_Circle, m_CircleOpacity, this.ForeColor);
-				p.Width = m_Weight;
-				g.DrawEllipse(p, rct);
+				if ((m_CircleOpacity > 0) && (m_Circle != MG_COLORS.Transparent)&&(m_Weight>0))
+				{
+					p.Color = GetMG_Colors(m_Circle, m_CircleOpacity);
+					p.Width = m_Weight;
+					radius -= m_Weight / 2; 
+					g.DrawEllipse(p, new RectangleF(cx - radius, cy - radius, radius * 2, radius * 2));
+				}
 
 			}
 			catch

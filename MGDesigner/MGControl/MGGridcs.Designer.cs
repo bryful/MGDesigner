@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGFrame
+	partial class MGGridcs
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
