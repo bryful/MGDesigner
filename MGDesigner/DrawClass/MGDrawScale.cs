@@ -6,15 +6,7 @@ using System.Threading.Tasks;
 
 namespace MGDesigner
 {
-	public enum ScaleStlye
-	{
-		Vur,
-		Hor,
-		Left,
-		Right,
-		Top,
-		Bottom
-	}
+	
 
 
 	public class MGDrawScale

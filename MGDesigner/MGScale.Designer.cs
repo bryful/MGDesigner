@@ -1,6 +1,6 @@
 ﻿namespace MGDesigner
 {
-	partial class MGCircleScale
+	partial class MGScale
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

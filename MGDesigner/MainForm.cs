@@ -126,6 +126,11 @@ namespace MGDesigner
 		{
 
 		}
+
+		private void mgScale1_Click(object sender, EventArgs e)
+		{
+
+		}
 		// *******************************************************************************
 
 

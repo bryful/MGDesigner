@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="MGControl\MGCircleScale.cs" />
+    <Compile Remove="DrawClass\MGDrawScale.cs" />
     <Compile Remove="MGControl\MGForm.cs" />
     <Compile Remove="MGControl\MGForm_Color.cs" />
     <Compile Remove="MGControl\MGForm_draw.cs" />
@@ -106,6 +106,10 @@
     <Folder Include="MGControl\Nouse\" />
     <Folder Include="MGControl\Nouse\backup\" />
     <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DrawClass\MGDrawScale.cs" />
   </ItemGroup>
 
 </Project>
