@@ -67,19 +67,7 @@ namespace MGDesigner
 			this.Location = p;
 			ForegroundWindow();
 		}
-		// ********************************************************************
-		public bool Export(string p)
-		{
-			bool ret = false;
 
-
-			return ret;
-		}
-		// ********************************************************************
-		public bool Import(string p)
-		{
-			return false;
-		}
 		// ********************************************************************
 		public void ForegroundWindow()
 		{
@@ -96,41 +84,8 @@ namespace MGDesigner
 			Application.Exit();
 		}
 
-		private void exportPartsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//ChkCntrol();
-			//ExportPartsToFile();
-		}
 
-		private void exportMixToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//ExportMixToFile();
-		}
 
-		private void mgCircle2_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void mgKagi2_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void mgZebra1_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void mgCircle1_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void mgScale1_Click(object sender, EventArgs e)
-		{
-
-		}
 		// *******************************************************************************
 
 

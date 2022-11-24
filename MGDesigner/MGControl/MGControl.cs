@@ -30,6 +30,30 @@ namespace MGDesigner
 
 	public partial class MGControl : Control
 	{
+		private bool GetDesignMode(Control control)
+		{
+			if (control == null) return false;
+
+			bool mode = control.Site == null ? false : control.Site.DesignMode;
+
+			return mode | GetDesignMode(control.Parent);
+		}
+
+		// 本来のDesignModeを上書き
+		public new bool DesignMode
+		{
+			get
+			{
+				return GetDesignMode(this);
+			}
+		}
+		private Color m_Guide = Color.FromArgb(65, 255, 0, 0);
+		[Category("_MG")]
+		public Color Guide
+		{
+			get { return m_Guide; }
+			set { m_Guide = value; this.Invalidate(); }	
+		}
 		public bool ClearFlag = true;
 		private Bitmap m_Offscr=new Bitmap(10,10,PixelFormat.Format32bppArgb);
 		public Bitmap OffScr { get { return m_Offscr; } }
@@ -270,6 +294,12 @@ namespace MGDesigner
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//pe.Graphics.Clear(Color.Transparent);
+			if(DesignMode)
+			{
+				Pen pen = new Pen(m_Guide);
+				MG.Frame(pe.Graphics, pen, this.ClientRectangle);
+				pen.Dispose();
+			}
 		}
 		// ************************************************************
 		public Rectangle MarginRect(Rectangle rct)

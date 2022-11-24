@@ -89,7 +89,7 @@ namespace MGDesigner
 				ChkOffScr();
 			}
 		}
-		private double m_PolygonLineOpacity = 0;
+		private double m_PolygonLineOpacity = 100;
 		[Category("_MG_Polygon")]
 		public double PolygonLineOpacity
 		{
@@ -107,7 +107,7 @@ namespace MGDesigner
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
+			base.OnPaint(pe);
 		}
 		public override void Draw(Graphics g, Rectangle rct, bool IsClear = true)
 		{

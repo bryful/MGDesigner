@@ -7,13 +7,7 @@ using System.Threading.Tasks;
 
 namespace MGDesigner
 {
-	public enum KagiStyle
-	{
-		TopLeft,
-		TopRight,
-		BottomRight,
-		BottomLeft,
-	}
+
 	public class MGDrawKagi
 	{
 		public int KagiWeightH = 3;

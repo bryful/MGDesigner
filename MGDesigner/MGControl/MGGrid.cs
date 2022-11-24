@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MGDesigner
 {
-	public partial class MGGridcs : MGControl
+	public partial class MGGrid : MGControl
 	{
 		private MG_COLORS m_Frame = MG_COLORS.White;
 		[Category("_MG_Frame")]
@@ -162,14 +162,14 @@ namespace MGDesigner
 				ChkOffScr();
 			}
 		}
-		public MGGridcs()
+		public MGGrid()
 		{
 			InitializeComponent();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
+			base.OnPaint(pe);
 		}
 		public override void Draw(Graphics g, Rectangle rct, bool IsClear = true)
 		{

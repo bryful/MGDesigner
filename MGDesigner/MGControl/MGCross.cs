@@ -102,12 +102,13 @@ namespace MGDesigner
 		}
 		public MGCross()
 		{
+			this.Size = new Size(50, 50);
 			InitializeComponent();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
+			base.OnPaint(pe);
 		}
 		public override void Draw(Graphics g, Rectangle rct, bool IsClear=true)
 		{

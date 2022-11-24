@@ -135,7 +135,7 @@ namespace MGDesigner
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
+			base.OnPaint(pe);
 		}
 		public override void Draw(Graphics g, Rectangle rct, bool IsClear = true)
 		{

@@ -6,7 +6,7 @@ namespace MGDesigner
 	{
 		// *******************************************************************************************
 		public const string MyAppId = "MGDesigner"; // GUIDなどユニークなもの
-		public const string MyCallBackId = "SkeltonWinFormCallBack"; // GUIDなどユニークなもの
+		public const string MyCallBackId = "MGDesignerC"; // GUIDなどユニークなもの
 
 		// *******************************************************************************************
 		private static System.Threading.Mutex _mutex = new System.Threading.Mutex(false, MyAppId);

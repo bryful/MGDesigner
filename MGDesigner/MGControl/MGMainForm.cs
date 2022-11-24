@@ -97,10 +97,7 @@ namespace MGDesigner
 			}
 			return ret;
 		}
-		public void SwapMGControls(int idx0,int idx1)
-		{
 
-		}
 		private bool m_Anti = false;
 		[Category("_MGForm")]
 		public bool Anti
@@ -296,7 +293,6 @@ namespace MGDesigner
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			this.UpdateZOrder();
 			//base.OnPaint(pe);
 			Graphics g = pe.Graphics;
 			if (m_Anti==false)
@@ -342,6 +338,132 @@ namespace MGDesigner
 			{
 				g.DrawImage(mc.OffScr, mc.Location);
 			}
+		}
+		public bool ExportMix(string s)
+		{
+			bool ret = false;
+			Bitmap bmp = new Bitmap(this.Width,this.Height);
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti == false)
+			{
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+			}
+			g.Clear(GetMG_Colors(m_Back));
+			if (m_MGControls.Count>0)
+			{
+				for(int i= 0;i<m_MGControls.Count;i++)
+				{
+					MGControl mc = m_MGControls[i];
+					GraphicsPath path = new GraphicsPath();
+					path.AddRectangle(this.ClientRectangle);
+					Region region = new Region(path);
+					g.SetClip(region, CombineMode.Replace);
+					if (mc.IsFull)
+					{
+						mc.Draw(g, this.ClientRectangle, false);
+					}
+					else
+					{
+						g.DrawImage(mc.OffScr, mc.Location);
+					}
+				}
+
+			}
+			try
+			{
+				FileInfo fi = new FileInfo(s);
+
+				if (fi.Exists) fi.Delete();
+				bmp.Save(fi.FullName, ImageFormat.Png);
+				ret = fi.Exists;
+			}
+			catch
+			{
+				ret = false;
+			}
+			return ret;
+		}
+		public bool ExportFiles(string s)
+		{
+			bool ret = false;
+			Bitmap bmp = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+			Graphics g = Graphics.FromImage(bmp);
+			if (m_Anti == false)
+			{
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+			}
+			int cnt = 1;
+			if (m_MGControls.Count > 0)
+			{
+				FileInfo fi = new FileInfo(s);
+				string dir = Path.GetDirectoryName(fi.FullName);
+				if (dir == null) dir = "";
+				string n = Path.GetFileNameWithoutExtension(fi.FullName);
+
+
+				for (int i = m_MGControls.Count-1; i >=0 ; i--)
+				{
+					g.Clear(Color.Transparent);
+					MGControl mc = m_MGControls[i];
+					GraphicsPath path = new GraphicsPath();
+					path.AddRectangle(this.ClientRectangle);
+					Region region = new Region(path);
+					g.SetClip(region, CombineMode.Replace);
+					if (mc.IsFull)
+					{
+						mc.Draw(g, this.ClientRectangle, false);
+					}
+					else
+					{
+						g.DrawImage(mc.OffScr, mc.Location);
+					}
+					try
+					{
+						bmp.Save(Path.Combine(dir, n + $"_{cnt:000}.png"), ImageFormat.Png);
+						ret = fi.Exists;
+						cnt++;
+					}
+					catch
+					{
+						ret = false;
+					}
+				}
+				g.Clear(GetMG_Colors(m_Back));
+				string fname = Path.Combine(dir, n + $"_{cnt:000}.png");
+				bmp.Save(fname, ImageFormat.Png);
+				ret = true;
+
+			}
+
+			return ret;
+		}
+
+		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void exportLayersToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.Filter = "*.png|*.png|*.*|*.*";
+			dlg.DefaultExt = ".png";
+			if(dlg.ShowDialog()==DialogResult.OK)
+			{
+				ExportFiles(dlg.FileName);
+			}
+		}
+
+		private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.Filter = "*.png|*.png|*.*|*.*";
+			dlg.DefaultExt = ".png";
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				ExportMix(dlg.FileName);
+			}
+
 		}
 	}
 }

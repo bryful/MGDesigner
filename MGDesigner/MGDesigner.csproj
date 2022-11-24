@@ -17,15 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DrawClass\MGDrawKagi.cs" />
     <Compile Remove="DrawClass\MGDrawScale.cs" />
     <Compile Remove="MGControl\MGForm.cs" />
     <Compile Remove="MGControl\MGForm_Color.cs" />
     <Compile Remove="MGControl\MGForm_draw.cs" />
     <Compile Remove="MGControl\MGFrame.cs" />
-    <Compile Remove="MGControl\MGGrid.cs" />
-    <Compile Remove="MGControl\MGKagi.cs" />
-    <Compile Remove="MGControl\MGKagiEdge.cs" />
-    <Compile Remove="MGControl\MGLabel.cs" />
     <Compile Remove="MGControl\MGNone.cs" />
     <Compile Remove="MGControl\Nouse\backup\MGForm.cs" />
     <Compile Remove="MGControl\Nouse\backup\MGForm.Designer.cs" />
@@ -105,10 +102,6 @@
     <Folder Include="MGControl\Nouse\" />
     <Folder Include="MGControl\Nouse\backup\" />
     <Folder Include="Resources\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="DrawClass\MGDrawScale.cs" />
   </ItemGroup>
 
 </Project>
