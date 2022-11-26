@@ -13,25 +13,7 @@ namespace MGCreator
 {
 	public partial class MGForm : MGBaseForm
 	{
-		private int m_TargetControlIndex = -1;
-		public int TargetControlIndex
-		{
-			get { return m_TargetControlIndex; }
-			set
-			{
-				if((value >=0)&&(value < this.Controls.Count))
-				{
-					int v = m_TargetControlIndex;
-					if ((v >= 0) && (v < this.Controls.Count))
-					{
-						((MGCcontrol)this.Controls[v]).IsTarget = false;
-					}
-					m_TargetControlIndex = value;
-					((MGCcontrol)this.Controls[m_TargetControlIndex]).IsTarget = true;
-					this.Invalidate();
-				}
-			}
-		}
+
 		private ContextMenuStrip m_Menu = new ContextMenuStrip();
 
 		private string[] ControlsName()
@@ -88,11 +70,23 @@ namespace MGCreator
 			MGListMenu.Text = "Show MGList";
 			MGListMenu.Click += MGListMenu_Click;
 
+			ToolStripMenuItem MGPropMenu = new ToolStripMenuItem();
+			MGPropMenu.Name = "MGPropMenu";
+			MGPropMenu.Text = "Show MGProp";
+			MGPropMenu.Click += MGPropMenu_Click;
 
 			m_Menu.Items.Add(AddMenu);
 			m_Menu.Items.Add(MGListMenu);
+			m_Menu.Items.Add(MGPropMenu);
 			m_Menu.Items.Add(QuitMenu);
 			this.ContextMenuStrip = m_Menu;
+		}
+
+		private void MGPropMenu_Click(object? sender, EventArgs e)
+		{
+			MGPropertyForm fm = new MGPropertyForm();
+			fm.MGForm = this;
+			fm.Show();
 		}
 
 		private void MGListMenu_Click(object? sender, EventArgs e)

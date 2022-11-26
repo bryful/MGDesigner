@@ -14,21 +14,21 @@ namespace MGCreator
 {
 	public enum MGStyle
 	{
-		None = 0,
-		Frame,
-		Grid,
-		Circle,
-		CircleScale,
-		Triangle,
-		Polygon,
-		Cross,
-		Zebra,
-		Label,
-		Parallelogram,
-		Scale,
-		Sheet,
-		Kagi,
-		KagiEdge
+		None = 0b0000_0000_0000_0000,
+		Frame = 0b0000_0000_0000_0001,
+		Grid = 0b0000_0000_0000_0010,
+		Circle = 0b0000_0000_0000_0100,
+		CircleScale = 0b0000_0000_0000_1000,
+		Triangle = 0b0000_0000_0001_0000,
+		Polygon = 0b0000_0000_0010_0000,
+		Cross = 0b0000_0000_0100_0000,
+		Zebra = 0b0000_0000_1000_0000,
+		Label = 0b0000_0001_0000_0000,
+		Parallelogram = 0b0000_0010_0000_0000,
+		Scale = 0b0000_0100_0000_0000,
+		Sheet = 0b0000_1000_0000_0000,
+		Kagi = 0b0001_0000_0000_0000,
+		KagiEdge = 0b0010_0000_0000_0000,
 	};
 	public enum ControlPos
 	{
@@ -45,8 +45,8 @@ namespace MGCreator
 	}
 	public partial class MGCcontrol : Control
 	{
-		public readonly MGStyle Type = MGStyle.None;
-		public bool IsTarget = false;
+		public readonly MGStyle Style = MGStyle.None;
+		public int Index = -1;
 		#region Global
 		private Bitmap m_Offscr = new Bitmap(10, 10, PixelFormat.Format32bppArgb);
 		[Category("_MG")]
@@ -303,7 +303,9 @@ namespace MGCreator
 ControlStyles.DoubleBuffer |
 ControlStyles.UserPaint |
 ControlStyles.AllPaintingInWmPaint |
-ControlStyles.SupportsTransparentBackColor,
+ControlStyles.SupportsTransparentBackColor|
+ControlStyles.UserMouse|
+ControlStyles.Selectable,
 true);
 			this.BackColor = Color.Transparent;
 			this.UpdateStyles();
@@ -367,10 +369,16 @@ true);
 		// ************************************************************
 		private void InitOffScr()
 		{
-			m_Offscr = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
-			Graphics g = Graphics.FromImage(m_Offscr);
-			Draw(g, new Rectangle(0, 0, m_Offscr.Width, m_Offscr.Height), true);
+			try
+			{
+				m_Offscr = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+				Graphics g = Graphics.FromImage(m_Offscr);
+				Draw(g, new Rectangle(0, 0, m_Offscr.Width, m_Offscr.Height), true);
+			}
+			catch
+			{
 
+			}
 		}
 		// ************************************************************
 		protected override void OnResize(EventArgs e)
@@ -384,6 +392,17 @@ true);
 			base.OnLocationChanged(e);
 			SetControlPos();
 
+		}
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
+			this.Invalidate();
+		}
+
+		protected override void OnLostFocus(EventArgs e)
+		{
+			base.OnLostFocus(e);
+			this.Invalidate();
 		}
 		// ************************************************************
 		public Rectangle MarginRect(Rectangle rct)
@@ -411,14 +430,19 @@ true);
 					sb.Color = Color.FromArgb(128, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
 					p.Color = m_GuideColorMD;
-					MGC.DrawFrame(g, p, 2, this.ClientRectangle);
+					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
 				else if (m_MDMouseIn)
 				{
 					sb.Color = Color.FromArgb(64, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
 					p.Color = m_GuideColorHi;
-					MGC.DrawFrame(g, p, 2, this.ClientRectangle);
+					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
+				}else if (this.Focused)
+				{
+					p.Color = m_GuideColorMD;
+					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
+
 				}
 			}
 			finally

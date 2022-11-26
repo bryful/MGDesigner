@@ -13,25 +13,21 @@ namespace MGCreator
 {
 	partial class MGForm
 	{
+
 		// ************************************************************
-		public delegate void ControlChangedHandler(object sender, EventArgs e);
-		public event ControlChangedHandler? ControlChanged;
-		protected virtual void OnControlChanged(EventArgs e)
-		{
-			if (ControlChanged != null)
-			{
-				ControlChanged(this, e);
-			}
-		}
-		public delegate void ControlOrderChangedHandler(object sender, ControlEventArgs e);
-		public event ControlOrderChangedHandler? ControlOrderChanged;
-		protected virtual void OnControlOrderChanged(ControlEventArgs e)
-		{
-			if (ControlOrderChanged != null)
-			{
-				ControlOrderChanged(this, e);
-			}
-		}
+        private void ChkControlIndex()
+        {
+            if(this.Controls.Count > 0)
+            {
+                for(int i=0; i< this.Controls.Count; i++)
+                {
+                    if (this.Controls[i] is MGCcontrol)
+                    {
+                        ((MGCcontrol)this.Controls[i]).Index = i;
+					}
+                }
+            }
+        }
 		// ************************************************************
 		private int AddCount = 0;
         public bool AddControl()
@@ -42,18 +38,74 @@ namespace MGCreator
             ctrl.Size = new Size(100, 100);
             ctrl.Location = new Point(80, 80);
 
-            this.Controls.Add(ctrl);
+            ctrl.GotFocus += Ctrl_GotFocus;
 
+
+
+			this.Controls.Add(ctrl);
+            ChkControlIndex();
 			return ctrl != null;
         }
-        public bool DeleteControl(int idx)
+
+        private void Ctrl_LostFocus(object? sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void Ctrl_GotFocus(object? sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            if (sender is MGCcontrol)
+            {
+                MGCcontrol m = (MGCcontrol)sender;
+                OnForcusChanged(new ForcusChangedEventArgs(m.Index));
+            }
+        }
+        public int ForcusControlIndex
+        {
+            get
+            {
+                int ret = -1;
+                for(int i=0;i<this.Controls.Count;i++)
+                {
+                    if (this.Controls[i].Focused)
+                    {
+                        ret = i;
+                        break;
+                    }
+                }
+                return ret;
+            }
+            set
+            {
+                if((value>=0)&&(value<this.Controls.Count))
+                {
+                    this.Controls[value].Focus();
+
+				}
+            }
+        }
+        public MGCcontrol? ForcusControl
+        {
+            get
+            {
+                MGCcontrol? ret = null;
+                int idx = ForcusControlIndex;
+                if (idx >= 0) ret = (MGCcontrol)this.Controls[idx];
+                return ret;
+
+			}
+        }
+
+		public bool DeleteControl(int idx)
         {
             bool ret = false;
             if (idx >= 0 && idx < this.Controls.Count)
             {
                 this.Controls[idx].Dispose();
                 this.Controls.RemoveAt(idx);
-                ret = true;
+				ChkControlIndex();
+				ret = true;
 			}
 			return ret;
         }
@@ -68,7 +120,8 @@ namespace MGCreator
                 this.Controls.Count - 1
                     );
                 ret = true;
-                this.Invalidate();
+				ChkControlIndex();
+				this.Invalidate();
 				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
@@ -79,6 +132,7 @@ namespace MGCreator
                 ctrl,
                 this.Controls.Count - 1
                 );
+			ChkControlIndex();
 			OnControlOrderChanged(new ControlEventArgs(ctrl));
 			this.Invalidate();
         }
@@ -88,8 +142,9 @@ namespace MGCreator
                 ctrl,
                 0
                 );
-			OnControlOrderChanged(new ControlEventArgs(ctrl));
+			ChkControlIndex();
 			this.Invalidate();
+			OnControlOrderChanged(new ControlEventArgs(ctrl));
         }
         public bool ControlToFront(int idx)
         {
@@ -102,9 +157,10 @@ namespace MGCreator
                     0
                     );
                 ret = true;
-                this.Invalidate();
-            }
-			OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				ChkControlIndex();
+				this.Invalidate();
+				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+			}
 			return ret;
         }
         public bool ControlToUp(int idx)
@@ -117,9 +173,10 @@ namespace MGCreator
                     idx - 1
                     );
                 ret = true;
-                this.Invalidate();
-            }
-			OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				ChkControlIndex();
+				this.Invalidate();
+				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+			}
 			return ret;
         }
         public bool ControlToUp(Control ctrl)
@@ -133,7 +190,8 @@ namespace MGCreator
                     idx - 1
                     );
                 ret = true;
-                this.Invalidate();
+				ChkControlIndex();
+				this.Invalidate();
 				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
@@ -148,10 +206,11 @@ namespace MGCreator
                     idx + 1
                     );
                 ret = true;
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				ChkControlIndex();
 				this.Invalidate();
-            }
-            return ret;
+				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+			}
+			return ret;
         }
         public bool ControlToDown(Control ctrl)
         {
@@ -164,10 +223,11 @@ namespace MGCreator
                     idx + 1
                     );
                 ret = true;
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				ChkControlIndex();
 				this.Invalidate();
-            }
-            return ret;
+				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+			}
+			return ret;
         }
     }
 }

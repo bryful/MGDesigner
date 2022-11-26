@@ -13,6 +13,7 @@ namespace MGCreator
 	public partial class MGItemListForm : MGBaseForm
 	{
 		private MGForm? m_MGForm = null;
+		[Category("_MG")]
 		public MGForm? MGForm
 		{
 			get { return m_MGForm; }
@@ -25,6 +26,18 @@ namespace MGCreator
 					m_MGForm.ControlAdded += M_MGForm_ControlCHanged;
 					m_MGForm.ControlRemoved += M_MGForm_ControlCHanged;
 					m_MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
+					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+				}
+			}
+		}
+
+		private void M_MGForm_ForcusChanged(object sender, MGForm.ForcusChangedEventArgs e)
+		{
+			if(e.Index>=0)
+			{
+				if(controlListBox1.SelectedIndex!=e.Index)
+				{
+					controlListBox1.SelectedIndex = e.Index;
 				}
 			}
 		}
@@ -37,6 +50,7 @@ namespace MGCreator
 		public MGItemListForm()
 		{
 			InitializeComponent();
+			this.TopMost = true;
 		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using MGCreator.Custum;
+﻿
 
 namespace MGCreator
 {
-	partial class MGItemListForm
+    partial class MGItemListForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -80,6 +80,7 @@ namespace MGCreator
 			// 
 			// controlListBox1
 			// 
+			this.controlListBox1.AddBtn = null;
 			this.controlListBox1.FormattingEnabled = true;
 			this.controlListBox1.ItemHeight = 15;
 			this.controlListBox1.Items.AddRange(new object[] {
@@ -119,7 +120,7 @@ namespace MGCreator
 			this.mgStyleComb1.Size = new System.Drawing.Size(121, 23);
 			this.mgStyleComb1.TabIndex = 7;
 			// 
-			// MGCListForm
+			// MGItemListForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -130,9 +131,11 @@ namespace MGCreator
 			this.Controls.Add(this.btnUp);
 			this.Controls.Add(this.btnDel);
 			this.Controls.Add(this.btnAdd);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-			this.Name = "MGCListForm";
+			this.Name = "MGItemListForm";
 			this.Text = "MGItems";
+			this.TopMost = true;
 			this.ResumeLayout(false);
 
 		}
