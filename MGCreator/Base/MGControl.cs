@@ -518,7 +518,7 @@ true);
 		{
 			if (IsClear) g.Clear(Color.Transparent);
 			Pen pen = new Pen(this.ForeColor, 3);
-			SolidBrush sb = new SolidBrush(Color.Green);
+			SolidBrush sb = new SolidBrush(Color.Green); 
 			try
 			{
 				Rectangle rct2 = MarginRect(rct);

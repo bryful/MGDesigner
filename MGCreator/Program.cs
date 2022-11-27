@@ -13,7 +13,7 @@ namespace MGCreator
 			ApplicationConfiguration.Initialize();
 			//Application.Run(new MGPropertyForm());
 			//Application.Run(new MGForm());
-			Application.Run(new MGProjectForm());
+			Application.Run(new MGProjectForm()); 
 			//Application.Run(new Form1());
 		}
 	}
