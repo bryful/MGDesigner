@@ -13,6 +13,36 @@ namespace MGCreator
 	public partial class MGToolForm : Form
 	{
 		public readonly int HeaderHeight = 25;
+		public readonly int HeaderCloseBoxSize = 12;
+
+		private bool m_IsColseBtn = false;
+		public bool IsColseBtn
+		{
+			get { return m_IsColseBtn; }
+			set
+			{
+				m_IsColseBtn = value;
+				this.Invalidate();
+			}
+		}
+
+		// ***************************************************************************
+		/*
+		public MGForm? MGForm = null;
+		public void ShowMGForm()
+		{
+			if(MGForm==null)
+			{
+				MGForm = new MGForm();
+				MGForm.Show();
+			}
+			else
+			{
+				MGForm.Activate();
+				MGForm.Focus();
+			}
+		}
+		*/
 		// ***************************************************************************
 		public MGToolForm()
 		{
@@ -29,6 +59,7 @@ namespace MGCreator
 				true);
 		}
 		// ***************************************************************************
+		/*
 		protected MGForm? m_MGForm = null;
 		[Category("_MG")]
 		public virtual MGForm? MGForm
@@ -40,12 +71,18 @@ namespace MGCreator
 		{
 			m_MGForm = m;
 		}
+		*/
 		// ***************************************************************************
 		private Point m_MDPos = new Point(0, 0);
 		private Size m_MDSize = new Size(0, 0);
 		private int m_MD_Mode = 0;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			if ((m_IsColseBtn==true)&&(e.Y < HeaderHeight) && (e.X > this.Width - HeaderCloseBoxSize - 5))
+			{
+				Application.Exit();
+				return;
+			}
 			if (e.Button == MouseButtons.Left)
 			{
 				if(e.Y>=this.Height-30)
@@ -65,11 +102,6 @@ namespace MGCreator
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				if(m_MGForm != null)
-				{
-					m_MGForm.Activate();
-					this.Activate();
-				}
 				int ax = e.X - m_MDPos.X;
 				int ay = e.Y - m_MDPos.Y;
 				if (m_MD_Mode == 1)
@@ -110,9 +142,19 @@ namespace MGCreator
 			try
 			{
 				g.Clear(this.BackColor);
+				
 				Rectangle r = new Rectangle(0,0,this.Width,HeaderHeight-3);
 				sb.Color = this.ForeColor;
 				g.FillRectangle(sb, r);
+
+				if (m_IsColseBtn)
+				{
+
+					r = new Rectangle(this.Width - HeaderCloseBoxSize - 5, (HeaderHeight - HeaderCloseBoxSize) / 2, HeaderCloseBoxSize, HeaderCloseBoxSize);
+					sb.Color = this.BackColor;
+					g.FillRectangle(sb, r);
+				}
+
 				r = new Rectangle(0, this.Height-10, this.Width - 1, 10);
 				g.FillRectangle(sb, r);
 				r = new Rectangle(0,0,this.Width-1,this.Height-1);

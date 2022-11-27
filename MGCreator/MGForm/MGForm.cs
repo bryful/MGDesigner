@@ -13,7 +13,7 @@ namespace MGCreator
 {
 	public partial class MGForm : MGBaseForm
 	{
-
+		public MGProjectForm? MGProjectForm = null;
 		private ContextMenuStrip m_Menu = new ContextMenuStrip();
 
 		private string[] ControlsName()
@@ -59,12 +59,12 @@ namespace MGCreator
 			QuitMenu.Name = "QuitMenu";
 			QuitMenu.Text = "Quit";
 			QuitMenu.Click += QuitMenu_Click;
-
+			/*
 			ToolStripMenuItem AddMenu = new ToolStripMenuItem();
 			AddMenu.Name = "AddMenu";
 			AddMenu.Text = "Add";
 			AddMenu.Click += AddMenu_Click;
-
+			*/
 			ToolStripMenuItem MGListMenu = new ToolStripMenuItem();
 			MGListMenu.Name = "MGListMenu";
 			MGListMenu.Text = "Show MGList";
@@ -75,7 +75,7 @@ namespace MGCreator
 			MGPropMenu.Text = "Show MGProp";
 			MGPropMenu.Click += MGPropMenu_Click;
 
-			m_Menu.Items.Add(AddMenu);
+			//m_Menu.Items.Add(AddMenu);
 			m_Menu.Items.Add(MGListMenu);
 			m_Menu.Items.Add(MGPropMenu);
 			m_Menu.Items.Add(QuitMenu);
@@ -84,16 +84,19 @@ namespace MGCreator
 
 		private void MGPropMenu_Click(object? sender, EventArgs e)
 		{
-			MGPropertyForm fm = new MGPropertyForm();
-			fm.MGForm = this;
-			fm.Show();
+			if (MGProjectForm != null)
+			{
+				MGProjectForm.ShowMGPropertyForm();
+			}
 		}
 
 		private void MGListMenu_Click(object? sender, EventArgs e)
 		{
-			MGItemListForm fm = new MGItemListForm();
-			fm.MGForm = this;
-			fm.Show();
+			if(MGProjectForm != null)
+			{
+				MGProjectForm.Activate();
+				MGProjectForm.Focus();
+			}
 		}
 
 		private void AddMenu_Click(object? sender, EventArgs e)

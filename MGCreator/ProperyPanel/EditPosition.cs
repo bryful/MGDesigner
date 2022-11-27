@@ -11,32 +11,30 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public class PosChangedEventArgs : EventArgs
+	public class BoundsChangedEventArgs : EventArgs
 	{
-		Point Pos = new Point(0, 0);
-		public PosChangedEventArgs(int x, int y)
+		Rectangle Bounds = new Rectangle(0, 0, 0, 0);
+		public BoundsChangedEventArgs(Rectangle r)
 		{
-			Pos = new Point(x, y);
-		}
-		public PosChangedEventArgs(Point p)
-		{
-			Pos = p;
+			Bounds = r;
 		}
 	}
 	public partial class EditPosition : Edit
 	{
 		public new readonly MGStyle MGStyle = MGStyle.ALL;
+		protected Rectangle m_Bounds = new Rectangle(0, 0, 0, 0);
 		// ****************************************************************************
-		public delegate void PosChangedHandler(object sender, PosChangedEventArgs e);
-		public event PosChangedHandler? PosChanged;
-		protected virtual void OnPosChanged(PosChangedEventArgs e)
+		public delegate void BoundsChangedHandler(object sender, BoundsChangedEventArgs e);
+		public event BoundsChangedHandler? BoundsChanged;
+		protected virtual void OnBoundsChanged(BoundsChangedEventArgs e)
 		{
 			if(_EventFLag==false) return;
-			if (PosChanged != null)
+			if (BoundsChanged != null)
 			{
-				PosChanged(this, e);
+				BoundsChanged(this, e);
 			}
 		}
+		/*
 		// ****************************************************************************
 		protected override void SetControl(MGControl? c)
 		{
@@ -56,7 +54,74 @@ namespace MGCreator
 				SetPoint(m_control.Location);
 			}
 		}
+		*/
+		[Category("_MG")]
+		public new MGForm? MGForm
+		{
+			get { return m_MGForm; }
+			set
+			{
+				m_MGForm = value;
+				if (m_MGForm != null)
+				{
+					m_control = m_MGForm.ForcusControl;
+					GetValeuFromControl();
+					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+					if(m_control != null)
+					{
+						m_control.LocationChanged += M_control_LocationChanged;
+					}
+				}
+			}
+		}
 
+		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		{
+			if (m_MGForm != null)
+			{
+				m_control = m_MGForm.ForcusControl;
+				if (m_control != null)
+				{
+					m_control.LocationChanged += M_control_LocationChanged;
+					GetValeuFromControl();
+				}
+			}
+		}
+
+		private void M_control_LocationChanged(object? sender, EventArgs e)
+		{
+			GetValeuFromControl();
+		}
+		protected override void GetValeuFromControl()
+		{
+			if (m_control != null)
+			{
+				m_Bounds = m_control.Bounds;
+				SetValue(m_control.Location);
+			}
+		}
+		protected override void SetValeuToControl()
+		{
+			if (m_control == null) return;
+			_EventFLag = false;
+			m_control.Bounds = m_Bounds;
+			_EventFLag = true;
+
+		}
+		public void SetControlLocation(Point p)
+		{
+			if (m_control == null) return;
+			if (_EventFLag == false) return;
+			_EventFLag = false;
+
+			if (m_control.ControlPos != ControlPos.None) return;
+
+			if (m_control.Location != p)
+			{
+				m_control.Location = p;
+			}
+			_EventFLag = true;
+		}       
 		// ****************************************************************************
 		public void SetPoint(Point p)
 		{
@@ -92,25 +157,12 @@ namespace MGCreator
 				b = true;
 			}
 			_EventFLag = true;
-			if (b)
-			{
-				OnPosChanged(new PosChangedEventArgs(Point));
-			}
+			this.Invalidate();
 
 
 		}
 		// ****************************************************************************
-		public void SetControlLocation(Point p)
-		{
-			if (m_control == null) return;
-			if(_EventFLag == false) return;
-			_EventFLag = false;
-			if(m_control.Location !=p)
-			{
-				m_control.Location = p;
-			}
-			_EventFLag = true;
-		}
+		
 		// ****************************************************************************
 		protected PropEdit m_edit1 = new PropEdit();
 		protected PropEdit m_edit2 = new PropEdit();

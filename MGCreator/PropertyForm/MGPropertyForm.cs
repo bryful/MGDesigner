@@ -17,10 +17,10 @@ namespace MGCreator
 			InitializeComponent();
 			mgPropertyPanel1.ForeColor = Color.LightGray;
 		}
-		protected override void SetMGForm(MGForm? m)
+		public MGForm? MGForm
 		{
-			m_MGForm = m;
-			mgPropertyPanel1.MGForm = m;
+			get { return mgPropertyPanel1.MGForm; }
+			set { mgPropertyPanel1.MGForm = value; }
 		}
 	}
 }

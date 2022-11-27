@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class Form2 : Form
+	public partial class MGCircle : MGControl
 	{
-		public Form2()
+		public MGCircle()
 		{
 			InitializeComponent();
+		}
+
+		protected override void OnPaint(PaintEventArgs pe)
+		{
+			base.OnPaint(pe);
 		}
 	}
 }

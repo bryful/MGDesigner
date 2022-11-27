@@ -13,6 +13,18 @@ namespace MGCreator
 {
 	public partial class Edit : Control
 	{
+		// ****************************************************************************
+		/*
+		public delegate void EditChangedHandler(object sender, EventArgs e);
+		public event EditChangedHandler? EditChanged;
+		protected virtual void OnEditChanged(EventArgs e)
+		{
+			if (_EventFLag == false) return;
+			if (EditChanged != null)
+			{
+				EditChanged(this, e);
+			}
+		}*/
 		// **********************************************************
 		public readonly MGStyle MGStyle = MGStyle.ALL;
 		public void SetIsShow(MGStyle style, bool isSHow)
@@ -38,15 +50,6 @@ namespace MGCreator
 		}       
 		// **********************************************************
 		protected MGControl? m_control = null;
-		protected virtual void SetControl(MGControl? c)
-		{
-			m_control = c;
-			if (m_control != null)
-			{
-				this.Text = m_control.Name;
-				this.Invalidate();
-			}
-		}
 		protected MGForm? m_MGForm = null;
 		[Category("_MG")]
 		public MGForm? MGForm
@@ -57,7 +60,8 @@ namespace MGCreator
 				m_MGForm = value;
 				if (m_MGForm != null)
 				{
-					SetControl(m_MGForm.ForcusControl);
+					m_control = m_MGForm.ForcusControl;
+					GetValeuFromControl();
 					m_MGForm.ForcusChanged += Control_ForcusChanged;
 				}
 			}
@@ -67,11 +71,27 @@ namespace MGCreator
 			if (m_MGForm == null) return;
 			if (e.Index >= 0)
 			{
-				SetControl((MGControl)m_MGForm.Controls[e.Index]);
+				m_control = (MGControl)m_MGForm.Controls[e.Index];
+				GetValeuFromControl();
 			}
 		}
 		// **********************************************************
-		protected int m_CaptionWidth = 60;
+		protected virtual void GetValeuFromControl()
+		{
+			if(m_control != null)
+			{
+				this.Text = m_control.Name;
+			}
+		}
+		protected virtual void SetValeuToControl()
+		{
+			if (m_control != null)
+			{
+				m_control.Name = this.Text;
+			}
+		}
+		// **********************************************************
+		protected int m_CaptionWidth = 90;
 		[Category("_MG")]
 		public int CaptionWidth
 		{

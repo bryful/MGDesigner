@@ -12,6 +12,7 @@ namespace MGCreator
 {
 	public partial class MGPropertyPanel : PropertyPanel
 	{
+		private MGControl? m_control = null;
 		private MGForm? m_MGForm = null;
 		[Category("_MG")]
 		public MGForm? MGForm
@@ -21,6 +22,7 @@ namespace MGCreator
 			{
 				m_MGForm = value;
 				SetForm(m_MGForm);
+
 			}
 		}
 
@@ -35,7 +37,9 @@ namespace MGCreator
 		private EditPosition m_Position = new EditPosition();
 		private EditSize m_Size = new EditSize();
 		private EditName m_Name = new EditName();
-		private Edit m_Dummy1 = new Edit();
+		private EditIsFull m_IsFull = new EditIsFull();
+		private EditDrawMargin m_DrawMargin = new EditDrawMargin();
+		private EditBool m_Dummy1 = new EditBool();
 		private Edit m_Dummy2 = new Edit();
 		public MGPropertyPanel()
 		{
@@ -58,13 +62,18 @@ namespace MGCreator
 			m_Size.IsShowResizeType = true;
 
 			m_PPParts.AddControl(m_Name);
+			m_PPParts.AddControl(m_IsFull);
+			m_PPParts.AddControl(m_DrawMargin);
 
 			m_PPForm.AddControl(m_FormSize);
 			m_PPLayout.AddControl(m_Position);
 			m_PPLayout.AddControl(m_Size);
 
 
+			m_Dummy1.BoolValueChanged += M_Dummy1_BoolValueChanged;
+
 			m_PPDisp.AddControl(m_Dummy1);
+
 			m_PPDisp.AddControl(m_Dummy2);
 
 			AddControl(m_PPForm);
@@ -84,6 +93,14 @@ true);
 			this.AutoLayout();
 		}
 
+		private void M_Dummy1_BoolValueChanged(object sender, BoolValueChangedEventArgs e)
+		{
+			if(m_control != null)
+			{
+				m_control.IsFull = e.BoolValue;
+			}
+		}
+
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);
@@ -93,6 +110,26 @@ true);
 			m_Position.MGForm = f;
 			m_Size.MGForm = f;
 			m_Name.MGForm = f;
+			m_IsFull.MGForm = f;
+			m_DrawMargin.MGForm = f;
+			m_MGForm = f;
+			if (m_MGForm != null)
+			{
+				m_control = m_MGForm.ForcusControl;
+				m_MGForm.ForcusChanged += F_ForcusChanged;
+			}
+		}
+
+		private void F_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		{
+			if (m_MGForm != null)
+			{
+				m_control = m_MGForm.ForcusControl;
+				if (m_control != null)
+				{
+					m_Dummy1.BoolValue = m_control.IsFull;
+				}
+			}
 		}
 	}
 }

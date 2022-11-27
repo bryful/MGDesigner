@@ -11,10 +11,19 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
+	public class NameChangedEventArgs : EventArgs
+	{
+		string Name = "";
+		public NameChangedEventArgs(string s)
+		{
+			Name = s;
+		}
+	}
 	public partial class EditName : Edit
 	{
 		//public new readonly MGStyle MGStyle = MGStyle.ALL;
 		// ****************************************************************************
+		/*
 		protected override void SetControl(MGControl? c)
 		{
 			m_control = c;
@@ -33,8 +42,47 @@ namespace MGCreator
 				this.Text = m_control.Name;
 			}
 		}
+		*/
+		// ****************************************************************************
+		public delegate void NameChangedHandler(object sender, NameChangedEventArgs e);
+		public event NameChangedHandler? NameChanged;
+		protected virtual void OnNameChanged(NameChangedEventArgs e)
+		{
+			if (_EventFLag == false) return;
+			_EventFLag = false;
+			if (NameChanged != null)
+			{
+				NameChanged(this, e);
+			}
+			_EventFLag = true;
+		}       
+		// **********************************************************
+		protected override void GetValeuFromControl()
+		{
+			if (m_control != null)
+			{
+
+				if (_EventFLag == false) return;
+				_EventFLag = false;
+				this.Text = m_control.Name;
+				_EventFLag = true;
+				this.Invalidate();
+			}
+		}
+		protected override void SetValeuToControl()
+		{
+			if (m_control != null)
+			{
+				if (_EventFLag == false) return;
+				_EventFLag = false;
+				m_control.Name = this.Text;
+				_EventFLag = true;
+
+			}
+		}       
 		// *************************************************************
-			private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		/*
+		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
 		{
 			if (m_MGForm == null) return;
 			if (e.Index >= 0)
@@ -42,6 +90,7 @@ namespace MGCreator
 				SetControl((MGControl)m_MGForm.Controls[e.Index]);
 			}
 		}
+		*/
 		// *************************************************************
 		// *************************************************************
 
@@ -55,12 +104,6 @@ namespace MGCreator
 			// ********************
 			InitializeComponent();
 			ChkSize();
-			this.SetStyle(
-ControlStyles.DoubleBuffer |
-ControlStyles.UserPaint |
-ControlStyles.AllPaintingInWmPaint |
-ControlStyles.SupportsTransparentBackColor,
-true);
 
 		}
 
@@ -146,7 +189,8 @@ true);
 				if(idx == -1)
 				{
 					this.Text = s;
-					m_control.Name = s;
+					//OnNameChanged(new NameChangedEventArgs(this.Text));
+					SetValeuToControl();
 					ret = true;
 				}
 			}

@@ -57,15 +57,41 @@ namespace MGCreator
             ChkControlIndex();
 			return ctrl != null;
         }
-
-        private void Ctrl_LostFocus(object? sender, EventArgs e)
+        public bool AddControl(MGStyle mG)
         {
-            //throw new NotImplementedException();
+            bool ret = false;
+            switch (mG)
+            {
+                case MGStyle.Frame:
+                    MGFame ctrl = new MGFame();
+                    ctrl.Name = $"MGFrame{AddCount}";
+                    AddCount++;
+                    ctrl.Size = new Size(200, 200);
+                    ctrl.Location = new Point(80, 80);
+
+                    ctrl.GotFocus += Ctrl_GotFocus;
+                    this.Controls.Add(ctrl);
+                    ctrl.ChkOffScr();
+					ChkControlIndex();
+                    ret = (ctrl != null);
+                    break;
+                case MGStyle.None:
+					break;
+				case MGStyle.ALL:
+                    break;
+                default:
+                    ret = AddControl();
+                    break;
+
+            }
+
+
+            return ret;
+
         }
 
         private void Ctrl_GotFocus(object? sender, EventArgs e)
         {
-            //throw new NotImplementedException();
             if (sender is MGControl)
             {
                 MGControl m = (MGControl)sender;
@@ -92,9 +118,10 @@ namespace MGCreator
                 if((value>=0)&&(value<this.Controls.Count))
                 {
                     this.Controls[value].Focus();
+					this.Invalidate();
 
 				}
-            }
+			}
         }
         public MGControl? ForcusControl
         {
@@ -121,6 +148,7 @@ namespace MGCreator
                     {
                         c.Dispose();
                     }
+                    this.Invalidate();
                     ret = true;
                 }
             }
@@ -138,7 +166,7 @@ namespace MGCreator
 
                 this.Controls.SetChildIndex(
                     this.Controls[idx],
-                this.Controls.Count - 1
+                0
                     );
                 ret = true;
 				ChkControlIndex();
@@ -151,7 +179,7 @@ namespace MGCreator
         {
             this.Controls.SetChildIndex(
                 ctrl,
-                this.Controls.Count - 1
+                0
                 );
 			ChkControlIndex();
 			OnControlOrderChanged(new ControlEventArgs(ctrl));
@@ -161,7 +189,7 @@ namespace MGCreator
         {
             this.Controls.SetChildIndex(
                 ctrl,
-                0
+                this.Controls.Count - 1
                 );
 			ChkControlIndex();
 			this.Invalidate();
@@ -175,8 +203,8 @@ namespace MGCreator
 
                 this.Controls.SetChildIndex(
                     this.Controls[idx],
-                    0
-                    );
+					this.Controls.Count - 1
+					);
                 ret = true;
 				ChkControlIndex();
 				this.Invalidate();
@@ -187,11 +215,11 @@ namespace MGCreator
         public bool ControlToUp(int idx)
         {
             bool ret = false;
-            if (idx > 0 && idx < this.Controls.Count)
+            if (idx >= 0 && idx < this.Controls.Count-1)
             {
                 this.Controls.SetChildIndex(
                     this.Controls[idx],
-                    idx - 1
+                    idx + 1
                     );
                 ret = true;
 				ChkControlIndex();
@@ -204,7 +232,23 @@ namespace MGCreator
         {
             bool ret = false;
             int idx = this.Controls.GetChildIndex(ctrl);
-            if (idx > 0 && idx < this.Controls.Count)
+            if (idx >= 0 && idx < this.Controls.Count-1)
+            {
+                this.Controls.SetChildIndex(
+                    this.Controls[idx],
+                    idx + 1
+                    );
+                ret = true;
+				ChkControlIndex();
+				this.Invalidate();
+				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+			}
+			return ret;
+        }
+        public bool ControlToDown(int idx)
+        {
+            bool ret = false;
+            if (idx > 0 && idx < this.Controls.Count )
             {
                 this.Controls.SetChildIndex(
                     this.Controls[idx],
@@ -217,31 +261,15 @@ namespace MGCreator
 			}
 			return ret;
         }
-        public bool ControlToDown(int idx)
-        {
-            bool ret = false;
-            if (idx >= 0 && idx < this.Controls.Count - 1)
-            {
-                this.Controls.SetChildIndex(
-                    this.Controls[idx],
-                    idx + 1
-                    );
-                ret = true;
-				ChkControlIndex();
-				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
-			}
-			return ret;
-        }
         public bool ControlToDown(Control ctrl)
         {
             bool ret = false;
             int idx = this.Controls.GetChildIndex(ctrl);
-            if (idx >= 0 && idx < this.Controls.Count - 1)
+            if (idx > 0 && idx < this.Controls.Count )
             {
                 this.Controls.SetChildIndex(
                     this.Controls[idx],
-                    idx + 1
+                    idx - 1
                     );
                 ret = true;
 				ChkControlIndex();

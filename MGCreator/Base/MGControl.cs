@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public enum MGStyle
+    public enum MGStyle
 	{
 		None = 0b0000_0000_0000_0000,
 		Frame = 0b0000_0000_0000_0001,
@@ -58,7 +58,7 @@ namespace MGCreator
 		}
 
 		#region Global
-		private Bitmap m_Offscr = new Bitmap(10, 10, PixelFormat.Format32bppArgb);
+		private Bitmap m_Offscr = new Bitmap(5, 5, PixelFormat.Format32bppArgb);
 		[Category("_MG")]
 		public Bitmap OffScr { get { return m_Offscr; } }
 
@@ -77,6 +77,15 @@ namespace MGCreator
 			{
 				m_IsFull = value;
 				ChkOffScr();
+				if (this.Parent != null)
+				{
+					if (this.Parent is MGForm) 
+					{
+						MGForm mf = (MGForm)this.Parent;
+						mf.Invalidate();
+					}
+				}
+				this.Invalidate();
 			}
 		}
 		private ControlPos m_ControlPos = ControlPos.None;
@@ -205,7 +214,7 @@ namespace MGCreator
 			get
 			{
 				int index = -1;
-				if ((this.Parent is MGForm)|| (this.Parent is MGMain))
+				if (this.Parent is MGForm)
 				{
 					MGForm m = (MGForm)this.Parent;
 					index = m.FindControl(this.Name);
@@ -214,7 +223,7 @@ namespace MGCreator
 			}
 			set
 			{
-				if ((this.Parent is MGForm) || (this.Parent is MGMain))
+				if (this.Parent is MGForm)
 				{
 					MGForm m = (MGForm)this.Parent;
 					if ((value < m.Controls.Count) && (value >= 0))
@@ -236,10 +245,15 @@ namespace MGCreator
 		#endregion
 		public Color GetColors(MG_COLORS c, double op)
 		{
-			if ((this.Parent == null) || (this.Parent is not MGForm) || (this.Parent is not MGMain)) return this.ForeColor;
-			MGForm m = (MGForm)this.Parent;
-
-			return m.GetColors(c, op);
+			if ((this.Parent != null) && (this.Parent is  MGForm))
+			{
+				MGForm m = (MGForm)this.Parent;
+				return m.GetColors(c, op);
+			}
+			else
+			{
+				return this.ForeColor;
+			}
 		}
 		// ************************************************************************
 		private ContextMenuStrip m_Menu = new ContextMenuStrip();
@@ -368,34 +382,52 @@ true);
 		// ************************************************************************
 		public void ChkOffScr()
 		{
-			if ((this.Width != m_Offscr.Width) || (this.Height != m_Offscr.Height))
+			int w = this.Width;
+			int h = this.Height;
+			if (w < 10) w = 10;
+			if (h < 10) h = 10;
+			if ((w != m_Offscr.Width) || (h != m_Offscr.Height))
 			{
-				InitOffScr();
+				
+				m_Offscr = new Bitmap(w, h, PixelFormat.Format32bppArgb);
 			}
-			if ((this.Parent != null) && (this.Parent is MGForm))
+			if (this.Parent != null)
 			{
-				MGForm m = (MGForm)this.Parent;
-				if (m_IsFull == false)
+				if(this.Parent is MGForm)
 				{
-					Graphics g = Graphics.FromImage(m_Offscr);
-					if (m.Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
-					Draw(g, new Rectangle(0, 0, m_Offscr.Width, m_Offscr.Height), true);
+					MGForm m = (MGForm)this.Parent;
+					if (m_IsFull == false)
+					{
+						Graphics g = Graphics.FromImage(m_Offscr);
+						if (m.Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+						Draw(g, new Rectangle(0, 0, m_Offscr.Width, m_Offscr.Height), true);
+					}
+					m.Invalidate();
 				}
-				m.Invalidate();
 			}
+			this.Invalidate();
 		}
 		// ************************************************************
 		private void InitOffScr()
 		{
 			try
 			{
-				m_Offscr = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+				int w = this.Width;
+				int h = this.Height;
+				if (w < 10) w = 10;
+				if (h < 10) h = 10;
+				m_Offscr = new Bitmap(w, h, PixelFormat.Format32bppArgb);
 				Graphics g = Graphics.FromImage(m_Offscr);
+				if (this.Parent != null)
+				{
+					MGForm m = (MGForm)this.Parent;
+					if (m.Anti) g.SmoothingMode = SmoothingMode.AntiAlias;
+				}
 				Draw(g, new Rectangle(0, 0, m_Offscr.Width, m_Offscr.Height), true);
 			}
 			catch
 			{
-				MessageBox.Show($"{this.Name}:InitOffScr()");
+				m_Offscr = new Bitmap(10, 10, PixelFormat.Format32bppArgb);
 			}
 		}
 		// ************************************************************
@@ -451,8 +483,8 @@ true);
 				//g.Clear(Color.Transparent);
 				if(m_MDCType != MGC_MDType.None)
 				{
-					sb.Color = Color.FromArgb(64, 255, 0, 0);
-					g.FillRectangle(sb, this.ClientRectangle);
+					//sb.Color = Color.FromArgb(64, 255, 0, 0);
+					//g.FillRectangle(sb, this.ClientRectangle);
 					p.Color = m_GuideColorMD;
 					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
@@ -460,8 +492,8 @@ true);
 				{
 					sb.Color = Color.FromArgb(64, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
-					p.Color = m_GuideColorHi;
-					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
+					//p.Color = m_GuideColorHi;
+					//MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}else if (this.Focused)
 				{
 					p.Color = m_GuideColorMD;
@@ -470,8 +502,8 @@ true);
 				}
 				else
 				{
-					p.Color = m_GuideColor;
-					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
+					//p.Color = m_GuideColor;
+					//MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
 			}
 			finally
@@ -486,7 +518,7 @@ true);
 		{
 			if (IsClear) g.Clear(Color.Transparent);
 			Pen pen = new Pen(this.ForeColor, 3);
-			SolidBrush sb = new SolidBrush(this.BackColor);
+			SolidBrush sb = new SolidBrush(Color.Green);
 			try
 			{
 				Rectangle rct2 = MarginRect(rct);

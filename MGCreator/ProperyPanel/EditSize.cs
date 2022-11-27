@@ -49,17 +49,62 @@ namespace MGCreator
 			}
 		}
 		// ****************************************************************************
-		protected override void SetControl(MGControl? c)
+		[Category("_MG")]
+		public new MGForm? MGForm
 		{
-			m_control = c;
+			get { return m_MGForm; }
+			set
+			{
+				m_MGForm = value;
+				if (m_MGForm != null)
+				{
+					m_control = m_MGForm.ForcusControl;
+					GetValeuFromControl();
+					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+					if (m_control != null)
+					{
+						m_control.SizeChanged += M_control_SizeChanged;
+					}
+				}
+			}
+		}
+
+		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		{
+			if (m_MGForm != null)
+			{
+				m_control = m_MGForm.ForcusControl;
+				if (m_control != null)
+				{
+					m_control.SizeChanged += M_control_SizeChanged;
+					GetValeuFromControl();
+				}
+			}
+		}
+
+		private void M_control_SizeChanged(object? sender, EventArgs e)
+		{
+			GetValeuFromControl();
+		}
+
+		// ****************************************************************************
+
+		protected override void GetValeuFromControl()
+		{
 			if (m_control != null)
 			{
 				SetSzie(m_control.Size);
-				m_control.SizeChanged += M_control_SizeChanged;
-				this.Invalidate();
 			}
 		}
+		protected override void SetValeuToControl()
+		{
+			if (m_control != null)
+			{
+				
+			}
+		}       
 		// ****************************************************************************
+		/*
 		private void M_control_SizeChanged(object? sender, EventArgs e)
 		{
 			if (m_control != null)
@@ -67,6 +112,7 @@ namespace MGCreator
 				SetSzie(m_control.Size);
 			}
 		}
+		*/
 		// ****************************************************************************
 		protected PropEdit m_edit1 = new PropEdit();
 		protected PropEdit m_edit2 = new PropEdit();
@@ -107,15 +153,11 @@ namespace MGCreator
 				m_edit2.Value = p.Height;
 				b = true;
 			}
-
-			if (b)
-			{
-				OnCSizeChanged(new CSizeChangedEventArgs(Size));
-			}
 			_EventFLag = true;
 
 
-		}       // ****************************************************************************
+		}      
+		// ****************************************************************************
 		public void SetControlSize(Size sz)
 		{
 			if (m_control == null) return;

@@ -14,6 +14,7 @@ namespace MGCreator
 	{
 		public Form1()
 		{
+
 			InitializeComponent();
 		}
 

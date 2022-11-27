@@ -2,7 +2,7 @@
 
 namespace MGCreator
 {
-    partial class MGItemListForm
+    partial class MGProjectForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -36,24 +36,26 @@ namespace MGCreator
 			this.btnDown = new System.Windows.Forms.Button();
 			this.controlListBox1 = new MGCreator.ControlListBox();
 			this.mgStyleComb1 = new MGCreator.MGStyleComb();
+			this.btnNewMG = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnAdd
 			// 
 			this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnAdd.ForeColor = System.Drawing.Color.LightGray;
-			this.btnAdd.Location = new System.Drawing.Point(109, 28);
+			this.btnAdd.Location = new System.Drawing.Point(110, 55);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(42, 23);
 			this.btnAdd.TabIndex = 1;
 			this.btnAdd.Text = "add";
 			this.btnAdd.UseVisualStyleBackColor = true;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// btnDel
 			// 
 			this.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnDel.ForeColor = System.Drawing.Color.LightGray;
-			this.btnDel.Location = new System.Drawing.Point(11, 82);
+			this.btnDel.Location = new System.Drawing.Point(12, 406);
 			this.btnDel.Name = "btnDel";
 			this.btnDel.Size = new System.Drawing.Size(39, 23);
 			this.btnDel.TabIndex = 3;
@@ -64,7 +66,7 @@ namespace MGCreator
 			// 
 			this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnUp.ForeColor = System.Drawing.Color.LightGray;
-			this.btnUp.Location = new System.Drawing.Point(56, 82);
+			this.btnUp.Location = new System.Drawing.Point(12, 97);
 			this.btnUp.Name = "btnUp";
 			this.btnUp.Size = new System.Drawing.Size(39, 23);
 			this.btnUp.TabIndex = 4;
@@ -75,7 +77,7 @@ namespace MGCreator
 			// 
 			this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnDown.ForeColor = System.Drawing.Color.LightGray;
-			this.btnDown.Location = new System.Drawing.Point(101, 82);
+			this.btnDown.Location = new System.Drawing.Point(57, 97);
 			this.btnDown.Name = "btnDown";
 			this.btnDown.Size = new System.Drawing.Size(50, 23);
 			this.btnDown.TabIndex = 5;
@@ -100,9 +102,9 @@ namespace MGCreator
             "button2",
             "comboBox1",
             "button1"});
-			this.controlListBox1.Location = new System.Drawing.Point(11, 111);
+			this.controlListBox1.Location = new System.Drawing.Point(11, 126);
 			this.controlListBox1.Name = "controlListBox1";
-			this.controlListBox1.Size = new System.Drawing.Size(141, 319);
+			this.controlListBox1.Size = new System.Drawing.Size(141, 274);
 			this.controlListBox1.TabIndex = 6;
 			// 
 			// mgStyleComb1
@@ -127,16 +129,29 @@ namespace MGCreator
             "Edge",
             "Side",
             "ALL"});
-			this.mgStyleComb1.Location = new System.Drawing.Point(11, 29);
+			this.mgStyleComb1.Location = new System.Drawing.Point(11, 56);
 			this.mgStyleComb1.Name = "mgStyleComb1";
 			this.mgStyleComb1.Size = new System.Drawing.Size(93, 23);
 			this.mgStyleComb1.TabIndex = 7;
 			// 
-			// MGItemListForm
+			// btnNewMG
+			// 
+			this.btnNewMG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnNewMG.ForeColor = System.Drawing.Color.LightGray;
+			this.btnNewMG.Location = new System.Drawing.Point(12, 27);
+			this.btnNewMG.Name = "btnNewMG";
+			this.btnNewMG.Size = new System.Drawing.Size(92, 23);
+			this.btnNewMG.TabIndex = 8;
+			this.btnNewMG.Text = "New Moniter";
+			this.btnNewMG.UseVisualStyleBackColor = true;
+			this.btnNewMG.Click += new System.EventHandler(this.btnNewMG_Click);
+			// 
+			// MGProjectForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(160, 444);
+			this.ClientSize = new System.Drawing.Size(160, 436);
+			this.Controls.Add(this.btnNewMG);
 			this.Controls.Add(this.mgStyleComb1);
 			this.Controls.Add(this.controlListBox1);
 			this.Controls.Add(this.btnDown);
@@ -144,7 +159,7 @@ namespace MGCreator
 			this.Controls.Add(this.btnDel);
 			this.Controls.Add(this.btnAdd);
 			this.DoubleBuffered = true;
-			this.Name = "MGItemListForm";
+			this.Name = "MGProjectForm";
 			this.Text = "MGItems";
 			this.ResumeLayout(false);
 
@@ -157,5 +172,6 @@ namespace MGCreator
 		private Button btnDown;
 		private ControlListBox controlListBox1;
 		private MGStyleComb mgStyleComb1;
+		private Button btnNewMG;
 	}
 }
