@@ -10,26 +10,16 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class Form1 : Form
+	public partial class MGFame : MGControl
 	{
-		public Form1()
+		public MGFame()
 		{
 			InitializeComponent();
 		}
 
-		private void mgMain1_Paint(object sender, PaintEventArgs e)
+		protected override void OnPaint(PaintEventArgs pe)
 		{
-
-		}
-
-		private void Form1_Load(object sender, EventArgs e)
-		{
-
-		}
-
-		private void mgControl1_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("aa");
+			base.OnPaint(pe);
 		}
 	}
 }

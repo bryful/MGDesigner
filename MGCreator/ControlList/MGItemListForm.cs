@@ -10,30 +10,25 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class MGItemListForm : MGBaseForm
+	public partial class MGItemListForm : MGToolForm
 	{
-		private MGForm? m_MGForm = null;
-		[Category("_MG")]
-		public MGForm? MGForm
+
+		protected override void SetMGForm(MGForm? m)
 		{
-			get { return m_MGForm; }
-			set 
+			m_MGForm = m;
+			if (m_MGForm != null)
 			{
-				m_MGForm = value;
-				if(m_MGForm != null)
-				{
-					controlListBox1.SetControls(m_MGForm.Controls);
-					m_MGForm.ControlAdded += M_MGForm_ControlCHanged;
-					m_MGForm.ControlRemoved += M_MGForm_ControlCHanged;
-					m_MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
-					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
-				}
+				controlListBox1.SetMGForm(m_MGForm);
+				m_MGForm.ControlAdded += M_MGForm_ControlCHanged;
+				m_MGForm.ControlRemoved += M_MGForm_ControlCHanged;
+				m_MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
+				m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
 			}
 		}
-
-		private void M_MGForm_ForcusChanged(object sender, MGForm.ForcusChangedEventArgs e)
+		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
 		{
-			if(e.Index>=0)
+			int idx = e.Index;
+			if ((idx>=0)&&(idx<controlListBox1.Items.Count))
 			{
 				if(controlListBox1.SelectedIndex!=e.Index)
 				{

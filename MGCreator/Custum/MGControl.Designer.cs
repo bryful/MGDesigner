@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditResizeType
+	partial class MGControl
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditResizeTypeP
+	partial class PosSetGrid
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

@@ -17,25 +17,49 @@ namespace MGCreator
 		TopRight,
 		Left,
 		Center,
-		Bottom,
-		BottomLeft,
 		Right,
+		BottomLeft,
+		Bottom,
 		BottomRight
 	}
-	public partial class EditSize : EditBase
+	public partial class EditSize : Edit
 	{
-		private MGCcontrol? m_control = null;
-
-		private void SetControl(MGCcontrol? c)
+		public class CSizeChangedEventArgs : EventArgs
+		{
+			Size Size = new Size(0, 0);
+			public CSizeChangedEventArgs(int x, int y)
+			{
+				Size = new Size(x, y);
+			}
+			public CSizeChangedEventArgs(Size sz)
+			{
+				Size = sz;
+			}
+		}
+		public new readonly MGStyle MGStyle = MGStyle.ALL;
+		// ****************************************************************************
+		public delegate void CSizeChangedHandler(object sender, CSizeChangedEventArgs e);
+		public event CSizeChangedHandler? CSizaChanged;
+		protected virtual void OnCSizeChanged(CSizeChangedEventArgs e)
+		{
+			if (_EventFLag == false) return;
+			if (CSizaChanged != null)
+			{
+				CSizaChanged(this, e);
+			}
+		}
+		// ****************************************************************************
+		protected override void SetControl(MGControl? c)
 		{
 			m_control = c;
 			if (m_control != null)
 			{
 				SetSzie(m_control.Size);
 				m_control.SizeChanged += M_control_SizeChanged;
+				this.Invalidate();
 			}
 		}
-
+		// ****************************************************************************
 		private void M_control_SizeChanged(object? sender, EventArgs e)
 		{
 			if (m_control != null)
@@ -43,41 +67,60 @@ namespace MGCreator
 				SetSzie(m_control.Size);
 			}
 		}
-
-		private MGForm? m_MGForm = null;
-		[Category("_MG")]
-		public MGForm? MGForm
-		{
-			get { return m_MGForm; }
-			set
-			{
-				m_MGForm = value;
-				if (m_MGForm != null)
-				{
-					SetControl(m_MGForm.ForcusControl);
-					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
-				}
-			}
-		}
-		private void M_MGForm_ForcusChanged(object sender, MGForm.ForcusChangedEventArgs e)
-		{
-			if (m_MGForm == null) return;
-			if (e.Index >= 0)
-			{
-				SetControl((MGCcontrol)m_MGForm.Controls[e.Index]);
-			}
-		}
+		// ****************************************************************************
+		protected PropEdit m_edit1 = new PropEdit();
+		protected PropEdit m_edit2 = new PropEdit();
+		protected ResizeTypeGrid m_resizeGrid = new ResizeTypeGrid();
 
 		// ****************************************************************************
 		public void SetSzie(Size sz)
 		{
-
-			SetValue(new double[] { (double)sz.Width, (double)sz.Height });
+			SetValue(sz);
 		}
 		// ****************************************************************************
+		[Category("_MG")]
+		public Size CSize
+		{
+			get
+			{
+				return new Size((int)m_edit1.Value, (int)m_edit2.Value);
+			}
+			set
+			{
+				SetValue(value);
+			}
+		}       
+		// ****************************************************************************
+		public void SetValue(Size p)
+		{
+			if (_EventFLag == false) return;
+			_EventFLag = false;
+			bool b = false;
+
+			if (m_edit1.ValueInt != p.Width)
+			{
+				m_edit1.Value = p.Width;
+				b = true;
+			}
+			if (m_edit2.ValueInt != p.Height)
+			{
+				m_edit2.Value = p.Height;
+				b = true;
+			}
+
+			if (b)
+			{
+				OnCSizeChanged(new CSizeChangedEventArgs(Size));
+			}
+			_EventFLag = true;
+
+
+		}       // ****************************************************************************
 		public void SetControlSize(Size sz)
 		{
 			if (m_control == null) return;
+			if (_EventFLag == false) return;
+			_EventFLag = false;
 			Rectangle orct = m_control.Bounds;
 			Size osz = m_control.Size;
 
@@ -129,24 +172,81 @@ namespace MGCreator
 			{
 				MessageBox.Show("er");
 			}
+			_EventFLag = true;
+
 
 		}
-		protected override void OnEditChanged(EditChangedEventArgs e)
-		{
-			SetControlSize(new Size((int)e.X, (int)e.Y));
-			//base.OnEditChanged(e);
-		}
+		// ****************************************************************************
 		public EditSize()
 		{
 			Caption = "Size";
-			IntMode = true;
-			this.IsShowResizeType = true;
+			// ********************
+			m_edit1.Name = "x";
+			m_edit1.AutoSize = false;
+			m_edit1.Location = new Point(60, 0);
+			m_edit1.Size = new Size(80, 20);
+			m_edit1.IsLeftRightMode = true;
+			m_edit1.IsIntMode = true;
+			m_edit1.ValueMin = 32;
+			m_edit1.ValueMax = 32000;
+			m_edit1.PropChanged += M_edit_PropChanged;
+			// ********************
+			m_edit2.Name = "y";
+			m_edit2.AutoSize = false;
+			m_edit2.Location = new Point(140, 0);
+			m_edit2.Size = new Size(80, 20);
+			m_edit2.IsLeftRightMode = false;
+			m_edit2.IsIntMode = true;
+			m_edit2.ValueMin = 32;
+			m_edit2.ValueMax = 32000;
+			m_edit2.PropChanged += M_edit_PropChanged; ;
+			// ********************
+			m_resizeGrid.Name = "g";
+			m_resizeGrid.AutoSize = false;
+			m_resizeGrid.Location = new Point(220, 0);
+			m_resizeGrid.Size = new Size(20, 20);
+			m_resizeGrid.Visible = true;
+			this.Controls.Add(m_edit1);
+			this.Controls.Add(m_edit2);
+			this.Controls.Add(m_resizeGrid);
 			InitializeComponent();
+		}
+		private void M_edit_PropChanged(object sender, PropChangedEventArgs e)
+		{
+			OnCSizeChanged(new CSizeChangedEventArgs(CSize));
+			SetControlSize(CSize);
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);
+		}
+		public void ChkSize()
+		{
+			this.SuspendLayout();
+			int w = (this.Width - m_CaptionWidth - m_resizeGrid.Width) / 2;
+			m_edit1.Width = w;
+			m_edit2.Width = w;
+			m_edit1.Location = new Point(m_CaptionWidth, 0);
+			m_edit2.Location = new Point(m_CaptionWidth + w, 0);
+			m_resizeGrid.Location = new Point(m_CaptionWidth + w * 2, 0);
+			this.ResumeLayout();
+			this.Invalidate();
+		}
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			ChkSize();
+		}
+		public bool IsShowResizeType
+		{
+			get { return m_resizeGrid.Visible; }
+			set { m_resizeGrid.Visible = value; this.Invalidate(); }
+		}
+		public ReSizeType ReSizeType
+		{
+			get { return m_resizeGrid.ReSizeType; }
+			set { m_resizeGrid.ReSizeType = value; }
 		}
 	}
 }

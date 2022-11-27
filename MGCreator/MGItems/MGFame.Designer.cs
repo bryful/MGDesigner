@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditBase
+	partial class MGFame
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

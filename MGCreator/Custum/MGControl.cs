@@ -28,7 +28,9 @@ namespace MGCreator
 		Scale = 0b0000_0100_0000_0000,
 		Sheet = 0b0000_1000_0000_0000,
 		Kagi = 0b0001_0000_0000_0000,
-		KagiEdge = 0b0010_0000_0000_0000,
+		Edge = 0b0010_0000_0000_0000,
+		Side = 0b0100_0000_0000_0000,
+		ALL = 0b1111_1111_1111_1111
 	};
 	public enum ControlPos
 	{
@@ -43,10 +45,18 @@ namespace MGCreator
 		LeftTop,
 		Center
 	}
-	public partial class MGCcontrol : Control
+	public partial class MGControl : Control
 	{
-		public readonly MGStyle Style = MGStyle.None;
-		public int Index = -1;
+		public readonly MGStyle MGStyle = MGStyle.ALL;
+		protected int m_Index = -1;
+
+		[Category("_MG")]
+		public int Index
+		{
+			get { return m_Index; }
+			set { m_Index = value; }
+		}
+
 		#region Global
 		private Bitmap m_Offscr = new Bitmap(10, 10, PixelFormat.Format32bppArgb);
 		[Category("_MG")]
@@ -66,7 +76,6 @@ namespace MGCreator
 			set
 			{
 				m_IsFull = value;
-				this.Visible = value;
 				ChkOffScr();
 			}
 		}
@@ -196,7 +205,7 @@ namespace MGCreator
 			get
 			{
 				int index = -1;
-				if (this.Parent is MGForm)
+				if ((this.Parent is MGForm)|| (this.Parent is MGMain))
 				{
 					MGForm m = (MGForm)this.Parent;
 					index = m.FindControl(this.Name);
@@ -205,7 +214,7 @@ namespace MGCreator
 			}
 			set
 			{
-				if (this.Parent is MGForm)
+				if ((this.Parent is MGForm) || (this.Parent is MGMain))
 				{
 					MGForm m = (MGForm)this.Parent;
 					if ((value < m.Controls.Count) && (value >= 0))
@@ -227,7 +236,7 @@ namespace MGCreator
 		#endregion
 		public Color GetColors(MG_COLORS c, double op)
 		{
-			if ((this.Parent == null) || (this.Parent is not MGForm)) return this.ForeColor;
+			if ((this.Parent == null) || (this.Parent is not MGForm) || (this.Parent is not MGMain)) return this.ForeColor;
 			MGForm m = (MGForm)this.Parent;
 
 			return m.GetColors(c, op);
@@ -294,7 +303,7 @@ namespace MGCreator
 		}
 
 		// ************************************************************************
-		public MGCcontrol()
+		public MGControl()
 		{
 			this.Size = new Size(100, 100);
 			InitializeComponent();
@@ -307,6 +316,8 @@ ControlStyles.SupportsTransparentBackColor|
 ControlStyles.UserMouse|
 ControlStyles.Selectable,
 true);
+
+
 			this.BackColor = Color.Transparent;
 			this.UpdateStyles();
 			this.BackColor = Color.Transparent;
@@ -314,8 +325,15 @@ true);
 			this.UpdateStyles();
 			InitOffScr();
 			this.Invalidate();
+			base.Visible = true;
 		}
 		// ************************************************************************
+		public new bool Visible
+		{
+			get { return base.Visible; }
+			set { base.Visible = true; }
+		}
+
 		public void DeleteMe()
 		{
 			int idx = ControlIndex;
@@ -377,7 +395,7 @@ true);
 			}
 			catch
 			{
-
+				MessageBox.Show($"{this.Name}:InitOffScr()");
 			}
 		}
 		// ************************************************************
@@ -386,6 +404,7 @@ true);
 			base.OnResize(e);
 			SetControlPos();
 			ChkOffScr();
+			this.Invalidate();
 		}
 		protected override void OnLocationChanged(EventArgs e)
 		{
@@ -422,12 +441,17 @@ true);
 			Pen p = new Pen(m_GuideColor, 1);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Graphics g = pe.Graphics;
+			GraphicsPath path = new GraphicsPath();
+			path.AddRectangle(this.ClientRectangle);
+			Region region = new Region(path);
+			g.SetClip(region, CombineMode.Replace);
+
 			try
 			{
 				//g.Clear(Color.Transparent);
 				if(m_MDCType != MGC_MDType.None)
 				{
-					sb.Color = Color.FromArgb(128, 255, 0, 0);
+					sb.Color = Color.FromArgb(64, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
 					p.Color = m_GuideColorMD;
 					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
@@ -443,6 +467,11 @@ true);
 					p.Color = m_GuideColorMD;
 					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 
+				}
+				else
+				{
+					p.Color = m_GuideColor;
+					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
 			}
 			finally
@@ -528,6 +557,7 @@ true);
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			base.OnMouseDown(e);
 			if ((e.Button == MouseButtons.Left)&&(m_MDCType == MGC_MDType.None))
 			{
 				m_MDCType = ChkMGC_MDType(e.X, e.Y);
@@ -535,10 +565,7 @@ true);
 				m_MDPoint = new Point(e.X, e.Y);
 				m_MDSize = new Size(this.Width, this.Height);
 			}
-			else
-			{
-				base.OnMouseDown(e);
-			}
+			//MessageBox.Show("MGC");
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -556,8 +583,8 @@ true);
 			}
 			else
 			{
-				base.OnMouseMove(e);
 			}
+			base.OnMouseMove(e);
 
 		}
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -573,15 +600,16 @@ true);
 		protected override void OnMouseEnter(EventArgs e)
 		{
 			m_MDMouseIn = true;
-			base.OnMouseEnter(e);
 			this.Invalidate();
+			base.OnMouseEnter(e);
 		}
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			m_MDMouseIn = false;
-			base.OnMouseLeave(e);
 			this.Invalidate();
+			base.OnMouseLeave(e);
 		}
+
 		#endregion
 	}
 }

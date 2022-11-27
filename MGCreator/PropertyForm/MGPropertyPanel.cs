@@ -30,13 +30,13 @@ namespace MGCreator
 		private PropertyPanel m_PPLayout = new PropertyPanel();
 		private PropertyPanel m_PPDisp = new PropertyPanel();
 
-		private EditBase m_FormSize = new EditBase();
+		private Edit m_FormSize = new Edit();
 
 		private EditPosition m_Position = new EditPosition();
 		private EditSize m_Size = new EditSize();
 		private EditName m_Name = new EditName();
-		private EditBase m_Dummy1 = new EditBase();
-		private EditBase m_Dummy2 = new EditBase();
+		private Edit m_Dummy1 = new Edit();
+		private Edit m_Dummy2 = new Edit();
 		public MGPropertyPanel()
 		{
 			m_PPForm.Name = "PPForm";

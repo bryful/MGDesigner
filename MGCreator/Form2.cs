@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class MGPropertyForm : MGToolForm
+	public partial class Form2 : Form
 	{
-		public MGPropertyForm()
+		public Form2()
 		{
 			InitializeComponent();
-			mgPropertyPanel1.ForeColor = Color.LightGray;
-		}
-		protected override void SetMGForm(MGForm? m)
-		{
-			m_MGForm = m;
-			mgPropertyPanel1.MGForm = m;
 		}
 	}
 }

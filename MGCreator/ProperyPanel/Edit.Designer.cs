@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class MGCcontrol
+	partial class Edit
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

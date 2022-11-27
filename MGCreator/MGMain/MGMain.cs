@@ -1,58 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class MGForm : MGBaseForm
+	public partial class MGMain : Panel
 	{
-
+		// *************************************************************
 		private ContextMenuStrip m_Menu = new ContextMenuStrip();
-
-		private string[] ControlsName()
-		{
-			string[] ret = new string[this.Controls.Count];
-			if (this.Controls.Count > 0)
-			{
-				int idx = 0;
-				foreach (Control c in this.Controls)
-				{
-					ret[idx] = c.Name;
-					idx++;
-				}
-			}
-			return ret;
-
-		}
-		private bool m_Anti = false;
-		[Category("_MG")]
-		public bool Anti
-		{
-			get { return m_Anti; }
-			set
-			{
-				m_Anti = value;
-				//DrawAll();
-			}
-		}
-		private MG_COLORS m_Back = MG_COLORS.BackColor;
-		[Category("_MG")]
-		public MG_COLORS Back
-		{
-			get { return m_Back; }
-			set
-			{
-				m_Back = value;
-				this.Invalidate();
-			}
-		}
+		// *************************************************************
 		private void InitMenu()
 		{
 			ToolStripMenuItem QuitMenu = new ToolStripMenuItem();
@@ -81,18 +36,17 @@ namespace MGCreator
 			m_Menu.Items.Add(QuitMenu);
 			this.ContextMenuStrip = m_Menu;
 		}
-
 		private void MGPropMenu_Click(object? sender, EventArgs e)
 		{
 			MGPropertyForm fm = new MGPropertyForm();
-			fm.MGForm = this;
+			//fm.MGForm = this;
 			fm.Show();
 		}
 
 		private void MGListMenu_Click(object? sender, EventArgs e)
 		{
 			MGItemListForm fm = new MGItemListForm();
-			fm.MGForm = this;
+			//fm.MGForm = this;
 			fm.Show();
 		}
 
@@ -104,32 +58,57 @@ namespace MGCreator
 		private void QuitMenu_Click(object? sender, EventArgs e)
 		{
 			Application.Exit();
-		}
-
-		public MGForm()
+		}       
+		// *************************************************************
+		private string[] ControlsName()
 		{
-			InitializeComponent();
-			InitColor();
-			InitMenu();
+			string[] ret = new string[this.Controls.Count];
+			if (this.Controls.Count > 0)
+			{
+				int idx = 0;
+				foreach (Control c in this.Controls)
+				{
+					ret[idx] = c.Name;
+					idx++;
+				}
+			}
+			return ret;
 
 		}
 		public int FindControl(string n)
 		{
 			return Controls.IndexOfKey(n);
 		}
-		public void DrawAll()
+		// *************************************************************
+		private bool m_Anti = false;
+		[Category("_MG")]
+		public bool Anti
 		{
-			if (this.Controls.Count > 0)
+			get { return m_Anti; }
+			set
 			{
-				foreach (var c in this.Controls)
-				{
-					if (c is MGControl)
-					{
-						((MGControl)c).ChkOffScr();
-					}
-				}
+				m_Anti = value;
+				//DrawAll();
+			}
+		}
+		// *************************************************************
+		private MG_COLORS m_Back = MG_COLORS.BackColor;
+		[Category("_MG")]
+		public MG_COLORS Back
+		{
+			get { return m_Back; }
+			set
+			{
+				m_Back = value;
 				this.Invalidate();
 			}
+		}
+		// *************************************************************
+		public MGMain()
+		{
+			InitializeComponent();
+			InitColor();
+			InitMenu();
 		}
 		//*******************************************************************************
 		protected override void OnPaint(PaintEventArgs pe)
@@ -165,6 +144,20 @@ namespace MGCreator
 			}
 
 		}
+		public void DrawAll()
+		{
+			if (this.Controls.Count > 0)
+			{
+				foreach (var c in this.Controls)
+				{
+					if (c is MGControl)
+					{
+						((MGControl)c).ChkOffScr();
+					}
+				}
+				this.Invalidate();
+			}
+		}
 		// *********************************************************************************
 		private void DrawControl(Graphics g, MGControl mc)
 		{
@@ -181,6 +174,5 @@ namespace MGCreator
 				g.DrawImage(mc.OffScr, mc.Location);
 			}
 		}
-		// *********************************************************************************
 	}
 }

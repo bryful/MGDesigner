@@ -27,20 +27,13 @@ namespace MGCreator
 		private int m_BtnHeight = 20;
 
 		public delegate void PropChangedHandler(object sender, PropChangedEventArgs e);
-		public event PropChangedHandler? ProcChanged;
+		public event PropChangedHandler? PropChanged;
 		protected virtual void OnPropChanged(PropChangedEventArgs e)
 		{
-			if (ProcChanged != null)
+			if (PropChanged != null)
 			{
-				ProcChanged(this, e);
+				PropChanged(this, e);
 			}
-		}
-		private bool m_IsIntMode = true;
-		[Category("_MG")]
-		public bool IsIntMode
-		{
-			get { return m_IsIntMode; }
-			set { m_IsIntMode = value;this.Invalidate(); }
 		}
 		private bool m_IsLeftRightMode = true;
 		[Category("_MG")]
@@ -49,24 +42,37 @@ namespace MGCreator
 			get { return m_IsLeftRightMode; }
 			set { m_IsLeftRightMode = value; this.Invalidate(); }
 		}
+		private bool m_IsIntMode = false;
+		[Category("_MG")]
+		public bool IsIntMode
+		{
+			get { return m_IsIntMode; }
+			set { m_IsIntMode = value; this.Invalidate(); }
+		}
 		private double m_Value = 0;
 		[Category("_MG")]
 		public double Value
 		{
 			get 
 			{
-				if(m_IsIntMode)
-				{
-					return (double)((int)(m_Value + 0));
-				}
-				else
-				{
-					return m_Value;
-				}
+				return m_Value;
 			}
 			set
 			{
 				SetValue(value);
+			}
+		}
+		[Category("_MG")]
+		public int ValueInt
+		{
+			get
+			{
+
+				return (int)(m_Value + 0);
+			}
+			set
+			{
+				SetValue((double)value);
 			}
 		}
 		private double m_ValueMax = 32000;
@@ -341,9 +347,9 @@ true);
 					ret = (double)((int)(ret + 0));
 				}
 				ret *= f;
-				if (ret > m_ValueMax) ret = m_ValueMax;
-				else if(ret<m_ValueMin) ret = m_ValueMin;
 			}
+			if (ret > m_ValueMax) ret = m_ValueMax;
+			else if (ret < m_ValueMin) ret = m_ValueMin;
 			return ret;
 		}
 		private void ChkEdit()

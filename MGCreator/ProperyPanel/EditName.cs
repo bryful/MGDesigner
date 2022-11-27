@@ -4,64 +4,42 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditName : Control
+	public partial class EditName : Edit
 	{
-		private int m_CaptionWidth = 60;
-		[Category("_MG")]
-		public int CaptionWidth
-		{
-			get { return m_CaptionWidth; }
-			set
-			{
-				m_CaptionWidth = value;
-				ChkSize();
-			}
-		}
-		protected Label m_label = new Label();
-		// *************************************************************
-		private MGCcontrol? m_control = null;
-		private void SetControl(MGCcontrol? c)
+		//public new readonly MGStyle MGStyle = MGStyle.ALL;
+		// ****************************************************************************
+		protected override void SetControl(MGControl? c)
 		{
 			m_control = c;
 			if (m_control != null)
 			{
 				this.Text = m_control.Name;
+				m_control.TextChanged += M_control_TextChanged;
 				this.Invalidate();
 			}
 		}
-		private MGForm? m_MGForm = null;
-		[Category("_MG")]
-		public MGForm? MGForm
+
+		private void M_control_TextChanged(object? sender, EventArgs e)
 		{
-			get { return m_MGForm; }
-			set
+			if (m_control != null)
 			{
-				m_MGForm = value;
-				if (m_MGForm != null)
-				{
-					SetControl(m_MGForm.ForcusControl);
-					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
-				}
+				this.Text = m_control.Name;
 			}
 		}
-		[Category("_MG")]
-		public string Caption
-		{
-			get { return m_label.Text; }
-			set { m_label.Text = value; }
-		}
-		private void M_MGForm_ForcusChanged(object sender, MGForm.ForcusChangedEventArgs e)
+		// *************************************************************
+			private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
 		{
 			if (m_MGForm == null) return;
 			if (e.Index >= 0)
 			{
-				SetControl((MGCcontrol)m_MGForm.Controls[e.Index]);
+				SetControl((MGControl)m_MGForm.Controls[e.Index]);
 			}
 		}
 		// *************************************************************
@@ -70,17 +48,11 @@ namespace MGCreator
 		public EditName()
 		{
 			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(0, 20);
+			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
+			Caption = "Name";
 			// ********************
-			m_label.Name = "EditName";
-			m_label.Text = "Name";
-			m_label.AutoSize = false;
-			m_label.TextAlign = ContentAlignment.MiddleLeft;
-			m_label.Location = new Point(0, 0);
-			m_label.Size = new Size(60, 20);
 			// ********************
-			this.Controls.Add(m_label);
 			InitializeComponent();
 			ChkSize();
 			this.SetStyle(
@@ -116,10 +88,8 @@ true);
 		}
 		public void ChkSize()
 		{
-			this.SuspendLayout();
-			m_label.Width = m_CaptionWidth;
-			m_label.Location = new Point(0, 0);
-			this.ResumeLayout();
+			//this.SuspendLayout();
+			//this.ResumeLayout();
 			this.Invalidate();
 		}
 		protected override void OnResize(EventArgs e)
@@ -169,10 +139,9 @@ true);
 		{
 			bool ret = false;
 			TextBox tb = (TextBox)this.Controls[this.Controls.Count - 1];
-			if(m_MGForm!=null)
+			if((m_MGForm!=null)&&(m_control!=null))
 			{
 				string s = tb.Text.Trim();
-
 				int idx = m_MGForm.FindControl(s);
 				if(idx == -1)
 				{

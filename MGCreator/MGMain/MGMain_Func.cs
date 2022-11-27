@@ -10,8 +10,9 @@ using System.Windows.Forms;
 
 
 namespace MGCreator
+
 {
-	partial class MGForm
+	partial class MGMain
 	{
 
 		// ************************************************************
@@ -28,17 +29,6 @@ namespace MGCreator
                 }
             }
         }
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            base.OnControlAdded(e);
-            ChkControlIndex();
-
-		}
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            base.OnControlRemoved(e);
-			ChkControlIndex();
-		}
 		// ************************************************************
 		private int AddCount = 0;
         public bool AddControl()
@@ -111,23 +101,13 @@ namespace MGCreator
 		public bool DeleteControl(int idx)
         {
             bool ret = false;
-            try
+            if (idx >= 0 && idx < this.Controls.Count)
             {
-                if (idx >= 0 && idx < this.Controls.Count)
-                {
-                    Control c = Controls[idx];
-                    this.Controls.RemoveAt(idx);
-                    if (c != null)
-                    {
-                        c.Dispose();
-                    }
-                    ret = true;
-                }
-            }
-            catch
-            {
-                ret = false;
-            }
+                this.Controls[idx].Dispose();
+                this.Controls.RemoveAt(idx);
+				ChkControlIndex();
+				ret = true;
+			}
 			return ret;
         }
         public bool ControlBackTo(int idx)

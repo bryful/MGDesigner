@@ -127,8 +127,8 @@
 			// mgCircleScale1
 			// 
 			this.mgCircleScale1.BackColor = System.Drawing.Color.Transparent;
-			this.mgCircleScale1.CenterX = 400F;
-			this.mgCircleScale1.CenterY = 300.5F;
+			this.mgCircleScale1.CenterX = 374.5F;
+			this.mgCircleScale1.CenterY = 249.5F;
 			this.mgCircleScale1.CircleScale = null;
 			this.mgCircleScale1.ControlPos = MGDesigner.ControlPos.Center;
 			this.mgCircleScale1.DrawIndex = 3;
@@ -138,21 +138,21 @@
 			this.mgCircleScale1.IsFull = false;
 			this.mgCircleScale1.Length = 20F;
 			this.mgCircleScale1.LineWeight = 2F;
-			this.mgCircleScale1.Location = new System.Drawing.Point(81, 39);
+			this.mgCircleScale1.Location = new System.Drawing.Point(67, -1);
 			this.mgCircleScale1.Name = "mgCircleScale1";
 			this.mgCircleScale1.PosMargin = new System.Windows.Forms.Padding(0);
 			this.mgCircleScale1.RotValue = MGDesigner.RotValue.Rot10;
 			this.mgCircleScale1.ScaleColor = MGDesigner.MG_COLORS.White;
 			this.mgCircleScale1.ScaleOpacity = 100D;
-			this.mgCircleScale1.Size = new System.Drawing.Size(638, 523);
+			this.mgCircleScale1.Size = new System.Drawing.Size(615, 501);
 			this.mgCircleScale1.TabIndex = 4;
 			this.mgCircleScale1.Text = "mgCircleScale1";
 			// 
 			// mgCircle1
 			// 
 			this.mgCircle1.BackColor = System.Drawing.Color.Transparent;
-			this.mgCircle1.CenterX = 400F;
-			this.mgCircle1.CenterY = 300F;
+			this.mgCircle1.CenterX = 374F;
+			this.mgCircle1.CenterY = 249F;
 			this.mgCircle1.Circle = MGDesigner.MG_COLORS.White;
 			this.mgCircle1.CircleFill = MGDesigner.MG_COLORS.Gray;
 			this.mgCircle1.CircleFillOpacity = 0D;
@@ -163,7 +163,7 @@
 			this.mgCircle1.ForeColor = System.Drawing.Color.White;
 			this.mgCircle1.Guide = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.mgCircle1.IsFull = false;
-			this.mgCircle1.Location = new System.Drawing.Point(120, 27);
+			this.mgCircle1.Location = new System.Drawing.Point(94, -24);
 			this.mgCircle1.Name = "mgCircle1";
 			this.mgCircle1.PosMargin = new System.Windows.Forms.Padding(0);
 			this.mgCircle1.Size = new System.Drawing.Size(560, 546);
@@ -174,8 +174,8 @@
 			// mgCircleScale2
 			// 
 			this.mgCircleScale2.BackColor = System.Drawing.Color.Transparent;
-			this.mgCircleScale2.CenterX = 400.5F;
-			this.mgCircleScale2.CenterY = 300.5F;
+			this.mgCircleScale2.CenterX = 374F;
+			this.mgCircleScale2.CenterY = 249F;
 			this.mgCircleScale2.CircleScale = null;
 			this.mgCircleScale2.ControlPos = MGDesigner.ControlPos.Center;
 			this.mgCircleScale2.DrawIndex = 5;
@@ -185,13 +185,13 @@
 			this.mgCircleScale2.IsFull = false;
 			this.mgCircleScale2.Length = 20F;
 			this.mgCircleScale2.LineWeight = 2F;
-			this.mgCircleScale2.Location = new System.Drawing.Point(-8, 73);
+			this.mgCircleScale2.Location = new System.Drawing.Point(78, 82);
 			this.mgCircleScale2.Name = "mgCircleScale2";
 			this.mgCircleScale2.PosMargin = new System.Windows.Forms.Padding(0);
 			this.mgCircleScale2.RotValue = MGDesigner.RotValue.Rot90;
 			this.mgCircleScale2.ScaleColor = MGDesigner.MG_COLORS.White;
 			this.mgCircleScale2.ScaleOpacity = 100D;
-			this.mgCircleScale2.Size = new System.Drawing.Size(817, 455);
+			this.mgCircleScale2.Size = new System.Drawing.Size(592, 334);
 			this.mgCircleScale2.TabIndex = 6;
 			this.mgCircleScale2.Text = "mgCircleScale2";
 			// 
@@ -202,7 +202,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Back = MGDesigner.MG_COLORS.Black;
 			this.BackColor = System.Drawing.Color.Turquoise;
-			this.ClientSize = new System.Drawing.Size(800, 600);
+			this.ClientSize = new System.Drawing.Size(748, 499);
 			this.Controls.Add(this.mgCircleScale2);
 			this.Controls.Add(this.mgCircleScale1);
 			this.Controls.Add(this.mgScale2);

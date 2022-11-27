@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MGCreator
+
 {
+	/*
 	public class ForcusChangedEventArgs : EventArgs
 	{
 		public int Index;
@@ -19,7 +21,8 @@ namespace MGCreator
 			Index = idx;
 		}
 	}
-	partial class MGForm
+	*/
+	partial class MGMain
 	{
 		public delegate void ForcusChangedHandler(object sender, ForcusChangedEventArgs e);
 		public event ForcusChangedHandler? ForcusChanged;

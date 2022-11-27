@@ -12,14 +12,19 @@ namespace MGCreator
 {
     public class ControlListBox : ListBox
     {
-        private ControlCollection? m_controls = null;
+		private MGForm? m_MGForm = null;
+		private ControlCollection? m_controls = null;
 
-        public void SetControls(ControlCollection cc)
+        public void SetMGForm(MGForm m)
         {
-            m_controls = cc;
-            ListUp();
-        }
+			m_MGForm=m;
+            if(m_MGForm!=null)
+            {
+                m_controls = m_MGForm.Controls;
+                ListUp();
+            }
 
+		}
 
         private Button? m_AddBtn = null;
         [Category("_MG")]
@@ -35,6 +40,26 @@ namespace MGCreator
                 }
             }
         }
+		private Button? m_DelBtn = null;
+		[Category("_MG")]
+		public Button? DelBtn
+		{
+			get { return m_DelBtn; }
+			set
+			{
+				m_DelBtn = value;
+				if (m_DelBtn != null)
+				{
+                    m_DelBtn.Click += M_DelBtn_Click;
+				}
+			}
+		}
+
+        private void M_DelBtn_Click(object? sender, EventArgs e)
+        {
+            if (m_MGForm == null) return;
+            m_MGForm.DeleteControl(this.SelectedIndex);
+        }
 
         private void M_AddBtn_Click(object? sender, EventArgs e)
         {
@@ -44,7 +69,11 @@ namespace MGCreator
         // ****************************************************************
         public ControlListBox()
         {
-        }
+			this.SetStyle(
+					ControlStyles.DoubleBuffer |
+					ControlStyles.SupportsTransparentBackColor,
+					true);
+		}
         // ****************************************************************
         public void ListUp()
         {
