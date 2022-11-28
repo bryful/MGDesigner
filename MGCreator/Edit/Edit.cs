@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,30 +14,104 @@ namespace MGCreator
 {
 	public partial class Edit : Control
 	{
-		// ****************************************************************************
-		/*
-		public delegate void EditChangedHandler(object sender, EventArgs e);
-		public event EditChangedHandler? EditChanged;
-		protected virtual void OnEditChanged(EventArgs e)
+		private bool PropError = false;
+		public new bool Visible
 		{
-			if (_EventFLag == false) return;
-			if (EditChanged != null)
+			get { return base.Visible; }
+			set
 			{
-				EditChanged(this, e);
+				if ((ShowMGStyle & m_MGStyle) == 0)
+				{
+					base.Visible = false;
+				}
+				else
+				{
+					base.Visible = value;
+				}
 			}
-		}*/
+		}
+		public readonly MGStyle ShowMGStyle = MGStyle.ALL;
+
+		private MGStyle m_MGStyle = MGStyle.ALL;
+		public void SetMGStyle(MGStyle style)
+		{
+			m_MGStyle = style;
+			bool _IsShow = true;
+			if(this.Parent != null)
+			{
+				_IsShow = ((PropertyPanel)this.Parent).IsOpen;
+			}
+			this.Visible = _IsShow;
+		}
 		// **********************************************************
-		public readonly MGStyle MGStyle = MGStyle.ALL;
-		public void SetIsShow(MGStyle style, bool isSHow)
+		/*
+		protected virtual Type? GetTypeFromProp(string n)
 		{
-			if ((MGStyle & style) !=0 )
+			Type? ret = null;
+			if (m_control == null) return null;
+			var prop = typeof(MGControl).GetProperty(n);
+			if(prop != null)
 			{
-				this.Visible = isSHow;
+				ret = prop.PropertyType;
 			}
-			else
+			return ret;
+		}
+		*/
+		protected virtual object? GetValueFromProp(string n,Type T)
+		{
+			PropError = true;
+			object? result = null;
+			if (m_control == null) return null;
+			var prop = typeof(MGControl).GetProperty(n);
+			if (prop != null)
 			{
-				this.Visible = false;
+				if (prop.PropertyType == T)
+				{
+					result = prop.GetValue(m_control);
+					PropError = false;
+				}
+
 			}
+			return result;
+		}
+		protected bool SetValueToProp(string n, object v,Type T)
+		{
+			PropError = true;
+			bool result = false;
+			if (m_control == null) return result;
+			var prop = typeof(MGControl).GetProperty(n);
+			if (prop != null)
+			{
+				if (prop.PropertyType == T)
+				{
+					prop.SetValue(m_control, v);
+					result = true;
+					PropError = false;
+				}
+			}
+			return result;
+		}       
+		// **********************************************************
+		protected string m_PropName = "Fill";
+		[Category("_MG")]
+		public string PropName
+		{
+			get { return m_PropName; }
+			set
+			{
+				m_PropName = value;
+				GetValeuFromControl();
+			}
+		}       
+		public void SetCaptionPropName(string c, string p)
+		{
+			m_Caption = c;
+			m_PropName = p;
+			GetValeuFromControl();
+		}
+		public void SetCaptionPropName(string c)
+		{
+			SetCaptionPropName(c, c);
 		}
 		// **********************************************************
 		protected bool _EventFLag = true;
@@ -69,12 +144,17 @@ namespace MGCreator
 		protected void Control_ForcusChanged(object sender, ForcusChangedEventArgs e)
 		{
 			if (m_MGForm == null) return;
+			m_MGForm.ForcusChanged -= Control_ForcusChanged;
+			m_MGForm.ForcusChanged += Control_ForcusChanged;
 			if (e.Index >= 0)
 			{
 				m_control = (MGControl)m_MGForm.Controls[e.Index];
 				GetValeuFromControl();
 			}
 		}
+
+		
+
 		// **********************************************************
 		protected virtual void GetValeuFromControl()
 		{
@@ -145,7 +225,14 @@ true);
 				StringFormat sf = new StringFormat();
 				sf.Alignment = StringAlignment.Near;
 				sf.LineAlignment = StringAlignment.Center;
-				sb.Color= this.ForeColor;
+				if (PropError)
+				{
+					sb.Color = Color.Gray;
+				}
+				else
+				{
+					sb.Color = this.ForeColor;
+				}
 				g.DrawString(m_Caption, this.Font, sb, r, sf);
 			}
 			finally

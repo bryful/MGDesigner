@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditDrawMargin : Edit
+    public partial class EditPadding : Edit
 	{
-		public new readonly MGStyle MGStyle = MGStyle.ALL;
-		protected Padding m_DrawMargin = new Padding(0,0,0,0);
+		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
+		protected Padding m_Padding = new Padding(0,0,0,0);
 
 		protected override void GetValeuFromControl()
 		{
@@ -21,72 +21,54 @@ namespace MGCreator
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
-				m_DrawMargin = m_control.DrawMargin;
-				this.Invalidate();
-				_EventFLag = true;
+				try
+				{
+					Padding? p = (Padding?)GetValueFromProp(m_PropName,typeof(Padding));
+					if (p != null) m_Padding = (Padding)p;
+				}
+				finally
+				{
+					this.Invalidate();
+					_EventFLag = true;
+				}
 			}
 		}
+		
 		protected override void SetValeuToControl()
 		{
 			if (m_control != null)
 			{
 				if (_EventFLag == false) return;
-				_EventFLag = false;	 
-				m_control.DrawMargin = m_DrawMargin;
-				_EventFLag = true;
+				_EventFLag = false;
+				try
+				{
+					SetValueToProp(m_PropName, m_Padding,typeof(Padding));
+				}
+				finally
+				{
+					_EventFLag = true;
+				}
 			}
 		}       
 		// ****************************************************************************
 		[Category("_MG")]
-		public Padding DrawMargin
+		public Padding Paddings
 		{
 			get
 			{
-				return m_DrawMargin;
+				return m_Padding;
 			}
 			set
 			{
-				m_DrawMargin=value;
+				m_Padding = value;
 				this.Invalidate();
 			}
 		}
-		public EditDrawMargin()
+		public EditPadding()
 		{
-			Caption = "DrawMargin";
+			Caption = "Paddhing";
+			PropName = "Paddhing";
 			InitializeComponent();
-		}
-		private string ValueToString()
-		{
-			return $"{m_DrawMargin.Left},{m_DrawMargin.Right},{m_DrawMargin.Top},{m_DrawMargin.Bottom}";
-		}
-		private bool StringToValue(string s)
-		{
-			bool ret = false;
-			string[] sa  = s.Split(',');
-			if (sa.Length < 4) return ret;
-			int[] ia = new int[4];
-			for(int i = 0; i < sa.Length; i++)
-			{
-				if (sa[i].Trim()=="")
-				{
-					ia[i] = 0;
-				}
-				else
-				{
-					int v = 0;
-					if (int.TryParse(sa[i], out v))
-					{
-						ia[i] = v;
-					}
-					else
-					{
-						return ret;
-					}
-
-				}
-			}
-			m_DrawMargin = new Padding(ia[0], ia[1], ia[2], ia[3]);
-			return true;
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
@@ -101,7 +83,7 @@ namespace MGCreator
 				sf.Alignment = StringAlignment.Near;
 				sf.LineAlignment = StringAlignment.Center;
 				sb.Color = this.ForeColor;
-				g.DrawString(ValueToString(), this.Font, sb, r, sf);
+				g.DrawString(MGs.ValueToString(m_Padding), this.Font, sb, r, sf);
 
 			}
 			finally
@@ -133,7 +115,7 @@ namespace MGCreator
 			if (m_isEdit) return;
 			m_isEdit = true;
 			TextBox tb = new TextBox();
-			tb.Text = ValueToString();
+			tb.Text = MGs.ValueToString(m_Padding);
 			tb.BorderStyle = BorderStyle.FixedSingle;
 			tb.Size = new Size(this.Width - m_CaptionWidth, this.Height - 2);
 			tb.Location = new Point(m_CaptionWidth, 0);
@@ -153,8 +135,10 @@ namespace MGCreator
 			TextBox tb = (TextBox)this.Controls[this.Controls.Count - 1];
 			if ((m_MGForm != null) && (m_control != null))
 			{
-				if(StringToValue(tb.Text))
+				Padding p = new Padding( m_Padding.Left, m_Padding.Top, m_Padding.Right, m_Padding.Bottom);
+				if(MGs.StringToValue(tb.Text,ref p))
 				{
+					m_Padding = p;
 					SetValeuToControl();
 					ret = true;
 				}

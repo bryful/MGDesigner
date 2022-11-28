@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class MGCircle
+	partial class EditNumber
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

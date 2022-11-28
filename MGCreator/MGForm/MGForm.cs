@@ -42,7 +42,7 @@ namespace MGCreator
 				//DrawAll();
 			}
 		}
-		private MG_COLORS m_Back = MG_COLORS.BackColor;
+		private MG_COLORS m_Back = MG_COLORS.Black;
 		[Category("_MG")]
 		public MG_COLORS Back
 		{
@@ -99,10 +99,6 @@ namespace MGCreator
 			}
 		}
 
-		private void AddMenu_Click(object? sender, EventArgs e)
-		{
-			AddControl();
-		}
 
 		private void QuitMenu_Click(object? sender, EventArgs e)
 		{

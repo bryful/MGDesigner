@@ -41,57 +41,37 @@ namespace MGCreator
 		}
 		// ************************************************************
 		private int AddCount = 0;
-        public bool AddControl()
-        {
-            MGControl ctrl = new MGControl();
-            ctrl.Name = $"control{AddCount}";
-            AddCount++;
-            ctrl.Size = new Size(100, 100);
-            ctrl.Location = new Point(80, 80);
-
-            ctrl.GotFocus += Ctrl_GotFocus;
-
-
-
-			this.Controls.Add(ctrl);
-            ChkControlIndex();
-			return ctrl != null;
-        }
         public bool AddControl(MGStyle mG)
         {
             bool ret = false;
-            switch (mG)
-            {
-                case MGStyle.Frame:
-                    MGFame ctrl = new MGFame();
-                    ctrl.Name = $"MGFrame{AddCount}";
-                    AddCount++;
-                    ctrl.Size = new Size(200, 200);
-                    ctrl.Location = new Point(80, 80);
+			MGControl ctrl = new MGControl();
+            ctrl.MGStyle = mG;
 
-                    ctrl.GotFocus += Ctrl_GotFocus;
-                    this.Controls.Add(ctrl);
-                    ctrl.ChkOffScr();
-					ChkControlIndex();
-                    ret = (ctrl != null);
-                    break;
-                case MGStyle.None:
-					break;
-				case MGStyle.ALL:
-                    break;
-                default:
-                    ret = AddControl();
-                    break;
+            string? n = Enum.GetName(typeof(MGStyle), mG);
+            if (n == null) n = "MG";
+			ctrl.Name = $"{n}{AddCount}";
+			AddCount++;
+			ctrl.Size = new Size(200, 200);
+			ctrl.Location = new Point(80, 80);
 
-            }
-
-
-            return ret;
+			ctrl.GotFocus += Ctrl_GotFocus;
+            ctrl.LostFocus += Ctrl_LostFocus;
+			this.Controls.Add(ctrl);
+			ctrl.ChkOffScr();
+			ChkControlIndex();
+			ret = (ctrl != null);
+			return ret;
 
         }
 
+        private void Ctrl_LostFocus(object? sender, EventArgs e)
+        {
+			this.Invalidate();
+		}
+
         private void Ctrl_GotFocus(object? sender, EventArgs e)
         {
+            this.Invalidate();
             if (sender is MGControl)
             {
                 MGControl m = (MGControl)sender;

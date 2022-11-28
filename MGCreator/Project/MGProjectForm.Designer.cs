@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace MGCreator
 {
     partial class MGProjectForm
@@ -53,9 +54,10 @@ namespace MGCreator
 			// 
 			// btnDel
 			// 
+			this.btnDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnDel.ForeColor = System.Drawing.Color.LightGray;
-			this.btnDel.Location = new System.Drawing.Point(12, 406);
+			this.btnDel.Location = new System.Drawing.Point(12, 436);
 			this.btnDel.Name = "btnDel";
 			this.btnDel.Size = new System.Drawing.Size(39, 23);
 			this.btnDel.TabIndex = 3;
@@ -95,16 +97,9 @@ namespace MGCreator
 			this.controlListBox1.ForeColor = System.Drawing.Color.LightGray;
 			this.controlListBox1.FormattingEnabled = true;
 			this.controlListBox1.ItemHeight = 15;
-			this.controlListBox1.Items.AddRange(new object[] {
-            "controlListBox1",
-            "button4",
-            "button3",
-            "button2",
-            "comboBox1",
-            "button1"});
 			this.controlListBox1.Location = new System.Drawing.Point(11, 126);
 			this.controlListBox1.Name = "controlListBox1";
-			this.controlListBox1.Size = new System.Drawing.Size(141, 274);
+			this.controlListBox1.Size = new System.Drawing.Size(141, 304);
 			this.controlListBox1.TabIndex = 6;
 			// 
 			// mgStyleComb1
@@ -112,7 +107,6 @@ namespace MGCreator
 			this.mgStyleComb1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.mgStyleComb1.FormattingEnabled = true;
 			this.mgStyleComb1.Items.AddRange(new object[] {
-            "None",
             "Frame",
             "Grid",
             "Circle",
@@ -127,9 +121,9 @@ namespace MGCreator
             "Sheet",
             "Kagi",
             "Edge",
-            "Side",
-            "ALL"});
+            "Side"});
 			this.mgStyleComb1.Location = new System.Drawing.Point(11, 56);
+			this.mgStyleComb1.MGStyle = MGCreator.MGStyle.Frame;
 			this.mgStyleComb1.Name = "mgStyleComb1";
 			this.mgStyleComb1.Size = new System.Drawing.Size(93, 23);
 			this.mgStyleComb1.TabIndex = 7;
@@ -150,7 +144,7 @@ namespace MGCreator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(160, 436);
+			this.ClientSize = new System.Drawing.Size(160, 472);
 			this.Controls.Add(this.btnNewMG);
 			this.Controls.Add(this.mgStyleComb1);
 			this.Controls.Add(this.controlListBox1);
@@ -160,7 +154,7 @@ namespace MGCreator
 			this.Controls.Add(this.btnAdd);
 			this.DoubleBuffered = true;
 			this.Name = "MGProjectForm";
-			this.Text = "MGItems";
+			this.Text = "MGCreater";
 			this.ResumeLayout(false);
 
 		}

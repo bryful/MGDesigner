@@ -20,11 +20,47 @@ namespace MGCreator
 		const int LeftWidth = 20;
 		const int RightWidth = 25;
 
+		public new bool Visible
+		{
+			get { return base.Visible; }
+			set
+			{
+				if ((ShowMGStyle & m_MGStyle) == 0)
+				{
+					base.Visible = false;
+				}
+				else
+				{
+					base.Visible = value;
+				}
+			}
+		}
+
 		// ******************************************
-		public MGStyle MGStyle = MGStyle.ALL;
+		protected MGStyle ShowMGStyle = MGStyle.ALL;
+
+		protected MGStyle m_MGStyle = MGStyle.ALL;
+		[Category("_MG")]
+		public MGStyle MGStyle
+		{
+			get { return m_MGStyle; }
+			set { SetMGStyle( value); }
+		}
 		public void SetMGStyle(MGStyle s)
 		{
-			MGStyle = s;
+			m_MGStyle = s;
+
+			bool _IsOpen = true;
+			if(this.Parent is PropertyPanel)
+			{
+				_IsOpen = ((PropertyPanel)this.Parent).IsOpen;
+			}
+			if(_IsOpen==false)
+			{
+				Visible = false;
+				return;
+			}
+			Visible = ((m_MGStyle & ShowMGStyle) != 0);
 			if(this.Controls.Count>0)
 			{
 				foreach(Control c in this.Controls)
@@ -32,10 +68,12 @@ namespace MGCreator
 					if(c is PropertyPanel)
 					{
 						((PropertyPanel)c).SetMGStyle(s);
+					}else if (c is Edit)
+					{
+						((Edit)c).SetMGStyle(s);
 					}
 				}
 			}
-			SetIsShow(s, m_IsShow);
 		}
 
 		private int DispY = 0;
@@ -51,44 +89,31 @@ namespace MGCreator
 			}
 		}
 		// ******************************************
-		private bool m_IsShow = true;
+		private bool m_IsOpen = true;
 		[Category("_MG")]
-		public bool IsShow
+		public bool IsOpen
 		{
-			get { return m_IsShow; }
+			get { return m_IsOpen; }
 			set
 			{
-				SetIsShow(MGStyle,value);
+				SetIsOpen(value);
 			}
 		}
-		public void SetIsShow(MGStyle stlye, bool b)
+		public void SetIsOpen(bool b)
 		{
-			bool e = (m_IsShow != b);
-			m_IsShow = b;
+			bool e = (m_IsOpen != b);
+			m_IsOpen = b;
 			if (this.Controls.Count > 0)
 			{
 				foreach (Control c in this.Controls)
 				{
-					if(c is PropertyPanel)
-					{
-						((PropertyPanel)c).SetIsShow(stlye, b);
-					}
-					if(c is Edit)
-					{
-						Edit ec = (Edit)c;
-						ec.SetIsShow(MGStyle, b);
-					}
+					c.Visible =b;
 				}
 			}
 			AutoLayout();
-			if (e)
+			if(this.Parent is PropertyPanel)
 			{
-				if(this.Parent is PropertyPanel)
-				{
-					PropertyPanel m = (PropertyPanel)this.Parent;
-					m.AutoLayout();
-				}
-				OnIsShowChanged(EventArgs.Empty);
+				((PropertyPanel)this.Parent).AutoLayout();
 			}
 			this.Invalidate();
 		}
@@ -107,7 +132,7 @@ namespace MGCreator
 		{
 			this.Controls.Add(c);
 			this.Controls.SetChildIndex(c, 0);
-			AutoLayout();
+			AutoLayout(this);
 		}
 		// ******************************************
 		public PropertyPanel()
@@ -123,7 +148,7 @@ true);
 			this.BackColor = Color.Transparent;
 			//this.AutoSize = false;
 			this.AutoScroll = false;
-			AutoLayout();
+			AutoLayout(this);
 		}
 		// ******************************************
 		public void AutoLayout()
@@ -178,6 +203,20 @@ true);
 				this.ResumeLayout(false);
 			}
 	
+		}
+		public void AutoLayout(PropertyPanel pp)
+		{
+			pp.AutoLayout();
+			if(pp.Controls.Count>0)
+			{
+				foreach(Control c in pp.Controls)
+				{
+					if(c is PropertyPanel)
+					{
+						AutoLayout((PropertyPanel)c);
+					}
+				}
+			}
 		}
 		public void ScrolExec()
 		{
@@ -248,7 +287,7 @@ true);
 					Rectangle r = new Rectangle(5, (HeaderHeight - box) / 2, box, box);
 					g.DrawRectangle(p, r);
 					g.DrawLine(p, r.Left + 3, r.Top + box / 2, r.Right - 3, r.Top + box / 2);
-					if (m_IsShow == false)
+					if (m_IsOpen == false)
 					{
 						g.DrawLine(p, r.Left + box / 2, r.Top + 3, r.Left + box / 2, r.Bottom - 3);
 					}
@@ -290,7 +329,7 @@ true);
 			bool IsChild = (this.Parent is PropertyPanel);
 			if((IsChild)&&(e.Y<HeaderHeight))
 			{
-				SetIsShow(MGStyle,!m_IsShow);
+				SetIsOpen(!m_IsOpen);
 			}
 			base.OnMouseClick(e);
 		}

@@ -14,23 +14,41 @@ namespace MGCreator
 {
     public enum MGStyle
 	{
-		None = 0b0000_0000_0000_0000,
-		Frame = 0b0000_0000_0000_0001,
-		Grid = 0b0000_0000_0000_0010,
-		Circle = 0b0000_0000_0000_0100,
-		CircleScale = 0b0000_0000_0000_1000,
-		Triangle = 0b0000_0000_0001_0000,
-		Polygon = 0b0000_0000_0010_0000,
-		Cross = 0b0000_0000_0100_0000,
-		Zebra = 0b0000_0000_1000_0000,
-		Label = 0b0000_0001_0000_0000,
-		Parallelogram = 0b0000_0010_0000_0000,
-		Scale = 0b0000_0100_0000_0000,
-		Sheet = 0b0000_1000_0000_0000,
-		Kagi = 0b0001_0000_0000_0000,
-		Edge = 0b0010_0000_0000_0000,
-		Side = 0b0100_0000_0000_0000,
-		ALL = 0b1111_1111_1111_1111
+		None= 
+			0b0000_0000_0000_0000_0000,
+		Frame =
+			0b0000_0000_0000_0000_0001,
+		Grid =
+			0b0000_0000_0000_0000_0010,
+		Circle =
+			0b0000_0000_0000_0000_0100,
+		CircleScale =
+			0b0000_0000_0000_0000_1000,
+		Triangle =
+			0b0000_0000_0000_0001_0000,
+		Polygon =
+			0b0000_0000_0000_0010_0000,
+		Cross =
+			0b0000_0000_0000_0100_0000,
+		Zebra =
+			0b0000_0000_0000_1000_0000,
+		Label =
+			0b0000_0000_0001_0000_0000,
+		Parallelogram =
+			0b0000_0000_0010_0000_0000,
+		Scale =
+			0b0000_0000_0100_0000_0000,
+		Sheet =
+			0b0000_0000_1000_0000_0000,
+		Kagi =
+			0b0000_0001_0000_0000_0000,
+		Edge =
+			0b0000_0010_0000_0000_0000,
+		Side =
+			0b0000_0100_0000_0000_0000,
+		ALL =
+			0b1111_1111_1111_1111_1111,
+
 	};
 	public enum ControlPos
 	{
@@ -47,60 +65,15 @@ namespace MGCreator
 	}
 	public partial class MGControl : Control
 	{
-		public readonly MGStyle MGStyle = MGStyle.ALL;
-		protected int m_Index = -1;
-
-		[Category("_MG")]
-		public int Index
-		{
-			get { return m_Index; }
-			set { m_Index = value; }
-		}
-
+		
 		#region Global
 		private Bitmap m_Offscr = new Bitmap(5, 5, PixelFormat.Format32bppArgb);
-		[Category("_MG")]
 		public Bitmap OffScr { get { return m_Offscr; } }
-
 		private Color m_GuideColor = Color.FromArgb(64, 255, 0, 0);
 		private Color m_GuideColorHi = Color.FromArgb(255, 255, 0, 0);
 		private Color m_GuideColorMD = Color.FromArgb(255, 255, 255, 0);
-		private bool m_IsFull = false;
-		[Category("_MG")]
-		public bool IsFull
-		{
-			get
-			{
-				return m_IsFull;
-			}
-			set
-			{
-				m_IsFull = value;
-				ChkOffScr();
-				if (this.Parent != null)
-				{
-					if (this.Parent is MGForm) 
-					{
-						MGForm mf = (MGForm)this.Parent;
-						mf.Invalidate();
-					}
-				}
-				this.Invalidate();
-			}
-		}
-		private ControlPos m_ControlPos = ControlPos.None;
-		[Category("_MG")]
-		public ControlPos ControlPos
-		{
-			get
-			{
-				return m_ControlPos;
-			}
-			set
-			{
-				SetControlPos(value);
-			}
-		}
+
+	
 
 		private void SetControlPos(ControlPos v)
 		{
@@ -158,56 +131,9 @@ namespace MGCreator
 		{
 			SetControlPos(m_ControlPos);
 		}
-		private Padding m_PosMargin = new Padding(0, 0, 0, 0);
-		[Category("_MG")]
-		public Padding PosMargin
-		{
-			get { return m_PosMargin; }
-			set
-			{
-				m_PosMargin = value;
-				SetControlPos();
-			}
 
-		}
-		private Padding m_DrawMargin = new Padding(0, 0, 0, 0);
-		[Category("_MG")]
-		public Padding DrawMargin
-		{
-			get { return m_DrawMargin; }
-			set
-			{
-				m_DrawMargin = value;
-				ChkOffScr();
-			}
 
-		}
-		[Category("_MG")]
-		public float CenterX
-		{
-			get
-			{
-				return (float)this.Left + (float)this.Width / 2;
-			}
-			set
-			{
-				float x = value - (float)this.Width / 2;
-				this.Location = new Point((int)x, this.Top);
-			}
-		}
-		[Category("_MG")]
-		public float CenterY
-		{
-			get
-			{
-				return (float)this.Top + (float)this.Height / 2;
-			}
-			set
-			{
-				float y = value - (float)this.Height / 2;
-				this.Location = new Point(this.Left, (int)y);
-			}
-		}
+
 		[Category("_MG")]
 		public int ControlIndex
 		{
@@ -469,7 +395,6 @@ true);
 		// **************************************************************************************
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			//base.OnPaint(pe);
 			Pen p = new Pen(m_GuideColor, 1);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Graphics g = pe.Graphics;
@@ -480,11 +405,8 @@ true);
 
 			try
 			{
-				//g.Clear(Color.Transparent);
 				if(m_MDCType != MGC_MDType.None)
 				{
-					//sb.Color = Color.FromArgb(64, 255, 0, 0);
-					//g.FillRectangle(sb, this.ClientRectangle);
 					p.Color = m_GuideColorMD;
 					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
@@ -492,18 +414,10 @@ true);
 				{
 					sb.Color = Color.FromArgb(64, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
-					//p.Color = m_GuideColorHi;
-					//MGC.DrawFrame(g, p, 1, this.ClientRectangle);
-				}else if (this.Focused)
+				}else if ((this.Focused)&& (m_IsShowGuide))
 				{
 					p.Color = m_GuideColorMD;
 					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
-
-				}
-				else
-				{
-					//p.Color = m_GuideColor;
-					//MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
 			}
 			finally
@@ -513,27 +427,7 @@ true);
 			}
 
 		}
-		// ************************************************************
-		public virtual void Draw(Graphics g, Rectangle rct, bool IsClear = true)
-		{
-			if (IsClear) g.Clear(Color.Transparent);
-			Pen pen = new Pen(this.ForeColor, 3);
-			SolidBrush sb = new SolidBrush(Color.Green); 
-			try
-			{
-				Rectangle rct2 = MarginRect(rct);
-				//g.Clear(this.BackColor);
-				g.FillRectangle(sb, rct2);
-				MGC.DrawFrame(g, pen, 2,rct2);
-				g.DrawLine(pen,rct2.Left,rct2.Bottom,rct2.Right,rct2.Top);
-				g.DrawLine(pen, rct2.Left, rct2.Top, rct2.Right, rct2.Bottom);
-			}
-			finally
-			{
-				sb.Dispose();
-				pen.Dispose();
-			}
-		}
+
 		// **************************************************************************************
 		#region MouseEvent
 		public enum MGC_MDType

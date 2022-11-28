@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditIsFull
+	partial class EditMGColors
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

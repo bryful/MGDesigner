@@ -21,7 +21,7 @@ namespace MGCreator
 	}
 	public partial class EditPosition : Edit
 	{
-		public new readonly MGStyle MGStyle = MGStyle.ALL;
+		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		protected Rectangle m_Bounds = new Rectangle(0, 0, 0, 0);
 		// ****************************************************************************
 		public delegate void BoundsChangedHandler(object sender, BoundsChangedEventArgs e);
@@ -69,6 +69,7 @@ namespace MGCreator
 					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
 					if(m_control != null)
 					{
+						m_control.LocationChanged -= M_control_LocationChanged;
 						m_control.LocationChanged += M_control_LocationChanged;
 					}
 				}
@@ -82,6 +83,7 @@ namespace MGCreator
 				m_control = m_MGForm.ForcusControl;
 				if (m_control != null)
 				{
+					m_control.LocationChanged -= M_control_LocationChanged;
 					m_control.LocationChanged += M_control_LocationChanged;
 					GetValeuFromControl();
 				}

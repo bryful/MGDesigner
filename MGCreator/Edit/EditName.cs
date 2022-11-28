@@ -21,6 +21,7 @@ namespace MGCreator
 	}
 	public partial class EditName : Edit
 	{
+		public new readonly  MGStyle ShowMGStyle = MGStyle.ALL;
 		//public new readonly MGStyle MGStyle = MGStyle.ALL;
 		// ****************************************************************************
 		/*

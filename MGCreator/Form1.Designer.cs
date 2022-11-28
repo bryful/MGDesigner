@@ -36,11 +36,11 @@
 			this.mgPropertyPanel1.BackColor = System.Drawing.Color.Transparent;
 			this.mgPropertyPanel1.Caption = "PropertyPanel";
 			this.mgPropertyPanel1.ForeColor = System.Drawing.Color.LightGray;
-			this.mgPropertyPanel1.IsShow = true;
-			this.mgPropertyPanel1.Location = new System.Drawing.Point(125, 99);
+			this.mgPropertyPanel1.IsOpen = true;
+			this.mgPropertyPanel1.Location = new System.Drawing.Point(181, 96);
 			this.mgPropertyPanel1.MGForm = null;
 			this.mgPropertyPanel1.Name = "mgPropertyPanel1";
-			this.mgPropertyPanel1.Size = new System.Drawing.Size(333, 291);
+			this.mgPropertyPanel1.Size = new System.Drawing.Size(345, 328);
 			this.mgPropertyPanel1.TabIndex = 0;
 			// 
 			// Form1

@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class MGFame
+	partial class MGColorComb
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

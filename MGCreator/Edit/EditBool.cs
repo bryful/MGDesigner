@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditIsFull : Edit
+	public partial class EditBool : Edit
 	{
-		//public new readonly MGStyle MGStyle = MGStyle.ALL;
+		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		// ****************************************************************************
 		protected bool m_BoolValue = false;
 		protected override void GetValeuFromControl()
@@ -21,9 +21,20 @@ namespace MGCreator
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
-				m_BoolValue = m_control.IsFull;
-				this.Invalidate();
-				_EventFLag = true;
+				try
+				{
+					bool? b = (bool?)GetValueFromProp(m_PropName,typeof(bool));
+					if (b != null)
+					{
+						m_BoolValue = (bool)b;
+					}
+
+				}
+				finally
+				{
+					this.Invalidate();
+					_EventFLag = true;
+				}
 			}
 		}
 		protected override void SetValeuToControl()
@@ -32,11 +43,17 @@ namespace MGCreator
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
-				m_control.IsFull = m_BoolValue;
-				_EventFLag = true;
+				try
+				{
+					SetValueToProp(m_PropName, m_BoolValue,typeof(bool));
+				}
+				finally
+				{
+					_EventFLag = true;
+				}
 			}
 		}
-		public EditIsFull()
+		public EditBool()
 		{
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);

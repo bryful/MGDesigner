@@ -39,11 +39,11 @@
 			this.mgPropertyPanel1.BackColor = System.Drawing.Color.Transparent;
 			this.mgPropertyPanel1.Caption = "PropertyPanel";
 			this.mgPropertyPanel1.ForeColor = System.Drawing.Color.LightGray;
-			this.mgPropertyPanel1.IsShow = true;
+			this.mgPropertyPanel1.IsOpen = true;
 			this.mgPropertyPanel1.Location = new System.Drawing.Point(4, 24);
 			this.mgPropertyPanel1.MGForm = null;
 			this.mgPropertyPanel1.Name = "mgPropertyPanel1";
-			this.mgPropertyPanel1.Size = new System.Drawing.Size(308, 471);
+			this.mgPropertyPanel1.Size = new System.Drawing.Size(334, 468);
 			this.mgPropertyPanel1.TabIndex = 0;
 			// 
 			// MGPropertyForm
@@ -51,7 +51,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(315, 507);
+			this.ClientSize = new System.Drawing.Size(341, 504);
 			this.Controls.Add(this.mgPropertyPanel1);
 			this.DoubleBuffered = true;
 			this.Name = "MGPropertyForm";

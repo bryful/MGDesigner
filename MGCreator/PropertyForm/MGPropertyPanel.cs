@@ -20,9 +20,7 @@ namespace MGCreator
 			get { return m_MGForm; }
 			set
 			{
-				m_MGForm = value;
-				SetForm(m_MGForm);
-
+				SetMGForm(value);
 			}
 		}
 
@@ -32,26 +30,32 @@ namespace MGCreator
 		private PropertyPanel m_PPLayout = new PropertyPanel();
 		private PropertyPanel m_PPDisp = new PropertyPanel();
 
-		private Edit m_FormSize = new Edit();
+
+		private EditName m_Name = new EditName();
+		private EditBool m_IsFull = new EditBool();
+		private EditBool m_IsShowGuide = new EditBool();
+		private EditPadding m_DrawMargin = new EditPadding();
 
 		private EditPosition m_Position = new EditPosition();
 		private EditSize m_Size = new EditSize();
-		private EditName m_Name = new EditName();
-		private EditIsFull m_IsFull = new EditIsFull();
-		private EditDrawMargin m_DrawMargin = new EditDrawMargin();
-		private EditBool m_Dummy1 = new EditBool();
-		private Edit m_Dummy2 = new Edit();
+
+		private EditMGColors m_Fill = new EditMGColors();
+		private EditNumber m_FillOpacity = new EditNumber();
+		private EditMGColors m_Line = new EditMGColors();
+		private EditNumber m_LineOpacity = new EditNumber();
+
+
 		public MGPropertyPanel()
 		{
 			m_PPForm.Name = "PPForm";
 			m_PPForm.Text = "Monitor";
 			m_PPForm.Caption = "Monitor";
 
-			m_PPParts.Name = "Parts";
+			m_PPParts.Name = "PPParts";
 			m_PPParts.Text = "Parts";
 			m_PPParts.Caption = "Parts";
 
-			m_PPLayout.Name = "PPLocation";
+			m_PPLayout.Name = "PPLayoutn";
 			m_PPLayout.Text = "Layout";
 			m_PPLayout.Caption = "Layout";
 			
@@ -61,20 +65,27 @@ namespace MGCreator
 
 			m_Size.IsShowResizeType = true;
 
-			m_PPParts.AddControl(m_Name);
+			m_Fill.SetCaptionPropName("Fill");
+			m_FillOpacity.SetCaptionPropName("FillOpacity");
+			m_Line.SetCaptionPropName("Line");
+			m_LineOpacity.SetCaptionPropName("LineOpacity");
+			m_IsFull.SetCaptionPropName("IsFull");
+			m_IsShowGuide.SetCaptionPropName("Guide", "IsShowGuide");
+			m_DrawMargin.SetCaptionPropName("DrawMargin");
+
+			m_PPForm.AddControl(m_Name);
+			m_PPForm.AddControl(m_IsShowGuide);
+
 			m_PPParts.AddControl(m_IsFull);
 			m_PPParts.AddControl(m_DrawMargin);
 
-			m_PPForm.AddControl(m_FormSize);
 			m_PPLayout.AddControl(m_Position);
 			m_PPLayout.AddControl(m_Size);
 
-
-			m_Dummy1.BoolValueChanged += M_Dummy1_BoolValueChanged;
-
-			m_PPDisp.AddControl(m_Dummy1);
-
-			m_PPDisp.AddControl(m_Dummy2);
+			m_PPDisp.AddControl(m_Fill);
+			m_PPDisp.AddControl(m_FillOpacity);
+			m_PPDisp.AddControl(m_Line);
+			m_PPDisp.AddControl(m_LineOpacity);
 
 			AddControl(m_PPForm);
 			AddControl(m_PPParts);
@@ -92,42 +103,59 @@ ControlStyles.SupportsTransparentBackColor,
 true);
 			this.AutoLayout();
 		}
-
-		private void M_Dummy1_BoolValueChanged(object sender, BoolValueChangedEventArgs e)
-		{
-			if(m_control != null)
-			{
-				m_control.IsFull = e.BoolValue;
-			}
-		}
-
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);
 		}
-		public void SetForm(MGForm? f)
+		public void SetMGForm(MGForm? f)
 		{
-			m_Position.MGForm = f;
-			m_Size.MGForm = f;
-			m_Name.MGForm = f;
-			m_IsFull.MGForm = f;
-			m_DrawMargin.MGForm = f;
+			if(f == null) return;
 			m_MGForm = f;
-			if (m_MGForm != null)
+			m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+			SetControls();
+			SetFormSub(this,f);
+
+		}
+		private void SetFormSub(PropertyPanel pp, MGForm? f)
+		{
+			if (f == null) return;
+			if (pp.Controls.Count > 0)
 			{
-				m_control = m_MGForm.ForcusControl;
-				m_MGForm.ForcusChanged += F_ForcusChanged;
+				foreach (Control c in pp.Controls)
+				{
+					if(c is EditPosition)
+					{
+						((EditPosition)c).MGForm = f;
+					}
+					else if (c is EditSize)
+					{
+						((EditSize)c).MGForm = f;
+					}
+					else if (c is Edit)
+					{
+						((Edit)c).MGForm = f;
+					}
+					else if(c is PropertyPanel)
+					{
+						SetFormSub((PropertyPanel)c, f);
+					}
+				}
 			}
 		}
 
-		private void F_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		{
+			SetControls();
+		}
+		private void SetControls()
 		{
 			if (m_MGForm != null)
 			{
 				m_control = m_MGForm.ForcusControl;
 				if (m_control != null)
 				{
-					m_Dummy1.BoolValue = m_control.IsFull;
+					this.SetMGStyle(m_control.MGStyle);
+					this.AutoLayout();
 				}
 			}
 		}

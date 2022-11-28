@@ -17,18 +17,21 @@ namespace MGCreator
 		GrayLight,
 		GrayDrak,
 		GrayDrakDark,
+		RedTrue,
 		Red,
 		RedLight,
 		RedDark,
 		Blood,
 		Pink,
-		Green,
 		GreenTrue,
+		Green,
 		GreenLight,
 		GreenDark,
 		Emerald,
-		Blue,
+		EmeraldLight,
+		EmeraldDark,
 		BlueTrue,
+		Blue,
 		BlueLight,
 		BlueDark,
 		SkayBlue,
@@ -46,31 +49,20 @@ namespace MGCreator
 		Orange,
 		OrangeLight,
 		OrangeDark,
-		RedTrue,
-		ForeColor,
-		BackColor,
 		Transparent
 	}
 	partial class MGForm
 	{
 		// *****************************************************************************
-		private Color[] m_Colors = new Color[(int)MG_COLORS.ForeColor];
+		private Color[] m_Colors = new Color[(int)MG_COLORS.Transparent];
 		// *****************************************************************************
 		public Color GetColors(MG_COLORS v, double opa = 100)
 		{
-			Color ret = this.ForeColor;
+			Color ret = Color.White;
 			int v2 = (int)v;
-			if ((v2 >= 0) && (v2 < (int)MG_COLORS.ForeColor))
+			if ((v2 >= 0) && (v2 < (int)MG_COLORS.Transparent))
 			{
 				ret = m_Colors[v2];
-			}
-			else if (v == MG_COLORS.BackColor)
-			{
-				ret = this.BackColor;
-			}
-			else if (v == MG_COLORS.ForeColor)
-			{
-				ret = ForeColor;
 			}
 			else if (v == MG_COLORS.Transparent)
 			{
@@ -84,7 +76,7 @@ namespace MGCreator
 		}
 		public void SetMG_Colors(MG_COLORS v, Color c)
 		{
-			if ((v >= 0) && (v < MG_COLORS.ForeColor))
+			if ((v >= 0) && (v < MG_COLORS.Transparent))
 			{
 				byte r = c.R;
 				byte g = c.G;
@@ -96,24 +88,32 @@ namespace MGCreator
 		public void InitColor()
 		{
 			m_Colors[(int)MG_COLORS.White] = Color.FromArgb(231, 226, 226);
+			m_Colors[(int)MG_COLORS.WhiteTrue] = Color.FromArgb(0xFF, 0xFF, 0xFF);
 			m_Colors[(int)MG_COLORS.Black] = Color.FromArgb(10, 10, 10);
+			m_Colors[(int)MG_COLORS.BLackTrue] = Color.FromArgb(0x00, 0x00, 0x00);
 			m_Colors[(int)MG_COLORS.Gray] = Color.FromArgb(95, 95, 95);
 			m_Colors[(int)MG_COLORS.GrayDrak] = Color.FromArgb(60, 60, 60);
 			m_Colors[(int)MG_COLORS.GrayLight] = Color.FromArgb(172, 158, 158);
 			m_Colors[(int)MG_COLORS.GrayDrakDark] = Color.FromArgb(30, 30, 30);
 
 			m_Colors[(int)MG_COLORS.Red] = Color.FromArgb(193, 74, 74);
+			m_Colors[(int)MG_COLORS.RedTrue] = Color.FromArgb(0xFF, 0x00, 0x00);
 			m_Colors[(int)MG_COLORS.RedDark] = Color.FromArgb(116, 54, 54);
 			m_Colors[(int)MG_COLORS.RedLight] = Color.FromArgb(219, 151, 151);
 			m_Colors[(int)MG_COLORS.Blood] = Color.FromArgb(121, 50, 73);
 			m_Colors[(int)MG_COLORS.Pink] = Color.FromArgb(202, 167, 216);
 
 			m_Colors[(int)MG_COLORS.Green] = Color.FromArgb(83, 138, 68);
+			m_Colors[(int)MG_COLORS.GreenTrue] = Color.FromArgb(0x00, 0xFF, 0x00);
 			m_Colors[(int)MG_COLORS.GreenDark] = Color.FromArgb(143, 211, 125);
 			m_Colors[(int)MG_COLORS.GreenLight] = Color.FromArgb(58, 85, 49);
+
 			m_Colors[(int)MG_COLORS.Emerald] = Color.FromArgb(68, 138, 117);
+			m_Colors[(int)MG_COLORS.EmeraldLight] = Color.FromArgb(68+100, 138+100, 117+100);
+			m_Colors[(int)MG_COLORS.EmeraldDark] = Color.FromArgb(68 - 50, 138 -50, 117 - 50);
 
 			m_Colors[(int)MG_COLORS.Blue] = Color.FromArgb(67, 82, 128);
+			m_Colors[(int)MG_COLORS.BlueTrue] = Color.FromArgb(0x00, 0x00, 0xFF);
 			m_Colors[(int)MG_COLORS.BlueDark] = Color.FromArgb(47, 55, 79);
 			m_Colors[(int)MG_COLORS.BlueLight] = Color.FromArgb(121, 145, 211);
 			m_Colors[(int)MG_COLORS.SkayBlue] = Color.FromArgb(107, 172, 202);
@@ -135,12 +135,7 @@ namespace MGCreator
 			m_Colors[(int)MG_COLORS.Orange] = Color.FromArgb(195, 154, 77);
 			m_Colors[(int)MG_COLORS.OrangeDark] = Color.FromArgb(118, 96, 56);
 			m_Colors[(int)MG_COLORS.OrangeLight] = Color.FromArgb(219, 196, 153);
-			m_Colors[(int)MG_COLORS.BLackTrue] = Color.FromArgb(0x00, 0x00, 0x00);
-			m_Colors[(int)MG_COLORS.RedTrue] = Color.FromArgb(0xFF, 0x00, 0x00);
-			m_Colors[(int)MG_COLORS.GreenTrue] = Color.FromArgb(0x00, 0xFF, 0x00);
-			m_Colors[(int)MG_COLORS.BlueTrue] = Color.FromArgb(0x00, 0x00, 0xFF);
-			m_Colors[(int)MG_COLORS.WhiteTrue] = Color.FromArgb(0xFF, 0xFF, 0xFF);
-
+	
 		}
 
 

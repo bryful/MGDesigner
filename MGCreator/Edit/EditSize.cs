@@ -36,7 +36,7 @@ namespace MGCreator
 				Size = sz;
 			}
 		}
-		public new readonly MGStyle MGStyle = MGStyle.ALL;
+		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		// ****************************************************************************
 		public delegate void CSizeChangedHandler(object sender, CSizeChangedEventArgs e);
 		public event CSizeChangedHandler? CSizaChanged;

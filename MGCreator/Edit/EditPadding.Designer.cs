@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditDrawMargin
+	partial class EditPadding
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
