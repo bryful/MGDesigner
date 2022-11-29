@@ -58,9 +58,9 @@ namespace MGCreator
 				m_MGForm = value;
 				if (m_MGForm != null)
 				{
-					m_control = m_MGForm.ForcusControl;
+					m_control = m_MGForm.TargetControl;
 					GetValeuFromControl();
-					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+					m_MGForm.TargetChanged += M_MGForm_TargetChanged;
 					if (m_control != null)
 					{
 						m_control.SizeChanged += M_control_SizeChanged;
@@ -69,11 +69,11 @@ namespace MGCreator
 			}
 		}
 
-		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+		private void M_MGForm_TargetChanged(object sender, TargetChangedEventArgs e)
 		{
 			if (m_MGForm != null)
 			{
-				m_control = m_MGForm.ForcusControl;
+				m_control = e.Control;
 				if (m_control != null)
 				{
 					m_control.SizeChanged += M_control_SizeChanged;

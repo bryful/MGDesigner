@@ -69,7 +69,7 @@ namespace MGCreator
 					MGForm.ControlAdded += M_MGForm_ControlCHanged;
 					MGForm.ControlRemoved += M_MGForm_ControlCHanged;
 					MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
-					MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+					MGForm.TargetChanged += MGForm_TargetChanged;
 					MGForm.Show();
 				}
 
@@ -84,21 +84,24 @@ namespace MGCreator
 				MGForm.Focus();
 			}
 		}
-		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+
+		private void MGForm_TargetChanged(object sender, TargetChangedEventArgs e)
 		{
+			if (e.Control == null) return;
 			int idx = e.Index;
-			if ((idx>=0)&&(idx<controlListBox1.Items.Count))
+			if ((idx >= 0) && (idx < controlListBox1.Items.Count))
 			{
-				if(controlListBox1.SelectedIndex!=e.Index)
+				if (controlListBox1.SelectedIndex != e.Index)
 				{
 					controlListBox1.SelectedIndex = e.Index;
 				}
 			}
 		}
 
+
 		private void M_MGForm_ControlCHanged(object? sender, ControlEventArgs e)
 		{
-			controlListBox1.ListUp();
+			controlListBox1.ListUp(MGForm.TargetControl);
 		}
 
 		private void btnNewMG_Click(object sender, EventArgs e)

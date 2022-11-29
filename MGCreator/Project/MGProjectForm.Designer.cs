@@ -90,12 +90,10 @@ namespace MGCreator
 			// 
 			// controlListBox1
 			// 
-			this.controlListBox1.AddBtn = this.btnAdd;
 			this.controlListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.controlListBox1.BackColor = System.Drawing.Color.Black;
-			this.controlListBox1.DelBtn = this.btnDel;
 			this.controlListBox1.ForeColor = System.Drawing.Color.LightGray;
 			this.controlListBox1.FormattingEnabled = true;
 			this.controlListBox1.ItemHeight = 15;

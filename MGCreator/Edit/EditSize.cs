@@ -78,9 +78,15 @@ namespace MGCreator
 			m_sizeEdit.AutoSize = false;
 			m_sizeEdit.Location = new Point(m_CaptionWidth, 0);
 			m_sizeEdit.Size = new Size(120, 20);
+			m_sizeEdit.ValueChanged += M_sizeEdit_ValueChanged;
 			this.Controls.Add(m_sizeEdit);
 			InitializeComponent();
 			ChkSize();
+		}
+
+		private void M_sizeEdit_ValueChanged(object sender, SizeEdit.ValueChangedEventArgs e)
+		{
+			SetValeuToControl();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)

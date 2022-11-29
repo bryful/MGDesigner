@@ -1,5 +1,6 @@
 ﻿namespace MGCreator
 {
+	/*
 	public class ForcusChangedEventArgs : EventArgs
 	{
 		public int Index;
@@ -8,10 +9,11 @@
 			Index = idx;
 		}
 	}
+	*/
 	public class TargetChangedEventArgs : EventArgs
 	{
 		public int Index;
-		MGControl? Control;
+		public MGControl? Control;
 		public TargetChangedEventArgs(int idx, MGControl? ctrl)
 		{
 			this.Index = idx;
@@ -20,6 +22,7 @@
 	}
 	partial class MGForm
 	{
+		/*
 		public delegate void ForcusChangedHandler(object sender, ForcusChangedEventArgs e);
 		public event ForcusChangedHandler? ForcusChanged;
 		protected virtual void OnForcusChanged(ForcusChangedEventArgs e)
@@ -29,6 +32,7 @@
 				ForcusChanged(this, e);
 			}
 		}
+		*/
 		// ************************************************************
 		public delegate void TargetChangedHandler(object sender, TargetChangedEventArgs e);
 		public event TargetChangedHandler? TargetChanged;

@@ -21,56 +21,16 @@ namespace MGCreator
             if(m_MGForm!=null)
             {
                 m_controls = m_MGForm.Controls;
-                m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
-                ListUp();
+                m_MGForm.TargetChanged += M_MGForm_TargetChanged;
+				ListUp(m_MGForm.TargetControl);
             }
 
 		}
 
-        private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+        private void M_MGForm_TargetChanged(object sender, TargetChangedEventArgs e)
         {
-            ListUp();
-        }
-
-        private Button? m_AddBtn = null;
-        [Category("_MG")]
-        public Button? AddBtn
-        {
-            get { return m_AddBtn; }
-            set
-            {
-                m_AddBtn = value;
-                if (m_AddBtn != null)
-                {
-                    m_AddBtn.Click += M_AddBtn_Click;
-                }
-            }
-        }
-		private Button? m_DelBtn = null;
-		[Category("_MG")]
-		public Button? DelBtn
-		{
-			get { return m_DelBtn; }
-			set
-			{
-				m_DelBtn = value;
-				if (m_DelBtn != null)
-				{
-                    m_DelBtn.Click += M_DelBtn_Click;
-				}
-			}
+			ListUp(e.Control);
 		}
-
-        private void M_DelBtn_Click(object? sender, EventArgs e)
-        {
-            if (m_MGForm == null) return;
-            m_MGForm.DeleteControl(this.SelectedIndex);
-        }
-
-        private void M_AddBtn_Click(object? sender, EventArgs e)
-        {
-            ListUp();
-        }
 
         // ****************************************************************
         public ControlListBox()
@@ -81,7 +41,7 @@ namespace MGCreator
 					true);
 		}
         // ****************************************************************
-        public void ListUp()
+        public void ListUp(MGControl? ctrl)
         {
             //MessageBox.Show(m_cu.ListUp().ToString());
             Items.Clear();
@@ -94,7 +54,14 @@ namespace MGCreator
                     int idx = 0;
                     foreach (Control c in m_controls)
                     {
-                        if (c.Focused) si = idx;
+                        if ((c is MGControl) && (ctrl != null));
+                        {
+                            MGControl cc = (MGControl)c;
+                            if (cc == ctrl)
+                            {
+                                si = idx;
+                            }
+                        }
                         lst.Add(c.Name);
                         idx++;
                     }
@@ -116,25 +83,15 @@ namespace MGCreator
             {
                 if (SelectedIndex >= 0)
                 {
-                    m_controls[SelectedIndex].Focus();
+                    if(m_MGForm!=null)
+                    {
+                        m_MGForm.TargetIndex = SelectedIndex;
+					}
+                    
                 }
             }
         }
-        // ****************************************************************
-        public void DeleteControl()
-        {
-            //m_cu.DeleteControl(this.SelectedIndex);
-        }
-        // ****************************************************************
-        public void ControlToUp()
-        {
-            //m_cu.ControlToUp(this.SelectedIndex);
-        }
-        // ****************************************************************
-        public void ControlToDown()
-        {
-            //m_cu.ControlToDown(this.SelectedIndex);
-        }
+  
         // ****************************************************************
     }
 }

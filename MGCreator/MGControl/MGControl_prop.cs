@@ -42,6 +42,7 @@ namespace MGCreator
 			{
 				m_IsShowGuide = value;
 				ChkOffScr();
+				this.Invalidate();
 			}
 		}
 		// ********************************************

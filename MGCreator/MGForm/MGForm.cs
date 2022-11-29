@@ -16,13 +16,31 @@ namespace MGCreator
 		public MGProjectForm? MGProjectForm = null;
 		private ContextMenuStrip m_Menu = new ContextMenuStrip();
 		private int m_TargetIndex = -1;
-		private int TargetIndex
+		[Category("_MG")]
+		public int TargetIndex
 		{
 			get { return m_TargetIndex; }
 			set
 			{
 				SetTargetIndex(value);
 			}
+		}
+		[Category("_MG")]
+		public MGControl? TargetControl
+		{
+			get
+			{
+				MGControl? ret = null;
+				if ((m_TargetIndex>=0)&&(m_TargetIndex<this.Controls.Count))
+				{
+					if (this.Controls[m_TargetIndex] is MGControl)
+					{
+						ret = (MGControl)this.Controls[m_TargetIndex];
+					}
+				}
+				return ret;
+			}
+
 		}
 		public void SetTargetIndex(int value,bool IsEvent=true)
 		{

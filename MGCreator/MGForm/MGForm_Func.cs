@@ -89,66 +89,12 @@ namespace MGCreator
 			}
 			ctrl.Size = new Size(w,h);
 			ctrl.Location = new Point(l,t);
-			ctrl.GotFocus += Ctrl_GotFocus;
-			ctrl.LostFocus += Ctrl_LostFocus;
 
 			this.Controls.Add(ctrl);
 			ctrl.ChkOffScr();
 			ChkControlIndex();
 			ret = (ctrl != null);
 			return ret;
-
-        }
-
-        private void Ctrl_LostFocus(object? sender, EventArgs e)
-        {
-			this.Invalidate();
-		}
-
-        private void Ctrl_GotFocus(object? sender, EventArgs e)
-        {
-            this.Invalidate();
-            if (sender is MGControl)
-            {
-                MGControl m = (MGControl)sender;
-                OnForcusChanged(new ForcusChangedEventArgs(m.Index));
-            }
-        }
-        public int ForcusControlIndex
-        {
-            get
-            {
-                int ret = -1;
-                for(int i=0;i<this.Controls.Count;i++)
-                {
-                    if (this.Controls[i].Focused)
-                    {
-                        ret = i;
-                        break;
-                    }
-                }
-                return ret;
-            }
-            set
-            {
-                if((value>=0)&&(value<this.Controls.Count))
-                {
-                    this.Controls[value].Focus();
-					this.Invalidate();
-
-				}
-			}
-        }
-        public MGControl? ForcusControl
-        {
-            get
-            {
-                MGControl? ret = null;
-                int idx = ForcusControlIndex;
-                if (idx >= 0) ret = (MGControl)this.Controls[idx];
-                return ret;
-
-			}
         }
 
 		public bool DeleteControl(int idx)

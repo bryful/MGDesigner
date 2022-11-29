@@ -428,13 +428,20 @@ true);
 			Pen p = new Pen(m_GuideColor, 1);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Graphics g = pe.Graphics;
-			GraphicsPath path = new GraphicsPath();
-			path.AddRectangle(this.ClientRectangle);
-			Region region = new Region(path);
-			g.SetClip(region, CombineMode.Replace);
-
+			if (m_MGStyle == MGStyle.Zebra)
+			{
+				GraphicsPath path = new GraphicsPath();
+				path.AddRectangle(this.ClientRectangle);
+				Region region = new Region(path);
+				g.SetClip(region, CombineMode.Replace);
+			}
 			try
 			{
+				bool isTarget = true;
+				if (this.Parent is MGForm)
+				{
+					isTarget = (this.Index == ((MGForm)this.Parent).TargetIndex);
+				}
 				if(m_MDCType != MGC_MDType.None)
 				{
 					p.Color = m_GuideColorMD;
@@ -444,10 +451,13 @@ true);
 				{
 					sb.Color = Color.FromArgb(64, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
-				}else if ((this.Focused)&& (m_IsShowGuide))
+				}else if (isTarget)
 				{
-					p.Color = m_GuideColorMD;
-					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
+					p.Color = Color.FromArgb(128,255,0,255);
+					p.DashStyle = DashStyle.Dash;
+					p.Width = 2;
+					g.DrawRectangle(p,new Rectangle(3,3,this.Width-7,this.Height-7));
+					p.DashStyle = DashStyle.Solid;
 				}
 			}
 			finally
@@ -513,6 +523,11 @@ true);
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			if(this.Parent is MGForm)
+			{
+				MGForm form = (MGForm)this.Parent;
+				form.TargetIndex = this.Index;
+			}
 			base.OnMouseDown(e);
 			if ((e.Button == MouseButtons.Left)&&(m_MDCType == MGC_MDType.None))
 			{
