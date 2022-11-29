@@ -38,6 +38,7 @@ namespace MGCreator
 			this.controlListBox1 = new MGCreator.ControlListBox();
 			this.mgStyleComb1 = new MGCreator.MGStyleComb();
 			this.btnNewMG = new System.Windows.Forms.Button();
+			this.btnPropForm = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnAdd
@@ -57,7 +58,7 @@ namespace MGCreator
 			this.btnDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnDel.ForeColor = System.Drawing.Color.LightGray;
-			this.btnDel.Location = new System.Drawing.Point(12, 436);
+			this.btnDel.Location = new System.Drawing.Point(12, 435);
 			this.btnDel.Name = "btnDel";
 			this.btnDel.Size = new System.Drawing.Size(39, 23);
 			this.btnDel.TabIndex = 3;
@@ -68,7 +69,7 @@ namespace MGCreator
 			// 
 			this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnUp.ForeColor = System.Drawing.Color.LightGray;
-			this.btnUp.Location = new System.Drawing.Point(12, 97);
+			this.btnUp.Location = new System.Drawing.Point(12, 95);
 			this.btnUp.Name = "btnUp";
 			this.btnUp.Size = new System.Drawing.Size(39, 23);
 			this.btnUp.TabIndex = 4;
@@ -79,7 +80,7 @@ namespace MGCreator
 			// 
 			this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnDown.ForeColor = System.Drawing.Color.LightGray;
-			this.btnDown.Location = new System.Drawing.Point(57, 97);
+			this.btnDown.Location = new System.Drawing.Point(54, 95);
 			this.btnDown.Name = "btnDown";
 			this.btnDown.Size = new System.Drawing.Size(50, 23);
 			this.btnDown.TabIndex = 5;
@@ -99,7 +100,7 @@ namespace MGCreator
 			this.controlListBox1.ItemHeight = 15;
 			this.controlListBox1.Location = new System.Drawing.Point(11, 126);
 			this.controlListBox1.Name = "controlListBox1";
-			this.controlListBox1.Size = new System.Drawing.Size(141, 304);
+			this.controlListBox1.Size = new System.Drawing.Size(139, 289);
 			this.controlListBox1.TabIndex = 6;
 			// 
 			// mgStyleComb1
@@ -132,19 +133,32 @@ namespace MGCreator
 			// 
 			this.btnNewMG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnNewMG.ForeColor = System.Drawing.Color.LightGray;
-			this.btnNewMG.Location = new System.Drawing.Point(12, 27);
+			this.btnNewMG.Location = new System.Drawing.Point(11, 27);
 			this.btnNewMG.Name = "btnNewMG";
-			this.btnNewMG.Size = new System.Drawing.Size(92, 23);
+			this.btnNewMG.Size = new System.Drawing.Size(57, 23);
 			this.btnNewMG.TabIndex = 8;
-			this.btnNewMG.Text = "New Moniter";
+			this.btnNewMG.Text = "MG";
 			this.btnNewMG.UseVisualStyleBackColor = true;
 			this.btnNewMG.Click += new System.EventHandler(this.btnNewMG_Click);
+			// 
+			// btnPropForm
+			// 
+			this.btnPropForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnPropForm.ForeColor = System.Drawing.Color.LightGray;
+			this.btnPropForm.Location = new System.Drawing.Point(74, 27);
+			this.btnPropForm.Name = "btnPropForm";
+			this.btnPropForm.Size = new System.Drawing.Size(76, 23);
+			this.btnPropForm.TabIndex = 9;
+			this.btnPropForm.Text = "Property";
+			this.btnPropForm.UseVisualStyleBackColor = true;
+			this.btnPropForm.Click += new System.EventHandler(this.btnPropForm_Click);
 			// 
 			// MGProjectForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(160, 472);
+			this.ClientSize = new System.Drawing.Size(158, 471);
+			this.Controls.Add(this.btnPropForm);
 			this.Controls.Add(this.btnNewMG);
 			this.Controls.Add(this.mgStyleComb1);
 			this.Controls.Add(this.controlListBox1);
@@ -167,5 +181,6 @@ namespace MGCreator
 		private ControlListBox controlListBox1;
 		private MGStyleComb mgStyleComb1;
 		private Button btnNewMG;
+		private Button btnPropForm;
 	}
 }

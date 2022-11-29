@@ -21,10 +21,16 @@ namespace MGCreator
             if(m_MGForm!=null)
             {
                 m_controls = m_MGForm.Controls;
+                m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
                 ListUp();
             }
 
 		}
+
+        private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
+        {
+            ListUp();
+        }
 
         private Button? m_AddBtn = null;
         [Category("_MG")]
@@ -99,9 +105,11 @@ namespace MGCreator
                     }
                 }
             }
-        }
-        // ****************************************************************
-        protected override void OnSelectedIndexChanged(EventArgs e)
+			this.Invalidate();
+
+		}
+		// ****************************************************************
+		protected override void OnSelectedIndexChanged(EventArgs e)
         {
             base.OnSelectedIndexChanged(e);
             if (m_controls != null)

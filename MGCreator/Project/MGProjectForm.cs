@@ -17,10 +17,11 @@ namespace MGCreator
 		{
 			this.IsColseBtn = true;
 			InitializeComponent();
+			ShowMGPropertyForm(false);
 		}
 		// *******************************************************************************
 		public MGPropertyForm? MGPropertyForm = null;
-		public void ShowMGPropertyForm()
+		public void ShowMGPropertyForm(bool isV=true)
 		{
 			if (MGForm == null) return;
 			if (MGPropertyForm == null)
@@ -28,10 +29,23 @@ namespace MGCreator
 				MGPropertyForm = new MGPropertyForm();
 				MGPropertyForm.IsColseBtn = false;
 				MGPropertyForm.MGForm = MGForm;
-				MGPropertyForm.Show();
+				if (isV)
+				{
+					MGPropertyForm.Show();
+					MGPropertyForm.Visible = true;
+				}
+				else
+				{
+					MGPropertyForm.Visible = false;
+				}
+
 			}
-			else
+				else
 			{
+				if (MGPropertyForm.Visible == false)
+				{
+					MGPropertyForm.Visible = true;
+				}
 				MGPropertyForm.Activate();
 				MGPropertyForm.Focus();
 			}
@@ -53,6 +67,10 @@ namespace MGCreator
 			}
 			else
 			{
+				if(MGForm.Visible==false)
+				{
+					MGForm.Visible = true;
+				}
 				MGForm.Activate();
 				MGForm.Focus();
 			}
@@ -85,6 +103,11 @@ namespace MGCreator
 			{
 				MGForm.AddControl(mgStyleComb1.MGStyle);
 			}
+		}
+
+		private void btnPropForm_Click(object sender, EventArgs e)
+		{
+			ShowMGPropertyForm();
 		}
 	}
 }

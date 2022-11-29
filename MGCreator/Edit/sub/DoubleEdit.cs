@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
@@ -11,28 +12,47 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public class PropChangedEventArgs : EventArgs
+	public class NumberChangedEventArgs : EventArgs
 	{
-		public double Value = 0;
-		public PropChangedEventArgs(double v)
+		public object Value;
+		public NumberChangedEventArgs(object v)
 		{
 			Value = v;
 		}
 	}
-	public partial class PropEdit : Control
+	public enum TargetType
 	{
+		INT = 0,
+		FLOAT,
+		DOUBLE
+	}; 
+	public partial class DoubleEdit : Control
+	{
+		private TargetType m_TargetType = TargetType.DOUBLE;
+
+		public TargetType TargetType
+		{
+			get { return m_TargetType; }
+			set { m_TargetType = value; this.Invalidate(); }
+		}
+		private bool IsTarget(object v)
+		{
+			return ((v.GetType() == typeof(int)) || (v.GetType() == typeof(float)) || (v.GetType() == typeof(float)));
+		}
+
+		private Type[] m_TargetTypeValue = new Type[] {typeof(int),typeof(float),typeof(double)};
 		private int m_CellWidth = 80;
 		private int m_CellHeight = 20;
 		private int m_BtnWidth = 20;
 		private int m_BtnHeight = 20;
 
-		public delegate void PropChangedHandler(object sender, PropChangedEventArgs e);
-		public event PropChangedHandler? PropChanged;
-		protected virtual void OnPropChanged(PropChangedEventArgs e)
+		public delegate void NumberChangedHandler(object sender, NumberChangedEventArgs e);
+		public event NumberChangedHandler? NumberChanged;
+		protected virtual void OnNumberChanged(NumberChangedEventArgs e)
 		{
-			if (PropChanged != null)
+			if (NumberChanged != null)
 			{
-				PropChanged(this, e);
+				NumberChanged(this, e);
 			}
 		}
 		private bool m_IsLeftRightMode = true;
@@ -43,39 +63,62 @@ namespace MGCreator
 			set { m_IsLeftRightMode = value; this.Invalidate(); }
 		}
 		private bool m_IsIntMode = false;
+		
+		/*
 		[Category("_MG")]
 		public bool IsIntMode
 		{
-			get { return m_IsIntMode; }
-			set { m_IsIntMode = value; this.Invalidate(); }
+			get { return (m_TargetType == TargetType.INT); }
+			set {m_TargetType = value; this.Invalidate(); }
 		}
-		private double m_Value = 0;
+		*/
+		
+		protected object m_Value = 0;
 		[Category("_MG")]
-		public double Value
+		public object Value
 		{
 			get 
 			{
-				return m_Value;
+				return Convert.ChangeType(m_Value, m_TargetTypeValue[(int)m_TargetType]);
 			}
 			set
 			{
+				if (IsTarget(value) == false) return; 
 				SetValue(value);
 			}
+		}
+		private string m_ValueToStr()
+		{
+			switch (m_TargetType)
+			{
+				case TargetType.INT:
+					int iv = (int)Convert.ChangeType(m_Value,typeof(int));
+					return $"{iv}";
+				case TargetType.FLOAT:
+					float fv = (float)Convert.ChangeType(m_Value, typeof(float));
+					return $"{fv}";
+				case TargetType.DOUBLE:
+					double dv = (double)Convert.ChangeType(m_Value, typeof(double));
+					return $"{dv}";
+				default:
+					return "";
+			}
+
 		}
 		[Category("_MG")]
 		public int ValueInt
 		{
 			get
 			{
-
-				return (int)(m_Value + 0);
+				return (int)Convert.ChangeType(m_Value, typeof(int));
 			}
 			set
 			{
-				SetValue((double)value);
+				SetValue((object)value);
 			}
 		}
-		private double m_ValueMax = 32000;
+
+		protected double m_ValueMax = 32000;
 		[Category("_MG")]
 		public double ValueMax
 		{
@@ -86,11 +129,13 @@ namespace MGCreator
 			set
 			{
 				m_ValueMax = value;
-				if (m_Value > m_ValueMax) m_Value = m_ValueMax;
+				double dv = (double)Convert.ChangeType(m_Value, typeof(double));
+				if (dv > m_ValueMax) 
+					m_Value = Convert.ChangeType(m_ValueMax, m_TargetTypeValue[(int)m_TargetType]);
 				this.Invalidate();
 			}
 		}
-		private double m_ValueMin = 0;
+		protected double m_ValueMin = 0;
 		[Category("_MG")]
 		public double ValueMin
 		{
@@ -101,16 +146,19 @@ namespace MGCreator
 			set
 			{
 				m_ValueMin = value;
-				if (m_Value < m_ValueMin) m_Value = m_ValueMin;
+				double dv = (double)Convert.ChangeType(m_Value, typeof(double));
+				if (dv < m_ValueMin)
+					m_Value = Convert.ChangeType(m_ValueMin, m_TargetTypeValue[(int)m_TargetType]);
 				this.Invalidate();
 			}
 		}
 		private bool _EventFlag = true;
 		public bool EventFlag { get { return _EventFlag; } }
 		public void SetEventFlag(bool b) { _EventFlag = b; }
-		public void SetValue(double value)
+		public void SetValue(object value)
 		{
 			if (_EventFlag == false) return;
+			if(IsTarget(value)==false) return;
 			_EventFlag = false;
 			bool flag = false;
 			value = ChkValue(value);
@@ -121,7 +169,7 @@ namespace MGCreator
 			}
 			if (flag)
 			{
-				OnPropChanged(new PropChangedEventArgs(m_Value));
+				OnNumberChanged(new NumberChangedEventArgs(m_Value));
 			}
 			_EventFlag = true;
 			this.Invalidate();
@@ -132,7 +180,7 @@ namespace MGCreator
 		private Color m_ForcusedColor = Color.Black;
 		private Color m_UnForcusedColor = Color.DarkGray;
 
-		public PropEdit()
+		public DoubleEdit()
 		{
 			this.Size = new Size(m_CellWidth +m_BtnWidth*2, m_CellHeight);
 			this.MinimumSize = new Size(0, this.Size.Height);
@@ -191,16 +239,7 @@ true);
 			try
 			{
 				g.FillRectangle(sb, new Rectangle(0, 0, m_CellWidth, m_CellHeight));
-				/*
-				if (this.Focused)
-				{
-					p.Color = m_ForcusedColor;
-				}
-				else
-				{
-					p.Color = m_UnForcusedColor;
-				}
-				*/
+
 				Rectangle r0 = BtnRegion(m_CellWidth , 0);
 				Rectangle r1 = BtnRegion(m_CellWidth+m_BtnWidth, 0);
 				switch (m_mdpos)
@@ -242,8 +281,7 @@ true);
 				Rectangle r = new Rectangle(0, 0, m_CellWidth, m_CellHeight);
 				sb.Color = this.ForeColor;
 
-				double v = ChkValue( m_Value);
-				g.DrawString($"{v}", this.Font, sb, r, sf);
+				g.DrawString(m_ValueToStr(), this.Font, sb, r, sf);
 				g.DrawRectangle(p, new Rectangle(0, 0, m_CellWidth - 1, m_CellHeight - 1));
 			}
 			finally
@@ -303,7 +341,7 @@ true);
 		{
 			if (m_mdpos != CrossDir.None)
 			{
-				SetValue(m_Value + m_mdvalue); ;
+				Value = (double)m_Value + (double)m_mdvalue;
 				//OnCrossChanged(new CrossChangedEventArgs(m_mdpos, m_mdvalue));
 				m_mdpos = CrossDir.None;
 				m_mdvalue = 1;
@@ -318,8 +356,7 @@ true);
 			if (m_isEdit) return;
 			m_isEdit = true;
 			TextBox tb = new TextBox();
-			double v = ChkValue( m_Value);
-			tb.Text = $"{v}";
+			tb.Text = $"{m_ValueToStr()}";
 			tb.BorderStyle = BorderStyle.FixedSingle;
 			tb.Size = new Size(m_CellWidth, m_CellHeight-2);
 			tb.Location = new Point(0, 0);
@@ -333,33 +370,65 @@ true);
 			ChkEdit();
 			EndEdit();
 		}
-		private double ChkValue(double v)
+		private object ChkValue(object v)
 		{
-			double ret = v;
-			if(m_IsIntMode)
+			object v2 = Convert.ChangeType(v, m_TargetTypeValue[(int)m_TargetType]);
+			
+			object vmax = Convert.ChangeType(m_ValueMax, m_TargetTypeValue[(int)m_TargetType]);
+			object vmin = Convert.ChangeType(m_ValueMin, m_TargetTypeValue[(int)m_TargetType]);
+			switch (m_TargetType)
 			{
-				double f = 1;
-				if (ret < 0) { f = -1; ret *= -1; }
-				int ret2 = (int)(ret * 100 + 0.5);
-				ret = (double)((double)ret2 / 100);
-				if (m_IsIntMode)
-				{
-					ret = (double)((int)(ret + 0));
-				}
-				ret *= f;
+				case TargetType.INT:
+					
+					if ((int)v2 > (int)vmax) v2 = vmax;
+					else if ((int)v2 < (int)vmin) v2 = vmin;
+					break;
+				case TargetType.FLOAT:
+					v2 = (float)((int)((float)v2 * 100 + 0.5)) / 100;
+					if ((float)v2 > (float)vmax) v2 = vmax;
+					else if ((float)v2 < (float)vmin) v2 = vmin;
+					break;
+				case TargetType.DOUBLE:
+					v2 = (double)((int)((double)v2 * 100 + 0.5)) / 100;
+					if ((double)v2 > (double)vmax) v2 = vmax;
+					else if ((double)v2 < (double)vmin) v2 = vmin;
+					break;
 			}
-			if (ret > m_ValueMax) ret = m_ValueMax;
-			else if (ret < m_ValueMin) ret = m_ValueMin;
-			return ret;
+			return v2;
 		}
-		private void ChkEdit()
+		private bool ChkEdit()
 		{
+			bool ret = false;
 			TextBox tb = (TextBox)this.Controls[this.Controls.Count - 1];
-			double v = 0;
-			if (double.TryParse(tb.Text, out v) == true)
+			switch (m_TargetType)
 			{
-				SetValue(v);
+				case TargetType.INT:
+					int iv = 0;
+					if (int.TryParse(tb.Text, out iv) == true)
+					{
+						SetValue((object)iv);
+						ret = true;
+					}
+					break;
+				case TargetType.FLOAT:
+					float fv = 0;
+					if (float.TryParse(tb.Text, out fv) == true)
+					{
+						SetValue((object)fv);
+						ret = true;
+					}
+					break;
+				case TargetType.DOUBLE:
+					double dv = 0;
+					if (double.TryParse(tb.Text, out dv) == true)
+					{
+						SetValue((object)dv);
+						ret = true;
+					}
+					break;
 			}
+			return ret;
+
 		}
 		private void EndEdit()
 		{
@@ -367,14 +436,17 @@ true);
 			this.Controls.Remove(tb);
 			tb.Dispose();
 			m_isEdit = false;
+			this.Focus();
 			this.Invalidate();
 		}
 		private void Tb_KeyDown(object? sender, KeyEventArgs e)
 		{
 			if (e.KeyData == Keys.Enter)
 			{
-				ChkEdit();
-				EndEdit();
+				if(ChkEdit())
+				{
+					EndEdit();
+				}
 			}
 			else if (e.KeyData == Keys.Escape)
 			{
@@ -383,8 +455,8 @@ true);
 		}
 		protected override void OnResize(EventArgs e)
 		{
-			m_CellWidth = this.Width - (m_BtnWidth * 2);
 			base.OnResize(e);
+			m_CellWidth = this.Width - (m_BtnWidth * 2);
 			this.Invalidate();
 		}
 	}

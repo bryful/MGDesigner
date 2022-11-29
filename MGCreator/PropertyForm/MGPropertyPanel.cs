@@ -67,8 +67,10 @@ namespace MGCreator
 
 			m_Fill.SetCaptionPropName("Fill");
 			m_FillOpacity.SetCaptionPropName("FillOpacity");
+			m_FillOpacity.SetValueMinMax(0, 100);
 			m_Line.SetCaptionPropName("Line");
 			m_LineOpacity.SetCaptionPropName("LineOpacity");
+			m_LineOpacity.SetValueMinMax(0, 100);
 			m_IsFull.SetCaptionPropName("IsFull");
 			m_IsShowGuide.SetCaptionPropName("Guide", "IsShowGuide");
 			m_DrawMargin.SetCaptionPropName("DrawMargin");
@@ -158,6 +160,10 @@ true);
 					this.AutoLayout();
 				}
 			}
+		}
+
+		private void M_control_NameChanged(object sender, MGControl.NameChangedEventArgs e)
+		{
 		}
 	}
 }

@@ -114,8 +114,8 @@ namespace MGCreator
 		}
 		*/
 		// ****************************************************************************
-		protected PropEdit m_edit1 = new PropEdit();
-		protected PropEdit m_edit2 = new PropEdit();
+		protected DoubleEdit m_edit1 = new DoubleEdit();
+		protected DoubleEdit m_edit2 = new DoubleEdit();
 		protected ResizeTypeGrid m_resizeGrid = new ResizeTypeGrid();
 
 		// ****************************************************************************
@@ -228,20 +228,20 @@ namespace MGCreator
 			m_edit1.Location = new Point(60, 0);
 			m_edit1.Size = new Size(80, 20);
 			m_edit1.IsLeftRightMode = true;
-			m_edit1.IsIntMode = true;
+			m_edit1.TargetType = TargetType.INT;
 			m_edit1.ValueMin = 32;
 			m_edit1.ValueMax = 32000;
-			m_edit1.PropChanged += M_edit_PropChanged;
+			m_edit1.NumberChanged += M_edit_PropChanged;
 			// ********************
 			m_edit2.Name = "y";
 			m_edit2.AutoSize = false;
 			m_edit2.Location = new Point(140, 0);
 			m_edit2.Size = new Size(80, 20);
 			m_edit2.IsLeftRightMode = false;
-			m_edit2.IsIntMode = true;
+			m_edit2.TargetType = TargetType.INT;
 			m_edit2.ValueMin = 32;
 			m_edit2.ValueMax = 32000;
-			m_edit2.PropChanged += M_edit_PropChanged; ;
+			m_edit2.NumberChanged += M_edit_PropChanged; ;
 			// ********************
 			m_resizeGrid.Name = "g";
 			m_resizeGrid.AutoSize = false;
@@ -253,7 +253,7 @@ namespace MGCreator
 			this.Controls.Add(m_resizeGrid);
 			InitializeComponent();
 		}
-		private void M_edit_PropChanged(object sender, PropChangedEventArgs e)
+		private void M_edit_PropChanged(object sender, NumberChangedEventArgs e)
 		{
 			OnCSizeChanged(new CSizeChangedEventArgs(CSize));
 			SetControlSize(CSize);

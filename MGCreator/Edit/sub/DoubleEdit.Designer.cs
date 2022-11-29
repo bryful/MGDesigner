@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class PropEdit
+	partial class DoubleEdit
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

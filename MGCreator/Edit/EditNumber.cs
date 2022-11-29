@@ -12,6 +12,16 @@ namespace MGCreator
 {
 	public partial class EditNumber : Edit
 	{
+		[Category("_MG")]
+		public TargetType TargetType
+		{
+			get { return m_edit1.TargetType; }
+			set
+			{
+				m_edit1.TargetType = value;
+				GetValeuFromControl();
+			}
+		}
 		protected override void GetValeuFromControl()
 		{
 			if (m_control != null)
@@ -20,12 +30,15 @@ namespace MGCreator
 				_EventFLag = false;
 				try
 				{
-					double? b = (double?)GetValueFromProp(m_PropName,typeof(double));
-					if (b != null)
+					Type? p = GetTypeFromProp(m_PropName);
+					if (p != null)
 					{
-						m_edit1.Value = (double)b;
+						object? b = GetValueFromProp(m_PropName, p);
+						if (b != null)
+						{
+							m_edit1.Value = b;
+						}
 					}
-
 				}
 				finally
 				{
@@ -40,9 +53,13 @@ namespace MGCreator
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
+				Type? p = GetTypeFromProp(m_PropName);
 				try
 				{
-					SetValueToProp(m_PropName, m_edit1.Value,typeof(double));
+					if (p != null)
+					{
+						SetValueToProp(m_PropName, m_edit1.Value, p);
+					}
 				}
 				finally
 				{
@@ -60,18 +77,17 @@ namespace MGCreator
 			get { return m_edit1.ValueMin; }
 			set { m_edit1.ValueMin = value; }
 		}
-		public double Value
+		public object Value
 		{
 			get { return m_edit1.Value; }
 			set { m_edit1.Value = value; }
 		}
-		public bool IsINt
+		public void SetValueMinMax(double n, double m)
 		{
-			get { return m_edit1.IsIntMode; }
-			set { m_edit1.IsIntMode = value; }
+			m_edit1.ValueMin = n;
+			m_edit1.ValueMax = m;
 		}
-
-		protected PropEdit m_edit1 = new PropEdit();
+		protected DoubleEdit m_edit1 = new DoubleEdit();
 		public EditNumber()
 		{
 			Caption = "float";
@@ -84,10 +100,10 @@ namespace MGCreator
 			m_edit1.Location = new Point(m_CaptionWidth, 0);
 			m_edit1.Size = new Size(80, 20);
 			m_edit1.IsLeftRightMode = true;
-			m_edit1.IsIntMode = false;
+			m_edit1.TargetType = TargetType.FLOAT;
 			m_edit1.ValueMin = -32000;
 			m_edit1.ValueMax = 32000;
-			m_edit1.PropChanged += M_edit_PropChanged;
+			m_edit1.NumberChanged += M_edit_PropChanged;
 			this.Controls.Add(m_edit1);
 			InitializeComponent();
 			ChkSize();
@@ -97,7 +113,7 @@ namespace MGCreator
 		{
 			base.OnPaint(pe);
 		}
-		private void M_edit_PropChanged(object sender, PropChangedEventArgs e)
+		private void M_edit_PropChanged(object sender, NumberChangedEventArgs e)
 		{
 			SetValeuToControl();
 		}

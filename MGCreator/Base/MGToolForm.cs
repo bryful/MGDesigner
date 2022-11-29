@@ -144,9 +144,11 @@ namespace MGCreator
 				g.Clear(this.BackColor);
 				
 				Rectangle r = new Rectangle(0,0,this.Width,HeaderHeight-3);
+				//header
 				sb.Color = this.ForeColor;
 				g.FillRectangle(sb, r);
 
+				//closebtn
 				if (m_IsColseBtn)
 				{
 
@@ -155,12 +157,16 @@ namespace MGCreator
 					g.FillRectangle(sb, r);
 				}
 
+				//footer
 				r = new Rectangle(0, this.Height-10, this.Width - 1, 10);
+				sb.Color = this.ForeColor;
 				g.FillRectangle(sb, r);
+				//Outline
 				r = new Rectangle(0,0,this.Width-1,this.Height-1);
 				p.Color = this.ForeColor;
 				g.DrawRectangle(p, r);
 
+				//caption
 				sb.Color = this.BackColor;
 				StringFormat sf = new StringFormat();
 				sf.Alignment = StringAlignment.Near;

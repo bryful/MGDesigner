@@ -44,7 +44,7 @@ namespace MGCreator
 			this.Visible = _IsShow;
 		}
 		// **********************************************************
-		/*
+		
 		protected virtual Type? GetTypeFromProp(string n)
 		{
 			Type? ret = null;
@@ -53,10 +53,11 @@ namespace MGCreator
 			if(prop != null)
 			{
 				ret = prop.PropertyType;
+				//MessageBox.Show(ret.ToString());
 			}
 			return ret;
 		}
-		*/
+		
 		protected virtual object? GetValueFromProp(string n,Type T)
 		{
 			PropError = true;
@@ -65,10 +66,17 @@ namespace MGCreator
 			var prop = typeof(MGControl).GetProperty(n);
 			if (prop != null)
 			{
-				if (prop.PropertyType == T)
+				try
 				{
-					result = prop.GetValue(m_control);
-					PropError = false;
+					if (prop.PropertyType == T)
+					{
+						result = prop.GetValue(m_control);
+						PropError = false;
+					}
+				}
+				catch
+				{
+					result=null;
 				}
 
 			}
@@ -82,11 +90,19 @@ namespace MGCreator
 			var prop = typeof(MGControl).GetProperty(n);
 			if (prop != null)
 			{
-				if (prop.PropertyType == T)
+				try
 				{
-					prop.SetValue(m_control, v);
-					result = true;
-					PropError = false;
+					if (prop.PropertyType == T)
+					{
+						prop.SetValue(m_control, v);
+						result = true;
+						PropError = false;
+					}
+
+				}
+				catch
+				{
+					result = false;
 				}
 			}
 			return result;

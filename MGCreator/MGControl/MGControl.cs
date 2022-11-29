@@ -63,9 +63,26 @@ namespace MGCreator
 		LeftTop,
 		Center
 	}
+
 	public partial class MGControl : Control
 	{
-		
+		public class NameChangedEventArgs : EventArgs
+		{
+			string Name = "";
+			public NameChangedEventArgs(string s)
+			{
+				Name = s;
+			}
+		}
+		public delegate void NameChangedHandler(object sender, NameChangedEventArgs e);
+		public event NameChangedHandler? NameChanged;
+		protected virtual void OnNameChanged(NameChangedEventArgs e)
+		{
+			if (NameChanged != null)
+			{
+				NameChanged(this, e);
+			}
+		}
 		#region Global
 		private Bitmap m_Offscr = new Bitmap(5, 5, PixelFormat.Format32bppArgb);
 		public Bitmap OffScr { get { return m_Offscr; } }
@@ -73,7 +90,18 @@ namespace MGCreator
 		private Color m_GuideColorHi = Color.FromArgb(255, 255, 0, 0);
 		private Color m_GuideColorMD = Color.FromArgb(255, 255, 255, 0);
 
-	
+		public new string  Name
+		{ 
+			get{ return base.Name; }
+			set
+			{
+				if(base.Name != value)
+				{
+					base.Name = value;
+					OnNameChanged(new NameChangedEventArgs(value));
+				}
+			}
+		}
 
 		private void SetControlPos(ControlPos v)
 		{

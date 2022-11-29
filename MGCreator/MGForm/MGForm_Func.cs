@@ -51,11 +51,38 @@ namespace MGCreator
             if (n == null) n = "MG";
 			ctrl.Name = $"{n}{AddCount}";
 			AddCount++;
-			ctrl.Size = new Size(200, 200);
-			ctrl.Location = new Point(80, 80);
 
+			Random rnd = new Random();
+            int w = 200;
+            int h = 200;
+			int l = 100;
+			int t = 100;
+			switch (mG)
+            {
+                case MGStyle.Frame:
+					w = 400;
+					h = 300;
+                    l = 100;
+					t = 100;
+					ctrl.Fill = MG_COLORS.Red;
+                    ctrl.FillOpacity = 0;
+					ctrl.Line = MG_COLORS.White;
+					ctrl.LineOpacity = 100;
+					break;
+                default:
+					w = 200;
+					h = 200;
+					l = 200;
+					t = 200;
+					ctrl.Fill = MG_COLORS.White;
+					ctrl.FillOpacity = 100;
+					break;
+			}
+			ctrl.Size = new Size(w,h);
+			ctrl.Location = new Point(l,t);
 			ctrl.GotFocus += Ctrl_GotFocus;
-            ctrl.LostFocus += Ctrl_LostFocus;
+			ctrl.LostFocus += Ctrl_LostFocus;
+
 			this.Controls.Add(ctrl);
 			ctrl.ChkOffScr();
 			ChkControlIndex();
