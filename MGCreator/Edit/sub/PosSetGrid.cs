@@ -12,7 +12,7 @@ namespace MGCreator
 {
 	public enum PosSet
 	{
-		TopLeft,
+		TopLeft=0,
 		Top,
 		TopRight,
 		Left,

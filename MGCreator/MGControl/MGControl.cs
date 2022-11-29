@@ -336,6 +336,7 @@ true);
 		// ************************************************************************
 		public void ChkOffScr()
 		{
+			if(base.Visible==false) return;
 			int w = this.Width;
 			int h = this.Height;
 			if (w < 10) w = 10;
@@ -423,6 +424,7 @@ true);
 		// **************************************************************************************
 		protected override void OnPaint(PaintEventArgs pe)
 		{
+			if (base.Visible == false) return;
 			Pen p = new Pen(m_GuideColor, 1);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Graphics g = pe.Graphics;
@@ -533,6 +535,7 @@ true);
 				}else if (m_MDCType == MGC_MDType.Center)
 				{
 					this.Location = new Point(this.Left + ax, this.Top + ay);
+					this.Parent.Refresh();
 				}
 			}
 			else

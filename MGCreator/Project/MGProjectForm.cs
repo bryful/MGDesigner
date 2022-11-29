@@ -15,7 +15,6 @@ namespace MGCreator
 		// *******************************************************************************
 		public MGProjectForm()
 		{
-			this.IsColseBtn = true;
 			InitializeComponent();
 			ShowMGPropertyForm(false);
 		}
@@ -27,7 +26,6 @@ namespace MGCreator
 			if (MGPropertyForm == null)
 			{
 				MGPropertyForm = new MGPropertyForm();
-				MGPropertyForm.IsColseBtn = false;
 				MGPropertyForm.MGForm = MGForm;
 				if (isV)
 				{
@@ -45,9 +43,13 @@ namespace MGCreator
 				if (MGPropertyForm.Visible == false)
 				{
 					MGPropertyForm.Visible = true;
+					MGPropertyForm.Activate();
+					MGPropertyForm.Focus();
 				}
-				MGPropertyForm.Activate();
-				MGPropertyForm.Focus();
+				else
+				{
+					MGPropertyForm.Visible = false;
+				}
 			}
 		}
 		// *******************************************************************************
@@ -56,14 +58,21 @@ namespace MGCreator
 		{
 			if(MGForm==null)
 			{
-				MGForm = new MGForm();
-				MGForm.MGProjectForm = this;
-				controlListBox1.SetMGForm(MGForm);
-				MGForm.ControlAdded += M_MGForm_ControlCHanged;
-				MGForm.ControlRemoved += M_MGForm_ControlCHanged;
-				MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
-				MGForm.ForcusChanged += M_MGForm_ForcusChanged;
-				MGForm.Show();
+				MGFormSize dlg = new MGFormSize();
+				dlg.IsShowPosSet = false;
+				if(dlg.ShowDialog() == DialogResult.OK)
+				{
+					MGForm = new MGForm();
+					MGForm.Size = dlg.FormSize;
+					MGForm.MGProjectForm = this;
+					controlListBox1.SetMGForm(MGForm);
+					MGForm.ControlAdded += M_MGForm_ControlCHanged;
+					MGForm.ControlRemoved += M_MGForm_ControlCHanged;
+					MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
+					MGForm.ForcusChanged += M_MGForm_ForcusChanged;
+					MGForm.Show();
+				}
+
 			}
 			else
 			{
@@ -108,6 +117,17 @@ namespace MGCreator
 		private void btnPropForm_Click(object sender, EventArgs e)
 		{
 			ShowMGPropertyForm();
+		}
+
+		private void btnUp_Click(object sender, EventArgs e)
+		{
+			MGFormSize dlg = new MGFormSize();
+
+			if(dlg.ShowDialog()==DialogResult.OK)
+			{
+
+			}
+			dlg.Dispose();
 		}
 	}
 }

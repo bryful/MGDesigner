@@ -69,7 +69,16 @@ namespace MGCreator
 					ctrl.Line = MG_COLORS.White;
 					ctrl.LineOpacity = 100;
 					break;
-                default:
+				case MGStyle.Grid:
+					w = 400;
+					h = 300;
+					l = 100;
+					t = 100;
+					ctrl.Line = MG_COLORS.Gray;
+					ctrl.LineWeight= 2;
+					ctrl.FillOpacity = 100;
+					break;
+				default:
 					w = 200;
 					h = 200;
 					l = 200;

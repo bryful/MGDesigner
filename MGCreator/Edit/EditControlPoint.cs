@@ -19,7 +19,7 @@ namespace MGCreator
 			Bounds = r;
 		}
 	}
-	public partial class EditPosition : Edit
+	public partial class EditControlPoint : Edit
 	{
 		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		protected Rectangle m_Bounds = new Rectangle(0, 0, 0, 0);
@@ -34,27 +34,7 @@ namespace MGCreator
 				BoundsChanged(this, e);
 			}
 		}
-		/*
-		// ****************************************************************************
-		protected override void SetControl(MGControl? c)
-		{
-			m_control = c;
-			if (m_control != null)
-			{
-				SetPoint(m_control.Location);
-				m_control.LocationChanged += M_control_LocationChanged;
-				this.Invalidate();
-			}
-		}
-		// ****************************************************************************
-		private void M_control_LocationChanged(object? sender, EventArgs e)
-		{
-			if (m_control != null)
-			{
-				SetPoint(m_control.Location);
-			}
-		}
-		*/
+
 		[Category("_MG")]
 		public new MGForm? MGForm
 		{
@@ -69,7 +49,6 @@ namespace MGCreator
 					m_MGForm.ForcusChanged += M_MGForm_ForcusChanged;
 					if(m_control != null)
 					{
-						m_control.LocationChanged -= M_control_LocationChanged;
 						m_control.LocationChanged += M_control_LocationChanged;
 					}
 				}
@@ -83,7 +62,6 @@ namespace MGCreator
 				m_control = m_MGForm.ForcusControl;
 				if (m_control != null)
 				{
-					m_control.LocationChanged -= M_control_LocationChanged;
 					m_control.LocationChanged += M_control_LocationChanged;
 					GetValeuFromControl();
 				}
@@ -134,7 +112,7 @@ namespace MGCreator
 		{
 			get
 			{
-				return new Point((int)m_edit1.Value, (int)m_edit2.Value);
+				return m_posEdit.Value;
 			}
 			set
 			{
@@ -145,54 +123,34 @@ namespace MGCreator
 		public void SetValue(Point pnt)
 		{
 			if (_EventFLag == false) return;
-			_EventFLag = false;
-			bool b = false;
-
-			if (m_edit1.ValueInt != pnt.X)
+			if(m_posEdit.Value != pnt)
 			{
-				m_edit1.Value = pnt.X;
-				b = true;
+				_EventFLag = false;
+				m_posEdit.Value = pnt;
+				_EventFLag = true;
+				this.Invalidate();
 			}
-			if (m_edit2.ValueInt != pnt.Y)
-			{
-				m_edit2.Value = pnt.Y;
-				b = true;
-			}
-			_EventFLag = true;
-			this.Invalidate();
 
 
 		}
 		// ****************************************************************************
 		
 		// ****************************************************************************
-		protected DoubleEdit m_edit1 = new DoubleEdit();
-		protected DoubleEdit m_edit2 = new DoubleEdit();
+		protected PosEdit m_posEdit = new PosEdit();
 		protected PosSetGrid m_PosSetGrid = new PosSetGrid();
 		// ****************************************************************************
-		public EditPosition()
+		public EditControlPoint()
 		{
+			this.ForeColor = Color.LightGray;
+			this.BackColor = Color.Black;
 			Caption = "Position";
 			// ********************
-			m_edit1.Name = "x";
-			m_edit1.AutoSize = false;
-			m_edit1.Location = new Point(60, 0);
-			m_edit1.Size = new Size(80, 20);
-			m_edit1.IsLeftRightMode = true;
-			m_edit1.TargetType = TargetType.INT;
-			m_edit1.ValueMin = -32000;
-			m_edit1.ValueMax = 32000;
-			m_edit1.NumberChanged += M_edit_PropChanged; 
-			// ********************
-			m_edit2.Name = "y";
-			m_edit2.AutoSize = false;
-			m_edit2.Location = new Point(140, 0);
-			m_edit2.Size = new Size(80, 20);
-			m_edit2.IsLeftRightMode = false;
-			m_edit2.TargetType = TargetType.INT;
-			m_edit2.ValueMin = -32000;
-			m_edit2.ValueMax = 32000;
-			m_edit2.NumberChanged += M_edit_PropChanged; ;
+			m_posEdit.Name = "x";
+			m_posEdit.AutoSize = false;
+			m_posEdit.Location = new Point(60, 0);
+			m_posEdit.Size = new Size(160, 20);
+			m_posEdit.ValueChanged += M_posEdit_ValueChanged; 
+
 			// ********************
 			m_PosSetGrid.Name = "g";
 			m_PosSetGrid.AutoSize = false;
@@ -200,10 +158,14 @@ namespace MGCreator
 			m_PosSetGrid.Size = new Size(20, 20);
 			m_PosSetGrid.Visible = true;
 			m_PosSetGrid.PosSeted += M_PosSetGrid_PosSeted;
-			this.Controls.Add(m_edit1);
-			this.Controls.Add(m_edit2);
+			this.Controls.Add(m_posEdit);
 			this.Controls.Add(m_PosSetGrid);
 			InitializeComponent();
+		}
+
+		private void M_posEdit_ValueChanged(object sender, PosEdit.ValueChangedEventArgs e)
+		{
+			SetControlLocation(Point);
 		}
 
 		private void M_PosSetGrid_PosSeted(object sender, PosSetEventArgs e)
@@ -260,11 +222,6 @@ namespace MGCreator
 			m_control.Location = p;
 		}
 
-		private void M_edit_PropChanged(object sender, NumberChangedEventArgs e)
-		{
-			SetControlLocation(Point);
-		}
-
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);
@@ -272,12 +229,10 @@ namespace MGCreator
 		public void ChkSize()
 		{
 			this.SuspendLayout();
-			int w = (this.Width - m_CaptionWidth - m_PosSetGrid.Width) / 2;
-			m_edit1.Width = w;
-			m_edit2.Width = w;
-			m_edit1.Location = new Point(m_CaptionWidth, 0);
-			m_edit2.Location = new Point(m_CaptionWidth + w, 0);
-			m_PosSetGrid.Location = new Point(m_CaptionWidth + w * 2, 0);
+			int w = (this.Width - m_CaptionWidth - m_PosSetGrid.Width);
+			m_posEdit.Width = w;
+			m_posEdit.Location = new Point(m_CaptionWidth, 0);
+			m_PosSetGrid.Location = new Point(m_CaptionWidth + w, 0);
 			this.ResumeLayout();
 			this.Invalidate();
 		}
@@ -286,17 +241,6 @@ namespace MGCreator
 			base.OnResize(e);
 			ChkSize();
 		}
-		/*
-		public bool IsShowResizeType
-		{
-			get { return m_resizeGrid.Visible; }
-			set { m_resizeGrid.Visible = value; this.Invalidate(); }
-		}
-		public ReSizeType ReSizeType
-		{
-			get { return m_resizeGrid.ReSizeType; }
-			set { m_resizeGrid.ReSizeType = value; }
-		}
-		*/
+
 	}
 }

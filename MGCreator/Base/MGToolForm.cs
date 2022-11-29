@@ -15,16 +15,6 @@ namespace MGCreator
 		public readonly int HeaderHeight = 25;
 		public readonly int HeaderCloseBoxSize = 12;
 
-		private bool m_IsColseBtn = false;
-		public bool IsColseBtn
-		{
-			get { return m_IsColseBtn; }
-			set
-			{
-				m_IsColseBtn = value;
-				this.Invalidate();
-			}
-		}
 
 		// ***************************************************************************
 		/*
@@ -78,9 +68,20 @@ namespace MGCreator
 		private int m_MD_Mode = 0;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if ((m_IsColseBtn==true)&&(e.Y < HeaderHeight) && (e.X > this.Width - HeaderCloseBoxSize - 5))
+			if ((e.Y < HeaderHeight) && (e.X > this.Width - HeaderCloseBoxSize - 5))
 			{
-				Application.Exit();
+				if(e.Button == MouseButtons.Left)
+				{
+					if(this is MGProjectForm)
+					{
+						Application.Exit();
+					}
+					else
+					{
+						this.Hide();
+					}
+
+				}
 				return;
 			}
 			if (e.Button == MouseButtons.Left)
@@ -149,13 +150,9 @@ namespace MGCreator
 				g.FillRectangle(sb, r);
 
 				//closebtn
-				if (m_IsColseBtn)
-				{
-
-					r = new Rectangle(this.Width - HeaderCloseBoxSize - 5, (HeaderHeight - HeaderCloseBoxSize) / 2, HeaderCloseBoxSize, HeaderCloseBoxSize);
-					sb.Color = this.BackColor;
-					g.FillRectangle(sb, r);
-				}
+				r = new Rectangle(this.Width - HeaderCloseBoxSize - 5, (HeaderHeight - HeaderCloseBoxSize) / 2, HeaderCloseBoxSize, HeaderCloseBoxSize);
+				sb.Color = this.BackColor;
+				g.FillRectangle(sb, r);
 
 				//footer
 				r = new Rectangle(0, this.Height-10, this.Width - 1, 10);

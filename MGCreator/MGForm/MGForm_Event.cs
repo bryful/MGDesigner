@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace MGCreator
+﻿namespace MGCreator
 {
 	public class ForcusChangedEventArgs : EventArgs
 	{
@@ -17,6 +6,16 @@ namespace MGCreator
 		public ForcusChangedEventArgs(int idx)
 		{
 			Index = idx;
+		}
+	}
+	public class TargetChangedEventArgs : EventArgs
+	{
+		public int Index;
+		MGControl? Control;
+		public TargetChangedEventArgs(int idx, MGControl? ctrl)
+		{
+			this.Index = idx;
+			this.Control = ctrl;
 		}
 	}
 	partial class MGForm
@@ -31,13 +30,13 @@ namespace MGCreator
 			}
 		}
 		// ************************************************************
-		public delegate void ControlChangedHandler(object sender, EventArgs e);
-		public event ControlChangedHandler? ControlChanged;
-		protected virtual void OnControlChanged(EventArgs e)
+		public delegate void TargetChangedHandler(object sender, TargetChangedEventArgs e);
+		public event TargetChangedHandler? TargetChanged;
+		protected virtual void OnTargetChanged(TargetChangedEventArgs e)
 		{
-			if (ControlChanged != null)
+			if (TargetChanged != null)
 			{
-				ControlChanged(this, e);
+				TargetChanged(this, e);
 			}
 		}
 		// ************************************************************

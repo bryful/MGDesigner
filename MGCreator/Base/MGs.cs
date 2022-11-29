@@ -13,13 +13,22 @@ namespace MGCreator
         {
             return $"{p.Left},{p.Right},{p.Top},{p.Bottom}";
         }
-        // *****************************************************************
-        static public string ValueToString(Color p)
+		static public string ValueToString(Point p)
+		{
+			return $"{p.X},{p.Y}";
+		}
+		// *****************************************************************
+		static public string ValueToString(Color p)
         {
             return $"{p.R},{p.G},{p.B}";
         }
-        // *****************************************************************
-        static public bool StringToValue(string s, ref Padding pad)
+		// *****************************************************************
+		static public string ValueToString(Size sz)
+		{
+			return $"{sz.Width},{sz.Height}";
+		}
+		// *****************************************************************
+		static public bool StringToValue(string s, ref Padding pad)
         {
             bool ret = false;
             string[] sa = s.Split(',');
@@ -114,5 +123,84 @@ namespace MGCreator
             }
             return ret;
         }
-    }
+		// *****************************************************************
+		static public bool StringToValue(string s, ref Size sz)
+		{
+			bool ret = false;
+            if (s == "") return ret;
+			string[] sa = s.Split(',');
+			if (sa.Length == 0)
+			{
+				ret = false;
+			}
+			else if (sa.Length == 1)
+			{
+				int v = 0;
+				if (int.TryParse(sa[0], out v))
+				{
+					sz = new Size(v, v);
+					ret = true;
+				}
+				else
+				{
+					ret = false;
+				}
+			}
+			else
+			{
+				int v0 = sz.Width;
+				int v1 = sz.Height;
+				if (sa.Length > 0)
+				{
+					if (int.TryParse(sa[0], out v0) == false) v0 = sz.Width;
+				}
+				if (sa.Length > 1)
+				{
+					if (int.TryParse(sa[1], out v1) == false) v1 = sz.Height;
+				}
+				sz = new Size(v0, v1);
+				ret = true;
+			}
+			return ret;
+		}
+		static public bool StringToValue(string s, ref Point sz)
+		{
+			bool ret = false;
+			if (s == "") return ret;
+			string[] sa = s.Split(',');
+			if (sa.Length == 0)
+			{
+				ret = false;
+			}
+			else if (sa.Length == 1)
+			{
+				int v = 0;
+				if (int.TryParse(sa[0], out v))
+				{
+					sz = new Point(v, v);
+					ret = true;
+				}
+				else
+				{
+					ret = false;
+				}
+			}
+			else
+			{
+				int v0 = sz.X;
+				int v1 = sz.Y;
+				if (sa.Length > 0)
+				{
+					if (int.TryParse(sa[0], out v0) == false) v0 = sz.X;
+				}
+				if (sa.Length > 1)
+				{
+					if (int.TryParse(sa[1], out v1) == false) v1 = sz.Y;
+				}
+				sz = new Point(v0, v1);
+				ret = true;
+			}
+			return ret;
+		}
+	}
 }

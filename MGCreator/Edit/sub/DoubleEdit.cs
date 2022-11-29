@@ -62,16 +62,6 @@ namespace MGCreator
 			get { return m_IsLeftRightMode; }
 			set { m_IsLeftRightMode = value; this.Invalidate(); }
 		}
-		private bool m_IsIntMode = false;
-		
-		/*
-		[Category("_MG")]
-		public bool IsIntMode
-		{
-			get { return (m_TargetType == TargetType.INT); }
-			set {m_TargetType = value; this.Invalidate(); }
-		}
-		*/
 		
 		protected object m_Value = 0;
 		[Category("_MG")]
@@ -341,7 +331,7 @@ true);
 		{
 			if (m_mdpos != CrossDir.None)
 			{
-				Value = (double)m_Value + (double)m_mdvalue;
+				Value = (object)((double)Convert.ChangeType(m_Value, typeof(double))+ m_mdvalue);
 				//OnCrossChanged(new CrossChangedEventArgs(m_mdpos, m_mdvalue));
 				m_mdpos = CrossDir.None;
 				m_mdvalue = 1;

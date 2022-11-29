@@ -36,14 +36,15 @@ namespace MGCreator
 		private EditBool m_IsShowGuide = new EditBool();
 		private EditPadding m_DrawMargin = new EditPadding();
 
-		private EditPosition m_Position = new EditPosition();
-		private EditSize m_Size = new EditSize();
+		private EditControlPoint m_Position = new EditControlPoint();
+		private EditControlSize m_Size = new EditControlSize();
 
 		private EditMGColors m_Fill = new EditMGColors();
 		private EditNumber m_FillOpacity = new EditNumber();
 		private EditMGColors m_Line = new EditMGColors();
 		private EditNumber m_LineOpacity = new EditNumber();
 
+		private EditSize m_GridSize = new EditSize();
 
 		public MGPropertyPanel()
 		{
@@ -75,6 +76,9 @@ namespace MGCreator
 			m_IsShowGuide.SetCaptionPropName("Guide", "IsShowGuide");
 			m_DrawMargin.SetCaptionPropName("DrawMargin");
 
+			m_GridSize.SetCaptionPropName("GridSize");
+			m_GridSize.ShowMGStyle = MGStyle.Grid;
+
 			m_PPForm.AddControl(m_Name);
 			m_PPForm.AddControl(m_IsShowGuide);
 
@@ -83,6 +87,7 @@ namespace MGCreator
 
 			m_PPLayout.AddControl(m_Position);
 			m_PPLayout.AddControl(m_Size);
+			m_PPLayout.AddControl(m_GridSize);
 
 			m_PPDisp.AddControl(m_Fill);
 			m_PPDisp.AddControl(m_FillOpacity);
@@ -125,13 +130,13 @@ true);
 			{
 				foreach (Control c in pp.Controls)
 				{
-					if(c is EditPosition)
+					if(c is EditControlPoint)
 					{
-						((EditPosition)c).MGForm = f;
+						((EditControlPoint)c).MGForm = f;
 					}
-					else if (c is EditSize)
+					else if (c is EditControlSize)
 					{
-						((EditSize)c).MGForm = f;
+						((EditControlSize)c).MGForm = f;
 					}
 					else if (c is Edit)
 					{

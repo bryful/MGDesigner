@@ -15,6 +15,37 @@ namespace MGCreator
 	{
 		public MGProjectForm? MGProjectForm = null;
 		private ContextMenuStrip m_Menu = new ContextMenuStrip();
+		private int m_TargetIndex = -1;
+		private int TargetIndex
+		{
+			get { return m_TargetIndex; }
+			set
+			{
+				SetTargetIndex(value);
+			}
+		}
+		public void SetTargetIndex(int value,bool IsEvent=true)
+		{
+			if (value < -1) value = -1;
+			if (m_TargetIndex != value)
+			{
+				m_TargetIndex = value;
+				if (IsEvent)
+				{
+					TargetChangedEventArgs ret;
+					if ((value >= 0) && (value < this.Controls.Count))
+					{
+						ret = new TargetChangedEventArgs(value, (MGControl)this.Controls[value]);
+					}
+					else
+					{
+						ret = new TargetChangedEventArgs(-1, null);
+					}
+					OnTargetChanged(ret);
+				}
+			}
+		}
+
 
 		private string[] ControlsName()
 		{
@@ -59,24 +90,12 @@ namespace MGCreator
 			QuitMenu.Name = "QuitMenu";
 			QuitMenu.Text = "Quit";
 			QuitMenu.Click += QuitMenu_Click;
-			/*
-			ToolStripMenuItem AddMenu = new ToolStripMenuItem();
-			AddMenu.Name = "AddMenu";
-			AddMenu.Text = "Add";
-			AddMenu.Click += AddMenu_Click;
-			*/
-			ToolStripMenuItem MGListMenu = new ToolStripMenuItem();
-			MGListMenu.Name = "MGListMenu";
-			MGListMenu.Text = "Show MGList";
-			MGListMenu.Click += MGListMenu_Click;
 
 			ToolStripMenuItem MGPropMenu = new ToolStripMenuItem();
 			MGPropMenu.Name = "MGPropMenu";
 			MGPropMenu.Text = "Show MGProp";
 			MGPropMenu.Click += MGPropMenu_Click;
 
-			//m_Menu.Items.Add(AddMenu);
-			m_Menu.Items.Add(MGListMenu);
 			m_Menu.Items.Add(MGPropMenu);
 			m_Menu.Items.Add(QuitMenu);
 			this.ContextMenuStrip = m_Menu;

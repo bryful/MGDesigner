@@ -130,6 +130,7 @@ namespace MGCreator
 				ChkOffScr();
 			}
 		}
+
 		// ********************************************
 		/// <summary>
 		/// 全画面描画フラグ
@@ -143,11 +144,13 @@ namespace MGCreator
 		{
 			get
 			{
+				base.Visible = !m_IsFull;
 				return m_IsFull;
 			}
 			set
 			{
 				m_IsFull = value;
+				base.Visible = !m_IsFull;
 				ChkOffScr();
 				if (this.Parent != null)
 				{
@@ -203,6 +206,21 @@ namespace MGCreator
 			set
 			{
 				m_DrawMargin = value;
+				ChkOffScr();
+			}
+
+		}
+		protected Size m_GridSize = new Size(100,100);
+		/// <summary>
+		/// 描画マージン
+		/// </summary>
+		[Category("_MG")]
+		public Size GridSize
+		{
+			get { return m_GridSize; }
+			set
+			{
+				m_GridSize = value;
 				ChkOffScr();
 			}
 

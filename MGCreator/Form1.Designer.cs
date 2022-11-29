@@ -28,20 +28,25 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.mgPropertyPanel1 = new MGCreator.MGPropertyPanel();
+			this.editControlPoint1 = new MGCreator.EditControlPoint();
 			this.SuspendLayout();
 			// 
-			// mgPropertyPanel1
+			// editControlPoint1
 			// 
-			this.mgPropertyPanel1.BackColor = System.Drawing.Color.Transparent;
-			this.mgPropertyPanel1.Caption = "PropertyPanel";
-			this.mgPropertyPanel1.ForeColor = System.Drawing.Color.LightGray;
-			this.mgPropertyPanel1.IsOpen = true;
-			this.mgPropertyPanel1.Location = new System.Drawing.Point(181, 96);
-			this.mgPropertyPanel1.MGForm = null;
-			this.mgPropertyPanel1.Name = "mgPropertyPanel1";
-			this.mgPropertyPanel1.Size = new System.Drawing.Size(345, 328);
-			this.mgPropertyPanel1.TabIndex = 0;
+			this.editControlPoint1.BackColor = System.Drawing.Color.Black;
+			this.editControlPoint1.Caption = "Position";
+			this.editControlPoint1.CaptionWidth = 90;
+			this.editControlPoint1.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+			this.editControlPoint1.Location = new System.Drawing.Point(167, 207);
+			this.editControlPoint1.MaximumSize = new System.Drawing.Size(0, 20);
+			this.editControlPoint1.MGForm = null;
+			this.editControlPoint1.MinimumSize = new System.Drawing.Size(220, 20);
+			this.editControlPoint1.Name = "editControlPoint1";
+			this.editControlPoint1.Point = new System.Drawing.Point(0, 0);
+			this.editControlPoint1.PropName = "Fill";
+			this.editControlPoint1.Size = new System.Drawing.Size(271, 20);
+			this.editControlPoint1.TabIndex = 0;
+			this.editControlPoint1.Text = "editControlPoint1";
 			// 
 			// Form1
 			// 
@@ -49,7 +54,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(621, 524);
-			this.Controls.Add(this.mgPropertyPanel1);
+			this.Controls.Add(this.editControlPoint1);
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
@@ -59,6 +64,6 @@
 
 		#endregion
 
-		private MGPropertyPanel mgPropertyPanel1;
+		private EditControlPoint editControlPoint1;
 	}
 }
