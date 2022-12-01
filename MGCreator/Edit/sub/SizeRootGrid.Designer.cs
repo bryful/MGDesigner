@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class MGControl
+	partial class SizeRootGrid
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

@@ -11,87 +11,52 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public class NameChangedEventArgs : EventArgs
-	{
-		string Name = "";
-		public NameChangedEventArgs(string s)
-		{
-			Name = s;
-		}
-	}
+
 	public partial class EditName : Edit
 	{
 		public new readonly  MGStyle ShowMGStyle = MGStyle.ALL;
-		//public new readonly MGStyle MGStyle = MGStyle.ALL;
-		// ****************************************************************************
-		/*
-		protected override void SetControl(MGControl? c)
-		{
-			m_control = c;
-			if (m_control != null)
-			{
-				this.Text = m_control.Name;
-				m_control.TextChanged += M_control_TextChanged;
-				this.Invalidate();
-			}
-		}
-
-		private void M_control_TextChanged(object? sender, EventArgs e)
-		{
-			if (m_control != null)
-			{
-				this.Text = m_control.Name;
-			}
-		}
-		*/
-		// ****************************************************************************
-		public delegate void NameChangedHandler(object sender, NameChangedEventArgs e);
-		public event NameChangedHandler? NameChanged;
-		protected virtual void OnNameChanged(NameChangedEventArgs e)
-		{
-			if (_EventFLag == false) return;
-			_EventFLag = false;
-			if (NameChanged != null)
-			{
-				NameChanged(this, e);
-			}
-			_EventFLag = true;
-		}       
-		// **********************************************************
+	
 		protected override void GetValeuFromControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 
 				if (_EventFLag == false) return;
+				PropError = true;
 				_EventFLag = false;
-				this.Text = m_control.Name;
-				_EventFLag = true;
-				this.Invalidate();
+				try
+				{
+					this.Text = m_Layer.Name;
+					PropError = false;
+
+				}
+				finally
+				{
+					_EventFLag = true;
+					this.Invalidate();
+				}
 			}
 		}
 		protected override void SetValeuToControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
+				PropError = true;
 				_EventFLag = false;
-				m_control.Name = this.Text;
-				_EventFLag = true;
+				try
+				{
+					m_Layer.Name = this.Text;
+					PropError = false;
+				}
+				finally
+				{
+					_EventFLag = true;
+
+				}
 
 			}
-		}       
-		// *************************************************************
-		/*
-		private void M_MGForm_ForcusChanged(object sender, ForcusChangedEventArgs e)
-		{
-			if (m_MGForm == null) return;
-			if (e.Index >= 0)
-			{
-				SetControl((MGControl)m_MGForm.Controls[e.Index]);
-			}
 		}
-		*/
 		// *************************************************************
 		// *************************************************************
 
@@ -100,7 +65,7 @@ namespace MGCreator
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
-			Caption = "Name";
+			SetCaptionPropName("Name",typeof(string));
 			// ********************
 			// ********************
 			InitializeComponent();
@@ -183,14 +148,13 @@ namespace MGCreator
 		{
 			bool ret = false;
 			TextBox tb = (TextBox)this.Controls[this.Controls.Count - 1];
-			if((m_MGForm!=null)&&(m_control!=null))
+			if((m_MGForm!=null)&&(m_Layer!=null))
 			{
 				string s = tb.Text.Trim();
-				int idx = m_MGForm.FindControl(s);
+				int idx = m_MGForm.FindLayer(s);
 				if(idx == -1)
 				{
 					this.Text = s;
-					//OnNameChanged(new NameChangedEventArgs(this.Text));
 					SetValeuToControl();
 					ret = true;
 				}

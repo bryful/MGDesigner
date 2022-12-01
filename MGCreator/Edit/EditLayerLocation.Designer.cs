@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditControlPoint
+	partial class EditLayerLocation
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

@@ -14,7 +14,7 @@ namespace MGCreator
 {
 	public partial class Edit : Control
 	{
-		private bool PropError = false;
+		protected bool PropError = false;
 		public new bool Visible
 		{
 			get { return base.Visible; }
@@ -48,8 +48,8 @@ namespace MGCreator
 		protected virtual Type? GetTypeFromProp(string n)
 		{
 			Type? ret = null;
-			if (m_control == null) return null;
-			var prop = typeof(MGControl).GetProperty(n);
+			if (m_Layer == null) return null;
+			var prop = m_Layer.GetType().GetProperty(n);
 			if(prop != null)
 			{
 				ret = prop.PropertyType;
@@ -62,15 +62,15 @@ namespace MGCreator
 		{
 			PropError = true;
 			object? result = null;
-			if (m_control == null) return null;
-			var prop = typeof(MGControl).GetProperty(n);
+			if (m_Layer == null) return null;
+			var prop = m_Layer.GetType().GetProperty(n);
 			if (prop != null)
 			{
 				try
 				{
 					if (prop.PropertyType == T)
 					{
-						result = prop.GetValue(m_control);
+						result = prop.GetValue(m_Layer);
 						PropError = false;
 					}
 				}
@@ -86,15 +86,15 @@ namespace MGCreator
 		{
 			PropError = true;
 			bool result = false;
-			if (m_control == null) return result;
-			var prop = typeof(MGControl).GetProperty(n);
+			if (m_Layer == null) return result;
+			var prop = m_Layer.GetType().GetProperty(n);
 			if (prop != null)
 			{
 				try
 				{
 					if (prop.PropertyType == T)
 					{
-						prop.SetValue(m_control, v);
+						prop.SetValue(m_Layer, v);
 						result = true;
 						PropError = false;
 					}
@@ -106,29 +106,63 @@ namespace MGCreator
 				}
 			}
 			return result;
+		}
+		// **********************************************************
+		protected virtual void GetValeuFromControl()
+		{
+			Object? o = GetValueFromProp(m_PropName, m_TargetType);
+			if(o!=null)
+			{
+				if(o is string)
+				{
+					this.Text = (string)o;
+				}
+
+			}
+		}
+		// **********************************************************
+		protected virtual void SetValeuToControl()
+		{
+			SetValueToProp(m_PropName, (object)this.Text,m_TargetType);
+		}
+		// **********************************************************
+		protected virtual void SetMGForm(MGForm? m)
+		{
+			m_MGForm = m;
+			if (m_MGForm != null)
+			{
+				m_Layer = m_MGForm.TargetLayer;
+				m_MGForm.Layers.TargetLayerChanged += MGLayes_TargetLayerChanged;
+				GetValeuFromControl();
+			}
+
 		}       
 		// **********************************************************
-		protected string m_PropName = "Fill";
+		protected string m_PropName = "Text";
 		[Category("_MG")]
 		public string PropName
 		{
 			get { return m_PropName; }
-			set
-			{
-				m_PropName = value;
-				GetValeuFromControl();
-			}
-		}       
-		public void SetCaptionPropName(string c, string p)
+		}
+		protected Type m_TargetType = typeof(string);
+		public Type TargetType
+		{
+			get { return m_TargetType; }
+		}
+		// **********************************************************
+		public void SetCaptionPropName(string c, string p,Type t)
 		{
 			m_Caption = c;
 			m_PropName = p;
-			GetValeuFromControl();
+			m_TargetType = t;
+			//GetValeuFromControl();
 		}
-		public void SetCaptionPropName(string c)
+		// **********************************************************
+		public void SetCaptionPropName(string c, Type t)
 		{
-			SetCaptionPropName(c, c);
+			SetCaptionPropName(c, c,t);
 		}
+
 		// **********************************************************
 		protected bool _EventFLag = true;
 		public void StopEvent()
@@ -140,7 +174,7 @@ namespace MGCreator
 			_EventFLag = true;
 		}       
 		// **********************************************************
-		protected MGControl? m_control = null;
+		protected MGLayer? m_Layer = null;
 		protected MGForm? m_MGForm = null;
 		[Category("_MG")]
 		public MGForm? MGForm
@@ -148,23 +182,17 @@ namespace MGCreator
 			get { return m_MGForm; }
 			set
 			{
-				m_MGForm = value;
-				if (m_MGForm != null)
-				{
-					m_control = m_MGForm.TargetControl;
-					GetValeuFromControl();
-					m_MGForm.TargetChanged += M_MGForm_TargetChanged;
-				}
+				SetMGForm(value);
 			}
 		}
 
-		private void M_MGForm_TargetChanged(object sender, TargetChangedEventArgs e)
+		private void MGLayes_TargetLayerChanged(object sender, MGLayers.TargetLayerChangedEventArgs e)
 		{
 			if (m_MGForm == null) return;
-			m_control = e.Control;
-			if (m_control != null)
+			m_Layer = e.Layer;
+			if (m_Layer != null)
 			{
-				GetValeuFromControl();
+				GetValueFromProp(m_PropName, m_TargetType);
 			}
 		}
 
@@ -172,20 +200,6 @@ namespace MGCreator
 		
 
 		// **********************************************************
-		protected virtual void GetValeuFromControl()
-		{
-			if(m_control != null)
-			{
-				this.Text = m_control.Name;
-			}
-		}
-		protected virtual void SetValeuToControl()
-		{
-			if (m_control != null)
-			{
-				m_control.Name = this.Text;
-			}
-		}
 		// **********************************************************
 		protected int m_CaptionWidth = 90;
 		[Category("_MG")]
@@ -209,6 +223,7 @@ namespace MGCreator
 		// **********************************************************
 		public Edit()
 		{
+			this.ForeColor = Color.LightGray;
 			this.Size = new Size(240, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);

@@ -54,6 +54,13 @@ namespace MGCreator
 			this.BackColor = Color.Black;
 			this.ForeColor = Color.LightGray; 
 			InitializeComponent();
+			this.SetStyle(
+ControlStyles.DoubleBuffer |
+ControlStyles.UserPaint |
+ControlStyles.AllPaintingInWmPaint |
+ControlStyles.SupportsTransparentBackColor |
+ControlStyles.UserMouse |
+ControlStyles.Selectable, true);
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)

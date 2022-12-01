@@ -23,10 +23,10 @@ namespace MGCreator
 			}
 		}
 		[Category("_MG")]
-		public PosSet PosSet
+		public SizeRootType SizeRoot
 		{
-			get { return resizeSetting1.PosSet; }
-			set { resizeSetting1.PosSet = value; }
+			get { return resizeSetting1.SizeRoot; }
+			set { resizeSetting1.SizeRoot = value; }
 		}
 		[Category("_MG")]
 		public Size FormSize
@@ -55,6 +55,11 @@ namespace MGCreator
 		{
 			NumericUpDown? nm = (NumericUpDown?)sender;
 			if(nm == null) return;
+		}
+
+		private void MGFormSize_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

@@ -19,14 +19,15 @@ namespace MGCreator
 			ShowMGPropertyForm(false);
 		}
 		// *******************************************************************************
-		public MGPropertyForm? MGPropertyForm = null;
+		public MGPropertyFormBase? MGPropertyForm = null;
 		public void ShowMGPropertyForm(bool isV=true)
 		{
 			if (MGForm == null) return;
 			if (MGPropertyForm == null)
 			{
-				MGPropertyForm = new MGPropertyForm();
+				MGPropertyForm = new MGPropertyFormBase();
 				MGPropertyForm.MGForm = MGForm;
+
 				if (isV)
 				{
 					MGPropertyForm.Show();
@@ -59,17 +60,25 @@ namespace MGCreator
 			if(MGForm==null)
 			{
 				MGFormSize dlg = new MGFormSize();
+				dlg.StartPosition = FormStartPosition.Manual;
+				dlg.Location = Cursor.Position;
 				dlg.IsShowPosSet = false;
 				if(dlg.ShowDialog() == DialogResult.OK)
 				{
 					MGForm = new MGForm();
 					MGForm.Size = dlg.FormSize;
 					MGForm.MGProjectForm = this;
-					controlListBox1.SetMGForm(MGForm);
-					MGForm.ControlAdded += M_MGForm_ControlCHanged;
-					MGForm.ControlRemoved += M_MGForm_ControlCHanged;
-					MGForm.ControlOrderChanged += M_MGForm_ControlCHanged;
-					MGForm.TargetChanged += MGForm_TargetChanged;
+					MGForm.Location = new Point(this.Left + this.Width + 5, this.Top);
+
+
+					layerlListBox1.SetMGForm(MGForm);
+					MGForm.Layers.LayerAdded += Layers_LayerAdded;
+					MGForm.Layers.LayerRemoved += Layers_LayerAdded;
+					MGForm.Layers.LayerOrderChanged += Layers_LayerAdded;
+					MGForm.Layers.TargetLayerChanged += Layers_TargetLayerChanged;
+
+
+
 					MGForm.Show();
 				}
 
@@ -85,24 +94,25 @@ namespace MGCreator
 			}
 		}
 
-		private void MGForm_TargetChanged(object sender, TargetChangedEventArgs e)
+		private void Layers_TargetLayerChanged(object sender, MGLayers.TargetLayerChangedEventArgs e)
 		{
-			if (e.Control == null) return;
+			if (e.Layer == null) return;
 			int idx = e.Index;
-			if ((idx >= 0) && (idx < controlListBox1.Items.Count))
+			if ((idx >= 0) && (idx < layerlListBox1.Items.Count))
 			{
-				if (controlListBox1.SelectedIndex != e.Index)
+				if (layerlListBox1.SelectedIndex != e.Index)
 				{
-					controlListBox1.SelectedIndex = e.Index;
+					layerlListBox1.SelectedIndex = e.Index;
 				}
 			}
 		}
 
-
-		private void M_MGForm_ControlCHanged(object? sender, ControlEventArgs e)
+		private void Layers_LayerAdded(object sender, EventArgs e)
 		{
-			controlListBox1.ListUp(MGForm.TargetControl);
+			layerlListBox1.ListUp();
 		}
+
+
 
 		private void btnNewMG_Click(object sender, EventArgs e)
 		{

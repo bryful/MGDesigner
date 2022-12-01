@@ -8,78 +8,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MGCreator
 {
-	public partial class MGForm : MGBaseForm
+	public partial class MGForm : Form
 	{
+		public MGLayers Layers= new MGLayers();
 		public MGProjectForm? MGProjectForm = null;
-		private ContextMenuStrip m_Menu = new ContextMenuStrip();
-		private int m_TargetIndex = -1;
 		[Category("_MG")]
 		public int TargetIndex
 		{
-			get { return m_TargetIndex; }
+			get { return Layers.TargetIndex; }
 			set
 			{
-				SetTargetIndex(value);
-			}
-		}
-		[Category("_MG")]
-		public MGControl? TargetControl
-		{
-			get
-			{
-				MGControl? ret = null;
-				if ((m_TargetIndex>=0)&&(m_TargetIndex<this.Controls.Count))
-				{
-					if (this.Controls[m_TargetIndex] is MGControl)
-					{
-						ret = (MGControl)this.Controls[m_TargetIndex];
-					}
-				}
-				return ret;
-			}
-
-		}
-		public void SetTargetIndex(int value,bool IsEvent=true)
-		{
-			if (value < -1) value = -1;
-			if (m_TargetIndex != value)
-			{
-				m_TargetIndex = value;
-				if (IsEvent)
-				{
-					TargetChangedEventArgs ret;
-					if ((value >= 0) && (value < this.Controls.Count))
-					{
-						ret = new TargetChangedEventArgs(value, (MGControl)this.Controls[value]);
-					}
-					else
-					{
-						ret = new TargetChangedEventArgs(-1, null);
-					}
-					OnTargetChanged(ret);
-				}
+				Layers.TargetIndex =value;
 			}
 		}
 
-
-		private string[] ControlsName()
-		{
-			string[] ret = new string[this.Controls.Count];
-			if (this.Controls.Count > 0)
-			{
-				int idx = 0;
-				foreach (Control c in this.Controls)
-				{
-					ret[idx] = c.Name;
-					idx++;
-				}
-			}
-			return ret;
-
-		}
 		private bool m_Anti = false;
 		[Category("_MG")]
 		public bool Anti
@@ -102,23 +48,25 @@ namespace MGCreator
 				this.Invalidate();
 			}
 		}
-		private void InitMenu()
+
+
+		public void ShowMGFromMenu(int x,int y)
 		{
+			ContextMenuStrip menu = new ContextMenuStrip();
 			ToolStripMenuItem QuitMenu = new ToolStripMenuItem();
 			QuitMenu.Name = "QuitMenu";
 			QuitMenu.Text = "Quit";
 			QuitMenu.Click += QuitMenu_Click;
 
 			ToolStripMenuItem MGPropMenu = new ToolStripMenuItem();
-			MGPropMenu.Name = "MGPropMenu";
-			MGPropMenu.Text = "Show MGProp";
+			MGPropMenu.Name = "PropertyPanel";
+			MGPropMenu.Text = "Property Panel";
 			MGPropMenu.Click += MGPropMenu_Click;
 
-			m_Menu.Items.Add(MGPropMenu);
-			m_Menu.Items.Add(QuitMenu);
-			this.ContextMenuStrip = m_Menu;
+			menu.Items.Add(MGPropMenu);
+			menu.Items.Add(QuitMenu);
+			menu.Show(this,x,y);
 		}
-
 		private void MGPropMenu_Click(object? sender, EventArgs e)
 		{
 			if (MGProjectForm != null)
@@ -144,27 +92,40 @@ namespace MGCreator
 
 		public MGForm()
 		{
+			Layers.SetMGForm(this);
+			this.FormBorderStyle = FormBorderStyle.None;
 			InitializeComponent();
 			InitColor();
-			InitMenu();
+			//InitMenu();
+			this.SetStyle(
+ControlStyles.DoubleBuffer |
+ControlStyles.UserPaint |
+ControlStyles.AllPaintingInWmPaint |
+ControlStyles.SupportsTransparentBackColor,
+//ControlStyles.UserMouse |
+//ControlStyles.Selectable
+true);
+
 
 		}
-		public int FindControl(string n)
+		//*******************************************************************************
+		public MGLayer? TargetLayer { get { return Layers.TargetLayer; } }
+		public int FindLayer(string n)
 		{
-			return Controls.IndexOfKey(n);
+			return Layers.IndexOf(n);
 		}
 		public void DrawAll()
 		{
-			if (this.Controls.Count > 0)
+			if ((Layers != null) && (Layers.Count > 0))
 			{
-				foreach (var c in this.Controls)
+				for (int i = Layers.Count - 1; i >= 0; i--)
 				{
-					if (c is MGControl)
+					if (Layers[i] != null)
 					{
-						((MGControl)c).ChkOffScr();
+						Layers[i].ChkOffScr();
 					}
 				}
-				this.Invalidate();
+
 			}
 		}
 		//*******************************************************************************
@@ -183,15 +144,28 @@ namespace MGCreator
 
 				sb.Color = GetColors(m_Back);
 				g.FillRectangle(sb, this.ClientRectangle);
-				if (this.Controls.Count > 0)
+				if((Layers!=null)&&(Layers.Count>0))
 				{
-					foreach (var c in this.Controls)
+					for (int i = Layers.Count - 1; i >= 0; i--)
 					{
-						if (c is MGControl)
+						if (Layers[i] == null) continue;
+						MGLayer lyr = Layers[i];
+						DrawMGLayer(g, lyr,sb,p);
+					}
+					if(Layers.TargetIndex >=0)
+					{
+						MGLayer lyr = Layers[TargetIndex];
+						if ((lyr != null)&&(lyr.IsFull==false))
 						{
-							DrawControl(g, (MGControl)c);
+							Rectangle rr = new Rectangle(lyr.Left - 2, lyr.Top - 2, lyr.Width + 4, lyr.Height + 3);
+							p.Color = Color.Yellow;
+							p.DashStyle = DashStyle.Dash;
+							p.Width = 2;
+							g.DrawRectangle(p, rr);
+							p.DashStyle = DashStyle.Solid;
 						}
 					}
+
 				}
 			}
 			finally
@@ -202,6 +176,7 @@ namespace MGCreator
 
 		}
 		// *********************************************************************************
+		/*
 		private void DrawControl(Graphics g, MGControl mc)
 		{
 			GraphicsPath path = new GraphicsPath();
@@ -217,6 +192,133 @@ namespace MGCreator
 				g.DrawImage(mc.OffScr, mc.Location);
 			}
 		}
+		*/
 		// *********************************************************************************
+		private void DrawMGLayer(Graphics g, MGLayer layer,SolidBrush sb , Pen p)
+		{
+			if (layer.IsFull)
+			{
+				layer.Draw(g, this.ClientRectangle, false);
+			}
+			else
+			{
+				g.DrawImage(layer.OffScr(), layer.Location);
+				if (layer.IsMouseEnter)
+				{
+					sb.Color = Color.FromArgb(64,255, 0, 0);
+					g.FillRectangle(sb, layer.Bounds);
+				}
+			}
+		}
+		// *********************************************************************************
+		private bool ChkMouseDown(MouseEventArgs e)
+		{
+			bool ret = false;
+			if(Layers.Count>0)
+			{
+				for(int i=0; i< Layers.Count;i++)
+				{
+					if (Layers[i] == null) continue;
+					if (Layers[i].ChkMouseDown(e))
+					{
+						Layers.TargetIndex = i;
+						ret = true;
+						break;
+					}
+				}
+			}
+			return ret;
+		}
+		private bool ChkMouseMove(MouseEventArgs e)
+		{
+			bool ret = false;
+			if (Layers.Count > 0)
+			{
+				for (int i = 0; i < Layers.Count; i++)
+				{
+					if (Layers[i] == null) continue;
+
+
+					if (Layers[i].ChkMouseMove(e))
+					{
+						ret = true;
+						break;
+					}
+				}
+			}
+			return ret;
+		}
+		private bool ChkMouseUp(MouseEventArgs e)
+		{
+			bool ret = false;
+			if (Layers.Count > 0)
+			{
+				for (int i = 0; i < Layers.Count; i++)
+				{
+					if (Layers[i] == null) continue;
+					if (Layers[i].ChkMouseUp(e))
+					{
+						ret = true;
+						break;
+					}
+				}
+			}
+			return ret;
+		}
+		// *********************************************************************************
+		private Point m_MD = new Point(0, 0);
+		private int m_MD_Mode = 0;
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if(ChkMouseDown(e))
+			{
+				this.Invalidate();
+				if (e.Button== MouseButtons.Right)
+				{
+					Layers.ShowMenu(e.X, e.Y);
+				}
+			}
+			else if (e.Button == MouseButtons.Left)
+			{
+				m_MD_Mode = 1;
+				m_MD = e.Location;
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				ShowMGFromMenu(e.X, e.Y);
+			}
+			base.OnMouseDown(e);
+		}
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			if (ChkMouseMove(e))
+			{
+				this.Invalidate();
+			}
+			else if(e.Button == MouseButtons.Left)
+			{
+				int ax = e.X - m_MD.X;
+				int ay = e.Y - m_MD.Y;
+				if (m_MD_Mode == 1)
+				{
+					this.Location = new Point(ax + this.Left, ay + this.Top);
+				}
+			}
+			base.OnMouseMove(e);
+		}
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+
+			if (ChkMouseUp(e))
+			{
+				this.Invalidate();
+			}
+			else if (m_MD_Mode != 0)
+			{
+				m_MD_Mode = 0;
+				this.Invalidate();
+			}
+			base.OnMouseUp(e);
+		}
 	}
 }

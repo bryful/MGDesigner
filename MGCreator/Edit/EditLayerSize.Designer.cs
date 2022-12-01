@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class ResizeSetting
+	partial class EditLayerSize
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

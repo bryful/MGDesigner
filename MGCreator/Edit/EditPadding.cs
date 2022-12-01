@@ -17,7 +17,7 @@ namespace MGCreator
 
 		protected override void GetValeuFromControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
@@ -36,7 +36,7 @@ namespace MGCreator
 		
 		protected override void SetValeuToControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
@@ -66,8 +66,7 @@ namespace MGCreator
 		}
 		public EditPadding()
 		{
-			Caption = "Paddhing";
-			PropName = "Paddhing";
+			SetCaptionPropName("Padding", typeof(Padding));
 			InitializeComponent();
 		}
 		protected override void OnPaint(PaintEventArgs pe)
@@ -133,7 +132,7 @@ namespace MGCreator
 		{
 			bool ret = false;
 			TextBox tb = (TextBox)this.Controls[this.Controls.Count - 1];
-			if ((m_MGForm != null) && (m_control != null))
+			if ((m_MGForm != null) && (m_Layer != null))
 			{
 				Padding p = new Padding( m_Padding.Left, m_Padding.Top, m_Padding.Right, m_Padding.Bottom);
 				if(MGs.StringToValue(tb.Text,ref p))

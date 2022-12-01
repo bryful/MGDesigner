@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class MGPropertyForm
+	partial class MGPropertyFormBase
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,42 +28,38 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.mgPropertyPanel1 = new MGCreator.MGPropertyPanel();
+			this.mgPropertyPanelBase1 = new MGCreator.MGPropertyPanelBase();
 			this.SuspendLayout();
 			// 
-			// mgPropertyPanel1
+			// mgPropertyPanelBase1
 			// 
-			this.mgPropertyPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.mgPropertyPanelBase1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.mgPropertyPanel1.BackColor = System.Drawing.Color.Transparent;
-			this.mgPropertyPanel1.Caption = "PropertyPanel";
-			this.mgPropertyPanel1.ForeColor = System.Drawing.Color.LightGray;
-			this.mgPropertyPanel1.IsOpen = true;
-			this.mgPropertyPanel1.Location = new System.Drawing.Point(4, 24);
-			this.mgPropertyPanel1.MGForm = null;
-			this.mgPropertyPanel1.MGStyle = MGCreator.MGStyle.ALL;
-			this.mgPropertyPanel1.Name = "mgPropertyPanel1";
-			this.mgPropertyPanel1.Size = new System.Drawing.Size(310, 357);
-			this.mgPropertyPanel1.TabIndex = 0;
+			this.mgPropertyPanelBase1.BackColor = System.Drawing.Color.Transparent;
+			this.mgPropertyPanelBase1.Caption = "PropertyPanel";
+			this.mgPropertyPanelBase1.IsOpen = true;
+			this.mgPropertyPanelBase1.Location = new System.Drawing.Point(12, 28);
+			this.mgPropertyPanelBase1.MGForm = null;
+			this.mgPropertyPanelBase1.MGStyle = MGCreator.MGStyle.ALL;
+			this.mgPropertyPanelBase1.Name = "mgPropertyPanelBase1";
+			this.mgPropertyPanelBase1.Size = new System.Drawing.Size(335, 410);
+			this.mgPropertyPanelBase1.TabIndex = 0;
 			// 
-			// MGPropertyForm
+			// MGPropertyFormBase
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(317, 393);
-			this.Controls.Add(this.mgPropertyPanel1);
-			this.DoubleBuffered = true;
-			this.Name = "MGPropertyForm";
+			this.ClientSize = new System.Drawing.Size(359, 450);
+			this.Controls.Add(this.mgPropertyPanelBase1);
+			this.Name = "MGPropertyFormBase";
 			this.Text = "Property";
 			this.ResumeLayout(false);
 
 		}
 
-
 		#endregion
 
-		private MGPropertyPanel mgPropertyPanel1;
+		private MGPropertyPanelBase mgPropertyPanelBase1;
 	}
 }

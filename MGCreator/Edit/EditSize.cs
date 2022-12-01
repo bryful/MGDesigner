@@ -17,7 +17,7 @@ namespace MGCreator
 
 		protected override void GetValeuFromControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
@@ -35,7 +35,7 @@ namespace MGCreator
 		}
 		protected override void SetValeuToControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
@@ -69,8 +69,7 @@ namespace MGCreator
 			this.BackColor = Color.Black;
 			this.ForeColor = Color.LightGray;
 
-			Caption = "Size";
-			PropName = "Size";
+			SetCaptionPropName("Size", typeof(Size));
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);

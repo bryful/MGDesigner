@@ -50,7 +50,7 @@ namespace MGCreator
 			0b1111_1111_1111_1111_1111,
 
 	};
-	public enum ControlPos
+	public enum Control2Pos
 	{
 		None = 0,
 		Top,
@@ -64,7 +64,7 @@ namespace MGCreator
 		Center
 	}
 
-	public partial class MGControl : Control
+	public partial class MGControl2 : Control
 	{
 		public class NameChangedEventArgs : EventArgs
 		{
@@ -103,49 +103,49 @@ namespace MGCreator
 			}
 		}
 
-		private void SetControlPos(ControlPos v)
+		private void SetControl2Pos(Control2Pos v)
 		{
-			m_ControlPos = v;
-			if (v == ControlPos.None) return;
+			m_Control2Pos = v;
+			if (v == Control2Pos.None) return;
 			MGForm mf = (MGForm)this.Parent;
 			if (mf == null) return;
 			int x = 0;
 			int y = 0;
 			switch (v)
 			{
-				case ControlPos.Top:
+				case Control2Pos.Top:
 					x = mf.Width / 2 - this.Width / 2;
 					y = 0 + m_PosMargin.Top;
 					break;
-				case ControlPos.TopRight:
+				case Control2Pos.TopRight:
 					x = mf.Width - this.Width - m_PosMargin.Right;
 					y = 0 + m_PosMargin.Top;
 					break;
-				case ControlPos.Right:
+				case Control2Pos.Right:
 					x = mf.Width - this.Width - m_PosMargin.Right;
 					y = mf.Height / 2 - this.Height / 2;
 					break;
-				case ControlPos.BottomRight:
+				case Control2Pos.BottomRight:
 					x = mf.Width - this.Width - m_PosMargin.Right;
 					y = mf.Height - this.Height - m_PosMargin.Bottom;
 					break;
-				case ControlPos.Bottom:
+				case Control2Pos.Bottom:
 					x = mf.Width / 2 - this.Width / 2;
 					y = mf.Height - this.Height - m_PosMargin.Bottom;
 					break;
-				case ControlPos.BottomLeft:
+				case Control2Pos.BottomLeft:
 					x = 0 + m_PosMargin.Left;
 					y = mf.Height - this.Height - m_PosMargin.Bottom;
 					break;
-				case ControlPos.Left:
+				case Control2Pos.Left:
 					x = +m_PosMargin.Left;
 					y = mf.Height / 2 - this.Height / 2;
 					break;
-				case ControlPos.LeftTop:
+				case Control2Pos.LeftTop:
 					x = m_PosMargin.Left;
 					y = m_PosMargin.Top;
 					break;
-				case ControlPos.Center:
+				case Control2Pos.Center:
 					x = mf.Width / 2 - this.Width / 2 + m_PosMargin.Left - m_PosMargin.Right;
 					y = mf.Height / 2 - this.Height / 2 + m_PosMargin.Top - m_PosMargin.Bottom;
 					break;
@@ -155,9 +155,9 @@ namespace MGCreator
 			}
 			this.Location = new Point(x, y);
 		}
-		public void SetControlPos()
+		public void SetControl2Pos()
 		{
-			SetControlPos(m_ControlPos);
+			SetControl2Pos(m_Control2Pos);
 		}
 
 
@@ -171,7 +171,7 @@ namespace MGCreator
 				if (this.Parent is MGForm)
 				{
 					MGForm m = (MGForm)this.Parent;
-					index = m.FindControl(this.Name);
+					index = m.FindLayer(this.Name);
 				}
 				return index;
 			}
@@ -182,7 +182,7 @@ namespace MGCreator
 					MGForm m = (MGForm)this.Parent;
 					if ((value < m.Controls.Count) && (value >= 0))
 					{
-						int index = m.FindControl(this.Name);
+						int index = m.FindLayer(this.Name);
 						if (index != value)
 						{
 							m.Controls.SetChildIndex(
@@ -271,7 +271,7 @@ namespace MGCreator
 		}
 
 		// ************************************************************************
-		public MGControl()
+		public MGControl2()
 		{
 			this.Size = new Size(100, 100);
 			InitializeComponent();
@@ -280,9 +280,9 @@ namespace MGCreator
 ControlStyles.DoubleBuffer |
 ControlStyles.UserPaint |
 ControlStyles.AllPaintingInWmPaint |
-ControlStyles.SupportsTransparentBackColor|
-ControlStyles.UserMouse|
-ControlStyles.Selectable,
+ControlStyles.SupportsTransparentBackColor,
+//Control2Styles.UserMouse|
+//Control2Styles.Selectable,
 true);
 
 
@@ -389,14 +389,14 @@ true);
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			SetControlPos();
+			SetControl2Pos();
 			ChkOffScr();
 			this.Invalidate();
 		}
 		protected override void OnLocationChanged(EventArgs e)
 		{
 			base.OnLocationChanged(e);
-			SetControlPos();
+			SetControl2Pos();
 
 		}
 		protected override void OnGotFocus(EventArgs e)
@@ -424,10 +424,12 @@ true);
 		// **************************************************************************************
 		protected override void OnPaint(PaintEventArgs pe)
 		{
+			return;
 			if (base.Visible == false) return;
-			Pen p = new Pen(m_GuideColor, 1);
+			//Pen p = new Pen(m_GuideColor, 1);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Graphics g = pe.Graphics;
+			/*
 			if (m_MGStyle == MGStyle.Zebra)
 			{
 				GraphicsPath path = new GraphicsPath();
@@ -435,34 +437,42 @@ true);
 				Region region = new Region(path);
 				g.SetClip(region, CombineMode.Replace);
 			}
+			*/
 			try
 			{
-				bool isTarget = true;
+				bool isTarget = false;
 				if (this.Parent is MGForm)
 				{
-					isTarget = (this.Index == ((MGForm)this.Parent).TargetIndex);
+					isTarget = ((this.Index == ((MGForm)this.Parent).TargetIndex)&&(m_IsShowGuide));
 				}
+				/*
 				if(m_MDCType != MGC_MDType.None)
 				{
 					p.Color = m_GuideColorMD;
 					MGC.DrawFrame(g, p, 1, this.ClientRectangle);
 				}
-				else if (m_MDMouseIn)
+				else*/ if (m_MDMouseIn)
 				{
 					sb.Color = Color.FromArgb(64, 255, 0, 0);
 					g.FillRectangle(sb, this.ClientRectangle);
+				
 				}else if (isTarget)
 				{
+					sb.Color = Color.FromArgb(64, 0, 0, 255);
+					g.FillRectangle(sb, this.ClientRectangle);
+					/*
 					p.Color = Color.FromArgb(128,255,0,255);
 					p.DashStyle = DashStyle.Dash;
 					p.Width = 2;
 					g.DrawRectangle(p,new Rectangle(3,3,this.Width-7,this.Height-7));
 					p.DashStyle = DashStyle.Solid;
+					*/
+
 				}
 			}
 			finally
 			{
-				p.Dispose();
+				//p.Dispose();
 				sb.Dispose();
 			}
 

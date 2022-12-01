@@ -35,7 +35,7 @@ namespace MGCreator
 			this.btnDel = new System.Windows.Forms.Button();
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
-			this.controlListBox1 = new MGCreator.ControlListBox();
+			this.layerlListBox1 = new MGCreator.MGLayerListBox();
 			this.mgStyleComb1 = new MGCreator.MGStyleComb();
 			this.btnNewMG = new System.Windows.Forms.Button();
 			this.btnPropForm = new System.Windows.Forms.Button();
@@ -90,17 +90,17 @@ namespace MGCreator
 			// 
 			// controlListBox1
 			// 
-			this.controlListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.layerlListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.controlListBox1.BackColor = System.Drawing.Color.Black;
-			this.controlListBox1.ForeColor = System.Drawing.Color.LightGray;
-			this.controlListBox1.FormattingEnabled = true;
-			this.controlListBox1.ItemHeight = 15;
-			this.controlListBox1.Location = new System.Drawing.Point(11, 126);
-			this.controlListBox1.Name = "controlListBox1";
-			this.controlListBox1.Size = new System.Drawing.Size(139, 289);
-			this.controlListBox1.TabIndex = 6;
+			this.layerlListBox1.BackColor = System.Drawing.Color.Black;
+			this.layerlListBox1.ForeColor = System.Drawing.Color.LightGray;
+			this.layerlListBox1.FormattingEnabled = true;
+			this.layerlListBox1.ItemHeight = 15;
+			this.layerlListBox1.Location = new System.Drawing.Point(11, 126);
+			this.layerlListBox1.Name = "controlListBox1";
+			this.layerlListBox1.Size = new System.Drawing.Size(139, 289);
+			this.layerlListBox1.TabIndex = 6;
 			// 
 			// mgStyleComb1
 			// 
@@ -160,7 +160,7 @@ namespace MGCreator
 			this.Controls.Add(this.btnPropForm);
 			this.Controls.Add(this.btnNewMG);
 			this.Controls.Add(this.mgStyleComb1);
-			this.Controls.Add(this.controlListBox1);
+			this.Controls.Add(this.layerlListBox1);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);
 			this.Controls.Add(this.btnDel);
@@ -177,7 +177,7 @@ namespace MGCreator
 		private Button btnDel;
 		private Button btnUp;
 		private Button btnDown;
-		private ControlListBox controlListBox1;
+		private MGLayerListBox layerlListBox1;
 		private MGStyleComb mgStyleComb1;
 		private Button btnNewMG;
 		private Button btnPropForm;

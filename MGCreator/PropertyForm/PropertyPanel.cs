@@ -9,7 +9,6 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static MGCreator.MGControl;
 
 namespace MGCreator
 {
@@ -128,11 +127,25 @@ namespace MGCreator
 
 
 		// ******************************************
-		public void AddControl(Control c)
+		public void AddControl(Control c,bool IsLayout= true)
 		{
 			this.Controls.Add(c);
 			this.Controls.SetChildIndex(c, 0);
-			AutoLayout(this);
+			if(IsLayout)AutoLayout(this);
+		}
+		public void AddControls(List<Control> c, bool IsLayout = true)
+		{
+			foreach(Control c2 in c)
+			{
+				this.Controls.Add(c2);
+				this.Controls.SetChildIndex(c2, 0);
+				if (IsLayout) AutoLayout(this);
+			}
+			if (IsLayout) AutoLayout(this);
+		}
+		public void Clear()
+		{
+			this.Controls.Clear();
 		}
 		// ******************************************
 		public PropertyPanel()
@@ -159,14 +172,22 @@ true);
 			{
 				t = 0;
 				int he = 0;
-				for (int i = this.Controls.Count - 1; i >= 0; i--)
+				if (this.Controls.Count > 0)
 				{
-					if (this.Controls[i].Visible == false) continue;
-					he += this.Controls[i].Height;
+					for (int i = this.Controls.Count - 1; i >= 0; i--)
+					{
+						if (this.Controls[i].Visible == false) continue;
+						he += this.Controls[i].Height;
+					}
+					DispYMax = he - this.Height;
+					if (DispYMax < 0) DispYMax = 0;
+					if (DispY > DispYMax) DispY = DispYMax;
 				}
-				DispYMax = he - this.Height ;
-				if (DispYMax < 0) DispYMax = 0;
-				if (DispY > DispYMax) DispY = DispYMax;
+				else
+				{
+					DispY = 0;
+					DispYMax = 0;
+				}
 			}
 			else
 			{
@@ -192,17 +213,17 @@ true);
 						pp = new Point(LeftWidth, t - DispY);
 						sz = new Size(this.Width - RightWidth - LeftWidth, this.Controls[i].Height);
 					}
+					t += this.Controls[i].Height;
 					if (this.Controls[i].Location != pp) this.Controls[i].Location = pp;
 					if (this.Controls[i].Size != sz) this.Controls[i].Size = sz;
-					t += this.Controls[i].Height;
-				}
-				if(IsChild)
-				{
-					this.Size = new Size(this.Width, t + FooterHeight);
 				}
 				this.ResumeLayout(false);
 			}
-	
+			if (IsChild)
+			{
+				this.Size = new Size(this.Width, t + FooterHeight);
+			}
+
 		}
 		public void AutoLayout(PropertyPanel pp)
 		{

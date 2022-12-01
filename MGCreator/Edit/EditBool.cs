@@ -17,7 +17,7 @@ namespace MGCreator
 		protected bool m_BoolValue = false;
 		protected override void GetValeuFromControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
@@ -39,7 +39,7 @@ namespace MGCreator
 		}
 		protected override void SetValeuToControl()
 		{
-			if (m_control != null)
+			if (m_Layer != null)
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;

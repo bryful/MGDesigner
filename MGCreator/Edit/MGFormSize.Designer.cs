@@ -35,7 +35,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lbSizePos = new System.Windows.Forms.Label();
-			this.resizeSetting1 = new MGCreator.ResizeSetting();
+			this.resizeSetting1 = new MGCreator.SizeRootGrid();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			this.SuspendLayout();
@@ -44,7 +44,7 @@
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnCancel.Location = new System.Drawing.Point(145, 99);
+			this.btnCancel.Location = new System.Drawing.Point(156, 89);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(60, 23);
 			this.btnCancel.TabIndex = 0;
@@ -55,7 +55,7 @@
 			// 
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnOK.Location = new System.Drawing.Point(211, 99);
+			this.btnOK.Location = new System.Drawing.Point(222, 89);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(63, 23);
 			this.btnOK.TabIndex = 1;
@@ -137,13 +137,18 @@
 			// 
 			this.resizeSetting1.BackColor = System.Drawing.Color.Black;
 			this.resizeSetting1.BaseColor = System.Drawing.Color.DimGray;
+			this.resizeSetting1.CornerLock = false;
 			this.resizeSetting1.ForeColor = System.Drawing.Color.LightGray;
+			this.resizeSetting1.IsShowSwitch = false;
+			this.resizeSetting1.IsSmall = false;
 			this.resizeSetting1.Location = new System.Drawing.Point(77, 80);
-			this.resizeSetting1.MaximumSize = new System.Drawing.Size(42, 42);
-			this.resizeSetting1.MinimumSize = new System.Drawing.Size(42, 42);
+			this.resizeSetting1.MaximumSize = new System.Drawing.Size(30, 32);
+			this.resizeSetting1.MinimumSize = new System.Drawing.Size(30, 32);
 			this.resizeSetting1.Name = "resizeSetting1";
-			this.resizeSetting1.PosSet = MGCreator.PosSet.Center;
-			this.resizeSetting1.Size = new System.Drawing.Size(42, 42);
+			this.resizeSetting1.PushColor = System.Drawing.Color.LightGray;
+			this.resizeSetting1.PushColor2 = System.Drawing.Color.White;
+			this.resizeSetting1.Size = new System.Drawing.Size(30, 32);
+			this.resizeSetting1.SizeRoot = MGCreator.SizeRootType.Center;
 			this.resizeSetting1.TabIndex = 8;
 			this.resizeSetting1.Text = "resizeSetting1";
 			// 
@@ -153,7 +158,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(310, 149);
+			this.ClientSize = new System.Drawing.Size(310, 138);
 			this.Controls.Add(this.resizeSetting1);
 			this.Controls.Add(this.lbSizePos);
 			this.Controls.Add(this.label2);
@@ -164,6 +169,7 @@
 			this.Controls.Add(this.btnCancel);
 			this.Name = "MGFormSize";
 			this.Text = "Size Setting";
+			this.Load += new System.EventHandler(this.MGFormSize_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
 			this.ResumeLayout(false);
@@ -180,6 +186,6 @@
 		private Label label1;
 		private Label label2;
 		private Label lbSizePos;
-		private ResizeSetting resizeSetting1;
+		private SizeRootGrid resizeSetting1;
 	}
 }

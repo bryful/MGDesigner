@@ -15,86 +15,15 @@ namespace MGCreator
 	{
 
 		// ************************************************************
-        private void ChkControlIndex()
+        private void ChkMGLyers()
         {
-            if(this.Controls.Count > 0)
-            {
-                for(int i=0; i< this.Controls.Count; i++)
-                {
-                    if (this.Controls[i] is MGControl)
-                    {
-                        ((MGControl)this.Controls[i]).Index = i;
-					}
-                }
-            }
+            Layers.ChkLayers();
         }
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            base.OnControlAdded(e);
-            ChkControlIndex();
 
-		}
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            base.OnControlRemoved(e);
-			ChkControlIndex();
-		}
 		// ************************************************************
-		private int AddCount = 0;
-        public bool AddControl(MGStyle mG)
+        public void AddControl(MGStyle mG)
         {
-            bool ret = false;
-			MGControl ctrl = new MGControl();
-            ctrl.MGStyle = mG;
-
-            string? n = Enum.GetName(typeof(MGStyle), mG);
-            if (n == null) n = "MG";
-			ctrl.Name = $"{n}{AddCount}";
-			AddCount++;
-
-			Random rnd = new Random();
-            int w = 200;
-            int h = 200;
-			int l = 100;
-			int t = 100;
-			switch (mG)
-            {
-                case MGStyle.Frame:
-					w = 400;
-					h = 300;
-                    l = 100;
-					t = 100;
-					ctrl.Fill = MG_COLORS.Red;
-                    ctrl.FillOpacity = 0;
-					ctrl.Line = MG_COLORS.White;
-					ctrl.LineOpacity = 100;
-					break;
-				case MGStyle.Grid:
-					w = 400;
-					h = 300;
-					l = 100;
-					t = 100;
-					ctrl.Line = MG_COLORS.Gray;
-					ctrl.LineWeight= 2;
-					ctrl.FillOpacity = 100;
-					break;
-				default:
-					w = 200;
-					h = 200;
-					l = 200;
-					t = 200;
-					ctrl.Fill = MG_COLORS.White;
-					ctrl.FillOpacity = 100;
-					break;
-			}
-			ctrl.Size = new Size(w,h);
-			ctrl.Location = new Point(l,t);
-
-			this.Controls.Add(ctrl);
-			ctrl.ChkOffScr();
-			ChkControlIndex();
-			ret = (ctrl != null);
-			return ret;
+            Layers.AddLayer(mG);
         }
 
 		public bool DeleteControl(int idx)
@@ -131,9 +60,9 @@ namespace MGCreator
                 0
                     );
                 ret = true;
-				ChkControlIndex();
+				ChkMGLyers();
 				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				//OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
         }
@@ -143,8 +72,8 @@ namespace MGCreator
                 ctrl,
                 0
                 );
-			ChkControlIndex();
-			OnControlOrderChanged(new ControlEventArgs(ctrl));
+			ChkMGLyers();
+			//OnControlOrderChanged(new ControlEventArgs(ctrl));
 			this.Invalidate();
         }
         public void ControlToFront(Control ctrl)
@@ -153,9 +82,9 @@ namespace MGCreator
                 ctrl,
                 this.Controls.Count - 1
                 );
-			ChkControlIndex();
+			ChkMGLyers();
 			this.Invalidate();
-			OnControlOrderChanged(new ControlEventArgs(ctrl));
+			//OnControlOrderChanged(new ControlEventArgs(ctrl));
         }
         public bool ControlToFront(int idx)
         {
@@ -168,9 +97,9 @@ namespace MGCreator
 					this.Controls.Count - 1
 					);
                 ret = true;
-				ChkControlIndex();
+				ChkMGLyers();
 				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				//OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
         }
@@ -184,9 +113,9 @@ namespace MGCreator
                     idx + 1
                     );
                 ret = true;
-				ChkControlIndex();
+				ChkMGLyers();
 				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				//OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
         }
@@ -201,9 +130,9 @@ namespace MGCreator
                     idx + 1
                     );
                 ret = true;
-				ChkControlIndex();
+				ChkMGLyers();
 				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				//OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
         }
@@ -217,9 +146,9 @@ namespace MGCreator
                     idx - 1
                     );
                 ret = true;
-				ChkControlIndex();
+				ChkMGLyers();
 				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				//OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
         }
@@ -234,9 +163,9 @@ namespace MGCreator
                     idx - 1
                     );
                 ret = true;
-				ChkControlIndex();
+				ChkMGLyers();
 				this.Invalidate();
-				OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
+				//OnControlOrderChanged(new ControlEventArgs(this.Controls[idx]));
 			}
 			return ret;
         }

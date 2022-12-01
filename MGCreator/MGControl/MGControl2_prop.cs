@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MGCreator
 {
-	public partial class MGControl
+	public partial class MGControl2
 	{
 		// ********************************************
 		protected MGStyle m_MGStyle = MGStyle.Frame;
@@ -165,20 +165,20 @@ namespace MGCreator
 			}
 		}
 		// ********************************************
-		protected ControlPos m_ControlPos = ControlPos.None;
+		protected Control2Pos m_Control2Pos = Control2Pos.None;
 		/// <summary>
 		/// コントロールの固定位置
 		/// </summary>
 		[Category("_MG")]
-		public ControlPos ControlPos
+		public Control2Pos Control2Pos
 		{
 			get
 			{
-				return m_ControlPos;
+				return m_Control2Pos;
 			}
 			set
 			{
-				SetControlPos(value);
+				SetControl2Pos(value);
 			}
 		}
 		protected Padding m_PosMargin = new Padding(0, 0, 0, 0);
@@ -192,7 +192,7 @@ namespace MGCreator
 			set
 			{
 				m_PosMargin = value;
-				SetControlPos();
+				SetControl2Pos();
 			}
 
 		}

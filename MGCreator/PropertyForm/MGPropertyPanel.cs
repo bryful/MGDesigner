@@ -12,7 +12,7 @@ namespace MGCreator
 {
 	public partial class MGPropertyPanel : PropertyPanel
 	{
-		private MGControl? m_control = null;
+		private MGLayer? m_Layer = null;
 		private MGForm? m_MGForm = null;
 		[Category("_MG")]
 		public MGForm? MGForm
@@ -36,8 +36,8 @@ namespace MGCreator
 		private EditBool m_IsShowGuide = new EditBool();
 		private EditPadding m_DrawMargin = new EditPadding();
 
-		private EditControlPoint m_Position = new EditControlPoint();
-		private EditControlSize m_Size = new EditControlSize();
+		private EditLayerLocation m_Position = new EditLayerLocation();
+		private EditLayerSize m_Size = new EditLayerSize();
 
 		private EditMGColors m_Fill = new EditMGColors();
 		private EditNumber m_FillOpacity = new EditNumber();
@@ -45,6 +45,9 @@ namespace MGCreator
 		private EditNumber m_LineOpacity = new EditNumber();
 
 		private EditSize m_GridSize = new EditSize();
+
+		private EditLayerSizeRoot m_SizeRoot = new EditLayerSizeRoot();
+
 
 		public MGPropertyPanel()
 		{
@@ -64,20 +67,23 @@ namespace MGCreator
 			m_PPDisp.Text = "Draw";
 			m_PPDisp.Caption = "Draw";
 
-			m_Size.IsShowResizeType = true;
+			//m_Size.IsShowResizeType = true;
 
-			m_Fill.SetCaptionPropName("Fill");
-			m_FillOpacity.SetCaptionPropName("FillOpacity");
+			m_Fill.SetCaptionPropName("Fill",typeof(MG_COLORS));
+			m_FillOpacity.SetCaptionPropName("FillOpacity",typeof(float));
 			m_FillOpacity.SetValueMinMax(0, 100);
-			m_Line.SetCaptionPropName("Line");
-			m_LineOpacity.SetCaptionPropName("LineOpacity");
+			m_Line.SetCaptionPropName("Line", typeof(MG_COLORS));
+			m_LineOpacity.SetCaptionPropName("LineOpacity", typeof(float));
 			m_LineOpacity.SetValueMinMax(0, 100);
-			m_IsFull.SetCaptionPropName("IsFull");
-			m_IsShowGuide.SetCaptionPropName("Guide", "IsShowGuide");
-			m_DrawMargin.SetCaptionPropName("DrawMargin");
+			m_IsFull.SetCaptionPropName("IsFull", typeof(bool));
+			m_IsShowGuide.SetCaptionPropName("Guide", "IsShowGuide", typeof(bool));
+			m_DrawMargin.SetCaptionPropName("DrawMargin", typeof(Padding));
 
-			m_GridSize.SetCaptionPropName("GridSize");
+			m_GridSize.SetCaptionPropName("GridSize",typeof(Size));
 			m_GridSize.ShowMGStyle = MGStyle.Grid;
+
+			m_SizeRoot.SetCaptionPropName("SizeRoot", typeof(SizeRootType));
+			m_SizeRoot.ChkSize();
 
 			m_PPForm.AddControl(m_Name);
 			m_PPForm.AddControl(m_IsShowGuide);
@@ -86,9 +92,10 @@ namespace MGCreator
 			m_PPParts.AddControl(m_DrawMargin);
 
 			m_PPLayout.AddControl(m_Position);
+			m_PPLayout.AddControl(m_SizeRoot);
 			m_PPLayout.AddControl(m_Size);
-			m_PPLayout.AddControl(m_GridSize);
 
+			m_PPDisp.AddControl(m_GridSize);
 			m_PPDisp.AddControl(m_Fill);
 			m_PPDisp.AddControl(m_FillOpacity);
 			m_PPDisp.AddControl(m_Line);
@@ -118,13 +125,13 @@ true);
 		{
 			if(f == null) return;
 			m_MGForm = f;
-			m_MGForm.TargetChanged += M_MGForm_TargetChanged;
+			m_MGForm.Layers.TargetLayerChanged += Layers_TargetLayerChanged;
 			SetControls();
 			SetFormSub(this,f);
 
 		}
 
-		private void M_MGForm_TargetChanged(object sender, TargetChangedEventArgs e)
+		private void Layers_TargetLayerChanged(object sender, MGLayers.TargetLayerChangedEventArgs e)
 		{
 			SetControls();
 		}
@@ -136,15 +143,7 @@ true);
 			{
 				foreach (Control c in pp.Controls)
 				{
-					if(c is EditControlPoint)
-					{
-						((EditControlPoint)c).MGForm = f;
-					}
-					else if (c is EditControlSize)
-					{
-						((EditControlSize)c).MGForm = f;
-					}
-					else if (c is Edit)
+					if (c is Edit)
 					{
 						((Edit)c).MGForm = f;
 					}
@@ -160,17 +159,14 @@ true);
 		{
 			if (m_MGForm != null)
 			{
-				m_control = m_MGForm.TargetControl;
-				if (m_control != null)
+				m_Layer = m_MGForm.TargetLayer;
+				if (m_Layer != null)
 				{
-					this.SetMGStyle(m_control.MGStyle);
+					this.SetMGStyle(m_Layer.MGStyle);
 					this.AutoLayout();
 				}
 			}
-		}
-
-		private void M_control_NameChanged(object sender, MGControl.NameChangedEventArgs e)
-		{
+			SetFormSub(this, m_MGForm);
 		}
 	}
 }

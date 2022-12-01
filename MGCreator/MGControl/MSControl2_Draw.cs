@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MGCreator
 {
-	public partial class MGControl
+	public partial class MGControl2
 	{
 		public virtual void Draw(Graphics g, Rectangle rct, bool IsClear = true)
 		{
