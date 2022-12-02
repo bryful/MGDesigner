@@ -28,11 +28,20 @@ namespace MGCreator
 			m_cmb.SelectedIndexChanged += M_cmb_SelectedIndexChanged;
 			this.Controls.Add(m_cmb);
 			InitializeComponent();
+			this.SetStyle(
+ControlStyles.DoubleBuffer |
+ControlStyles.UserPaint |
+ControlStyles.AllPaintingInWmPaint |
+ControlStyles.SupportsTransparentBackColor,
+//Control2Styles.UserMouse|
+//Control2Styles.Selectable,
+true);
 		}
 
 		private void M_cmb_SelectedIndexChanged(object? sender, EventArgs e)
 		{
 			SetValeuToControl();
+			this.Invalidate();
 		}
 
 		// **********************************************************
@@ -64,6 +73,7 @@ namespace MGCreator
 				if (_EventFLag == false) return;
 				_EventFLag = false;
 				SetValueToProp(m_PropName, (object)m_cmb.MGColors,typeof(MG_COLORS));
+				this.Invalidate();
 				_EventFLag = true;
 			}
 		}
@@ -72,14 +82,29 @@ namespace MGCreator
 			base.OnPaint(pe);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Graphics g = pe.Graphics;
+			Pen p = new Pen(Color.DimGray);
+			p.Width = 1;
 			try
 			{
-				if(m_MGForm!=null)
-				{
-					sb.Color = m_MGForm.GetColors(m_cmb.MGColors);
-				}
+				bool IsT = (m_cmb.MGColors == MG_COLORS.Transparent);
 				Rectangle r = new Rectangle(m_CaptionWidth + 2, 2, DrawWidth - 4, this.Height - 4);
-				g.FillRectangle(sb, r);
+				if (IsT==false)
+				{
+					if (m_MGForm != null)
+					{
+						sb.Color = m_MGForm.GetColors(m_cmb.MGColors);
+					}
+					g.FillRectangle(sb, r);
+				}
+				else
+				{
+					sb.Color= Color.Black;
+					g.FillRectangle(sb, r);
+					g.DrawRectangle(p, r);
+					g.DrawLine(p, r.Left, r.Top, r.Right, r.Bottom);
+					g.DrawLine(p, r.Left, r.Bottom, r.Right, r.Top);
+
+				}
 
 			}
 			finally

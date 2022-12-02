@@ -10,10 +10,8 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditSize : Edit
+	public partial class EditPoint : Edit
 	{
-
-
 		protected override void GetValeuFromControl()
 		{
 			if (m_Layer != null)
@@ -22,8 +20,12 @@ namespace MGCreator
 				_EventFLag = false;
 				try
 				{
-					Size? p = (Size?)GetValueFromProp(m_PropName, typeof(Size));
-					if (p != null) m_sizeEdit.Value = (Size)p;
+					Point? b = (Point?)GetValueFromProp(m_PropName, typeof(Point));
+					if (b != null)
+					{
+						m_edit.Value = (Point)b;
+					}
+
 				}
 				finally
 				{
@@ -40,7 +42,7 @@ namespace MGCreator
 				_EventFLag = false;
 				try
 				{
-					SetValueToProp(m_PropName, m_sizeEdit.Value, typeof(Size));
+					SetValueToProp(m_PropName, m_edit.Value, typeof(Point));
 				}
 				finally
 				{
@@ -48,43 +50,32 @@ namespace MGCreator
 				}
 			}
 		}
-		// ****************************************************************************
 		[Category("_MG")]
-		public Size Sizes
+		public Point Point
 		{
 			get
 			{
-				return m_sizeEdit.Value;
+				return m_edit.Value;
 			}
 			set
 			{
-				m_sizeEdit.Value = value;
+				m_edit.Value = value;
 				this.Invalidate();
 			}
 		}
-		protected SizeEdit m_sizeEdit = new SizeEdit();
-		public EditSize()
+		private PosEdit m_edit = new PosEdit();
+		public EditPoint()
 		{
-			this.BackColor = Color.Black;
-			this.ForeColor = Color.LightGray;
-
-			SetCaptionPropName("Size", typeof(Size));
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
-			m_sizeEdit.Name = "float";
-			m_sizeEdit.AutoSize = false;
-			m_sizeEdit.Location = new Point(m_CaptionWidth, 0);
-			m_sizeEdit.Size = new Size(120, 20);
-			m_sizeEdit.ValueChanged += M_sizeEdit_ValueChanged;
-			this.Controls.Add(m_sizeEdit);
+			m_edit.Name = "pointEdit";
+			m_edit.Location = new Point(m_CaptionWidth, 0);
+			m_edit.Size = new Size(this.Width - m_CaptionWidth, this.Height);
+			Caption = "Point";
+			this.Controls.Add(m_edit);
 			InitializeComponent();
 			ChkSize();
-		}
-
-		private void M_sizeEdit_ValueChanged(object sender, SizeEdit.ValueChangedEventArgs e)
-		{
-			SetValeuToControl();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
@@ -98,8 +89,8 @@ namespace MGCreator
 		}
 		public void ChkSize()
 		{
-			m_sizeEdit.Width = this.Width - m_CaptionWidth;
-			m_sizeEdit.Location = new Point(m_CaptionWidth, 0);
+			m_edit.Width = this.Width - m_CaptionWidth;
+			m_edit.Location = new Point(m_CaptionWidth, 0);
 			this.Invalidate();
 		}
 	}

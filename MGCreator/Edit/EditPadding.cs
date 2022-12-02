@@ -12,7 +12,6 @@ namespace MGCreator
 {
     public partial class EditPadding : Edit
 	{
-		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		protected Padding m_Padding = new Padding(0,0,0,0);
 
 		protected override void GetValeuFromControl()
@@ -67,6 +66,7 @@ namespace MGCreator
 		public EditPadding()
 		{
 			SetCaptionPropName("Padding", typeof(Padding));
+			//this.Controls.Add(m_Padding);
 			InitializeComponent();
 		}
 		protected override void OnPaint(PaintEventArgs pe)

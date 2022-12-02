@@ -13,6 +13,7 @@ namespace MGCreator
 	public partial class MGToolForm : Form
 	{
 		public readonly int HeaderHeight = 25;
+		public readonly int FooterHeight = 10;
 		public readonly int HeaderCloseBoxSize = 12;
 
 
@@ -155,7 +156,7 @@ namespace MGCreator
 				g.FillRectangle(sb, r);
 
 				//footer
-				r = new Rectangle(0, this.Height-10, this.Width - 1, 10);
+				r = new Rectangle(0, this.Height- FooterHeight, this.Width - 1, FooterHeight);
 				sb.Color = this.ForeColor;
 				g.FillRectangle(sb, r);
 				//Outline

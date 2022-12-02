@@ -159,22 +159,7 @@ namespace MGCreator
 			}
 			return ret;
 		}
-		public int IndexOf(MGLayer layer)
-		{
-			int ret = -1;
-			if (Count > 0)
-			{
-				for (int i = 0; i < Count; i++)
-				{
-					if (m_Items[i] == layer)
-					{
-						ret = i;
-						break;
-					}
-				}
-			}
-			return ret;
-		}
+		
 		// **********************************************************************************
 		public void ChkLayers()
 		{
@@ -203,6 +188,8 @@ namespace MGCreator
 			return ret;
 		}
 		// **********************************************************************************
+		private int m_Def_PosX = 0;
+		private int m_Def_PosY = 0;
 		public void AddLayer(MGStyle ms)
         {
 			if (m_MGForm == null) return;
@@ -212,11 +199,14 @@ namespace MGCreator
 			string n = layer.Name;
 			layer.Name += "1";
 			int cnt = 1;
-			while(IndexOf(layer)>=0)
+			while(IndexOf(layer.Name)>=0)
 			{
 				layer.Name = n+ $"{cnt}";
 				cnt++;
 			}
+			layer.Location = new Point(layer.Left + m_Def_PosX, layer.Top + m_Def_PosY);
+			m_Def_PosX += 30; if (m_Def_PosX > m_MGForm.Width *3/ 4) m_Def_PosX = 0;
+			m_Def_PosY += 30; if (m_Def_PosY > m_MGForm.Height *3/ 4) m_Def_PosY = 0;
 			layer.NameChanged += Layer_NameChanged1;
 			if(Count>0)
 			{
@@ -230,7 +220,8 @@ namespace MGCreator
 			ChkLayers();
 			layer.ChkOffScr();
 			OnLayerAdded(EventArgs.Empty);
-        }
+			TargetIndex = 0;
+		}
 
 		private void Layer_NameChanged1(object sender, NameChangedEventArgs e)
 		{
@@ -239,7 +230,7 @@ namespace MGCreator
 		// **********************************************************************************
 		public void Remove(MGLayer layer)
 		{
-			int idx=IndexOf(layer);
+			int idx=IndexOf(layer.Name);
 			RemoveAt(idx);
 		}
 		// **********************************************************************************
@@ -385,6 +376,134 @@ namespace MGCreator
 		private void ToTopMenu_Click(object? sender, EventArgs e)
 		{
 			TargetToTop();
+		}
+		public void SetFormSize(Size sz, SizeRootType sr)
+		{
+			if (m_MGForm == null) return;
+			if (m_MGForm.Size == sz) return;
+			if (Count <= 0)
+			{
+				m_MGForm.Size = sz;
+				return;
+			}
+			//まず基点を求める
+
+			List<Point> baseP = new List<Point>();
+			int cx;
+			int cy;
+			Size m = m_MGForm.Size;
+			for(int i = 0; i < Count; i++)
+			{
+				MGLayer L = m_Items[i];
+				cx = L.Left;
+				cy = L.Top;
+				switch (sr)
+				{
+					case SizeRootType.Center:
+						cx = cx - (m.Width / 2);
+						cy = cy - (m.Height / 2);
+						break;
+					case SizeRootType.TopLeft:
+						break;
+					case SizeRootType.Top:
+						cx =  cx -  (m.Width / 2);
+						cy =  cy -  0;
+						break;
+					case SizeRootType.TopRight:
+						cx = cx - (m.Width);
+						cy = cy - 0;
+						break;
+					case SizeRootType.Right:
+						cx = cx - (m.Width);
+						cy = cy - (m.Height/2);
+						break;
+					case SizeRootType.BottomRight:
+						cx = cx - (m.Width);
+						cy = cy - (m.Height);
+						break;
+					case SizeRootType.Bottom:
+						cx = cx - (m.Width/2);
+						cy = cy - (m.Height);
+						break;
+					case SizeRootType.BottomLeft:
+						cx = cx - 0;
+						cy = cy - (m.Height);
+						break;
+					case SizeRootType.Left:
+						cx = cx - 0;
+						cy = cy - (m.Height/2);
+						break;
+				}
+				baseP.Add(new Point(cx, cy));
+			}
+			Point p = m_MGForm.Location;
+			cx = p.X + m.Width / 2;
+			cy = p.Y + m.Height / 2;
+			m_MGForm.Size = sz;
+			m = m_MGForm.Size;
+			m_MGForm.Location = new Point(cx-m.Width/2, cy-m.Height/2);
+			for (int i = 0; i < Count; i++)
+			{
+				cx = 0;
+				cy = 0;
+				switch (sr)
+				{
+					case SizeRootType.Center:
+						cx = baseP[i].X + (m.Width / 2);
+						cy = baseP[i].Y + (m.Height / 2);
+						break;
+					case SizeRootType.TopLeft:
+						cx  = baseP[i].X;
+						cy = baseP[i].Y;
+						break;
+					case SizeRootType.Top:
+						cx = baseP[i].X + (m.Width / 2);
+						cy = baseP[i].Y;
+						break;
+					case SizeRootType.TopRight:
+						cx = baseP[i].X + (m.Width);
+						cy = baseP[i].Y;
+						break;
+					case SizeRootType.Right:
+						cx = baseP[i].X + (m.Width);
+						cy = baseP[i].Y + (m.Height / 2);
+
+						break;
+					case SizeRootType.BottomRight:
+						cx = baseP[i].X + (m.Width);
+						cy = baseP[i].Y + (m.Height);
+						break;
+					case SizeRootType.Bottom:
+						cx = baseP[i].X + (m.Width/2);
+						cy = baseP[i].Y + (m.Height);
+						break;
+					case SizeRootType.BottomLeft:
+						cx = baseP[i].X ;
+						cy = baseP[i].Y + (m.Height);
+						break;
+					case SizeRootType.Left:
+						cx = baseP[i].X;
+						cy = baseP[i].Y + (m.Height/2);
+						break;
+					default:
+						break;
+				}
+				m_Items[i].Location = new Point(cx, cy);
+			}
+		}
+		private SizeRootType m_Def_SR= SizeRootType.Center;
+		public void SetFormSize()
+		{
+			if (m_MGForm == null) return;
+			MGFormSize dlg = new MGFormSize();
+			dlg.SizeRoot = m_Def_SR;
+			dlg.FormSize = m_MGForm.Size;
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				SetFormSize(dlg.FormSize, dlg.SizeRoot);
+				m_Def_SR = dlg.SizeRoot;
+			}
+			dlg.Dispose();
 		}
 	}
 }

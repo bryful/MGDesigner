@@ -79,7 +79,6 @@ namespace MGCreator
 		// ****************************************************************
 		protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            base.OnSelectedIndexChanged(e);
             if (m_Layers != null)
             {
                 if (SelectedIndex >= 0)
@@ -91,8 +90,9 @@ namespace MGCreator
                     
                 }
             }
-        }
-  
-        // ****************************************************************
-    }
+			base.OnSelectedIndexChanged(e);
+		}
+
+		// ****************************************************************
+	}
 }

@@ -86,6 +86,18 @@ namespace MGCreator
                 p.Dispose();
             }
         }
+		public override List<Control> ParamsParam()
+		{
+			List<Control> PList = new List<Control>();
+			PList.AddRange( base.ParamsParam());
 
-    }
+			EditNumber m_crossw = new EditNumber();
+			m_crossw.SetCaptionPropName("CrossWeight", typeof(float));
+			PList.Add(m_crossw);
+
+			return PList;
+
+		}
+
+	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class MGPropertyPanelBase
+	partial class EditPoint
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

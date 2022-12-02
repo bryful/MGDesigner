@@ -63,10 +63,24 @@ namespace MGCreator
 			MGPropMenu.Text = "Property Panel";
 			MGPropMenu.Click += MGPropMenu_Click;
 
+			ToolStripMenuItem MGFormSizeMenu = new ToolStripMenuItem();
+			MGFormSizeMenu.Name = "MGSize";
+			MGFormSizeMenu.Text = "MGSize";
+			MGFormSizeMenu.Click += MGFormSizeMenu_Click;
+
+
 			menu.Items.Add(MGPropMenu);
+			menu.Items.Add(MGFormSizeMenu);
+			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(QuitMenu);
 			menu.Show(this,x,y);
 		}
+
+		private void MGFormSizeMenu_Click(object? sender, EventArgs e)
+		{
+			Layers.SetFormSize();
+		}
+
 		private void MGPropMenu_Click(object? sender, EventArgs e)
 		{
 			if (MGProjectForm != null)
@@ -175,24 +189,7 @@ true);
 			}
 
 		}
-		// *********************************************************************************
-		/*
-		private void DrawControl(Graphics g, MGControl mc)
-		{
-			GraphicsPath path = new GraphicsPath();
-			path.AddRectangle(this.ClientRectangle);
-			Region region = new Region(path);
-			g.SetClip(region, CombineMode.Replace);
-			if (mc.IsFull)
-			{
-				mc.Draw(g, this.ClientRectangle, false);
-			}
-			else
-			{
-				g.DrawImage(mc.OffScr, mc.Location);
-			}
-		}
-		*/
+
 		// *********************************************************************************
 		private void DrawMGLayer(Graphics g, MGLayer layer,SolidBrush sb , Pen p)
 		{

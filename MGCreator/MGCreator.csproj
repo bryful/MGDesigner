@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="PropertyForm\MGPropertyPanelBase.cs">
+    <Compile Update="PropertyForm\MGPropertyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

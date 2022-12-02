@@ -707,57 +707,59 @@ namespace MGCreator
 		}
 
 		// ***************************************************************************
-		public virtual List<Control> Param()
+		public virtual List<Control> ParamsMain()
+		{
+			List<Control> PList = new List<Control>();
+			EditName m_name = new EditName();
+			PList.Add(m_name);
+			
+			EditBool m_IsFull = new EditBool();
+			m_IsFull.SetCaptionPropName("IsFull", typeof(bool));
+			PList.Add(m_IsFull);
+				;
+			EditLayerLocation m_location = new EditLayerLocation();
+			PList.Add(m_location);
+
+			EditLayerSizeRoot m_SizeRoot = new EditLayerSizeRoot();
+			PList.Add(m_SizeRoot);
+			
+			EditLayerSize m_Size = new EditLayerSize();
+			PList.Add(m_Size);
+
+			EditPadding m_DrawMargin = new EditPadding();
+			m_DrawMargin.SetCaptionPropName("DrawMargin", typeof(Padding));
+
+			PList.Add(m_DrawMargin);
+
+			return PList;
+		}
+		public virtual List<Control> ParamsParam()
+		{
+			List<Control> PList = new List<Control>();
+			return PList;
+
+		}
+		public virtual List<Control> ParamsColors()
 		{
 			List<Control> PList = new List<Control>();
 
-			PropertyPanel main = new PropertyPanel();
-			main.Caption = "Main";
-
-			EditName m_name = new EditName();
-			EditBool m_IsFull = new EditBool();
-			m_IsFull.SetCaptionPropName("IsFull", typeof(bool));
-			EditLayerLocation m_location = new EditLayerLocation();
-			EditLayerSizeRoot m_SizeRoot = new EditLayerSizeRoot();
-			EditLayerSize m_Size = new EditLayerSize();
-			EditPadding m_DrawMargin = new EditPadding();
-			m_DrawMargin.SetCaptionPropName("DrawMargin", typeof(Padding));
-			main.AddControl(m_name,false);
-			main.AddControl(m_IsFull, false);
-			main.AddControl(m_location, false);
-			main.AddControl(m_SizeRoot, false);
-			main.AddControl(m_Size, false);
-			main.AddControl(m_DrawMargin, false);
-			main.AutoLayout();
-			PList.Add(main);
-
-			PropertyPanel Params = new PropertyPanel();
-			Params.Caption = "Params";
-			Params.AutoLayout();
-			PList.Add(Params);
-
-
-			PropertyPanel pcolor = new PropertyPanel();
-			pcolor.Caption = "Color";
-
 			EditMGColors m_cFill = new EditMGColors();
 			m_cFill.SetCaptionPropName("Fill", typeof(MG_COLORS));
+			PList.Add(m_cFill);
+
 			EditNumber m_cFillOpacity = new EditNumber();
 			m_cFillOpacity.SetCaptionPropName("FillOpacity", typeof(float));
 			m_cFillOpacity.SetValueMinMax(0, 100);
+			PList.Add(m_cFillOpacity);
+
 			EditMGColors m_cLine = new EditMGColors();
 			m_cLine.SetCaptionPropName("Line", typeof(MG_COLORS));
+			PList.Add(m_cLine);
+
 			EditNumber m_cLineOpacity = new EditNumber();
 			m_cLineOpacity.SetCaptionPropName("LineOpacity", typeof(float));
 			m_cLineOpacity.SetValueMinMax(0, 100);
-			pcolor.AddControl(m_cFill, false);
-			pcolor.AddControl(m_cFillOpacity, false);
-			pcolor.AddControl(m_cLine, false);
-			pcolor.AddControl(m_cLineOpacity, false);
-			pcolor.AutoLayout();
-
-			PList.Add(pcolor);
-
+			PList.Add(m_cLineOpacity);
 
 			return PList;
 		}

@@ -81,7 +81,48 @@ namespace MGCreator
 				ChkOffScr();
 			}
 		}
-
+		protected MG_COLORS m_Frame = MG_COLORS.White;
+		/// <summary>
+		/// 線の色
+		/// </summary>
+		[Category("_MG")]
+		public MG_COLORS Frame
+		{
+			get { return m_Frame; }
+			set
+			{
+				m_Frame = value;
+				ChkOffScr();
+			}
+		}
+		protected Padding m_FrameWeight = new Padding(2,2,2,2);
+		/// <summary>
+		/// 線の太さ
+		/// </summary>
+		[Category("_MG")]
+		public Padding FrameWeight
+		{
+			get { return FrameWeight; }
+			set
+			{
+				FrameWeight = value;
+				ChkOffScr();
+			}
+		}
+		protected float m_FrameOpacity = 100;
+		/// <summary>
+		/// 線の透明度
+		/// </summary>
+		[Category("_MG")]
+		public float FrameOpacity
+		{
+			get { return m_FrameOpacity; }
+			set
+			{
+				m_FrameOpacity = value;
+				ChkOffScr();
+			}
+		}
 		// ********************************************
 		protected bool m_IsFull = false;
 		[Category("_MGLayer")]
@@ -95,20 +136,6 @@ namespace MGCreator
 			}
 		}
 		// ********************************************
-		protected Size m_GridSize = new Size(100, 100);
-		/// <summary>
-		/// 描画マージン
-		/// </summary>
-		[Category("_MG")]
-		public Size GridSize
-		{
-			get { return m_GridSize; }
-			set
-			{
-				m_GridSize = value;
-				ChkOffScr();
-			}
-
-		}
+	
 	}
 }

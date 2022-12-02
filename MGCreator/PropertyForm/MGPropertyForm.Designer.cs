@@ -38,29 +38,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.mgPropertyPanel1.BackColor = System.Drawing.Color.Transparent;
 			this.mgPropertyPanel1.Caption = "PropertyPanel";
-			this.mgPropertyPanel1.ForeColor = System.Drawing.Color.LightGray;
-			this.mgPropertyPanel1.IsOpen = true;
-			this.mgPropertyPanel1.Location = new System.Drawing.Point(4, 24);
+			this.mgPropertyPanel1.Location = new System.Drawing.Point(9, 23);
+			this.mgPropertyPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.mgPropertyPanel1.MGForm = null;
-			this.mgPropertyPanel1.MGStyle = MGCreator.MGStyle.ALL;
 			this.mgPropertyPanel1.Name = "mgPropertyPanel1";
-			this.mgPropertyPanel1.Size = new System.Drawing.Size(310, 357);
+			this.mgPropertyPanel1.Size = new System.Drawing.Size(266, 409);
 			this.mgPropertyPanel1.TabIndex = 0;
 			// 
 			// MGPropertyForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(317, 393);
+			this.ClientSize = new System.Drawing.Size(284, 441);
 			this.Controls.Add(this.mgPropertyPanel1);
-			this.DoubleBuffered = true;
 			this.Name = "MGPropertyForm";
 			this.Text = "Property";
 			this.ResumeLayout(false);
 
 		}
-
 
 		#endregion
 

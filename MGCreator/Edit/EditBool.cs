@@ -12,7 +12,6 @@ namespace MGCreator
 {
 	public partial class EditBool : Edit
 	{
-		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		// ****************************************************************************
 		protected bool m_BoolValue = false;
 		protected override void GetValeuFromControl()

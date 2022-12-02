@@ -19,13 +19,13 @@ namespace MGCreator
 			ShowMGPropertyForm(false);
 		}
 		// *******************************************************************************
-		public MGPropertyFormBase? MGPropertyForm = null;
+		public MGPropertyForm? MGPropertyForm = null;
 		public void ShowMGPropertyForm(bool isV=true)
 		{
 			if (MGForm == null) return;
 			if (MGPropertyForm == null)
 			{
-				MGPropertyForm = new MGPropertyFormBase();
+				MGPropertyForm = new MGPropertyForm();
 				MGPropertyForm.MGForm = MGForm;
 
 				if (isV)
