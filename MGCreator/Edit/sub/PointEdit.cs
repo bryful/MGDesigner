@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class PosEdit : Control
+	public partial class PointEdit : Control
 	{
 		public class ValueChangedEventArgs : EventArgs
 		{
@@ -49,7 +49,7 @@ namespace MGCreator
 				this.Invalidate();
 			}
 		}
-		public PosEdit()
+		public PointEdit()
 		{
 			this.BackColor = Color.Black;
 			this.ForeColor = Color.LightGray; 

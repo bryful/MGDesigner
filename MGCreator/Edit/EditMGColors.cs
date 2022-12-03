@@ -13,11 +13,15 @@ namespace MGCreator
 {
 	public partial class EditMGColors : Edit
 	{
-		public new MGStyle ShowMGStyle = MGStyle.ALL;
 
 		const int DrawWidth = 40;
 		private MGColorComb m_cmb = new MGColorComb();
 
+		public MG_COLORS Value
+		{
+			get { return m_cmb.MGColors; }
+			set { m_cmb.MGColors = value;this.Invalidate(); }
+		}
 		public EditMGColors()
 		{
 			Caption = "MG_Colors";
@@ -92,7 +96,7 @@ true);
 				{
 					if (m_MGForm != null)
 					{
-						sb.Color = m_MGForm.GetColors(m_cmb.MGColors);
+						sb.Color = m_MGForm.GetMGColors(m_cmb.MGColors);
 					}
 					g.FillRectangle(sb, r);
 				}
@@ -125,6 +129,22 @@ true);
 			base.OnResize(e);
 			ChkSize();
 		}
-
+		/*
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			base.OnMouseClick(e);
+			if (m_MGForm != null)
+			{
+				if (m_cmb.MGColors != MG_COLORS.Transparent)
+				{
+					if (m_MGForm.MGColorPicker(m_cmb.MGColors) )
+					{
+						this.Invalidate();
+						m_MGForm.DrawAll();
+					}
+				}
+			}
+		}
+		*/
 	}
 }

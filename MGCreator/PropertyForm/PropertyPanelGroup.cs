@@ -14,8 +14,6 @@ namespace MGCreator
 {
 	public partial class PropertyPanelGroup : Panel
 	{
-		const int HeaderHeight = 20;
-		const int FooterHeight = 5;
 		const int LeftWidth = 20;
 		const int RightWidth = 25;
 		// ******************************************
@@ -74,32 +72,22 @@ true);
 		// ******************************************
 		public void AutoLayout()
 		{
-			bool IsChild = (this.Parent is PropertyPanel);
-			int t = HeaderHeight;
-			if (IsChild == false)
+			int t = 0;
+			int he = 0;
+			if (this.Controls.Count > 0)
 			{
-				t = 0;
-				int he = 0;
-				if (this.Controls.Count > 0)
+				for (int i = this.Controls.Count - 1; i >= 0; i--)
 				{
-					for (int i = this.Controls.Count - 1; i >= 0; i--)
+					if (this.Controls[i].Visible == false) continue;
+					if(this.Controls[i] is PropertyPanel)
 					{
-						if (this.Controls[i].Visible == false) continue;
-						if(this.Controls[i] is PropertyPanel)
-						{
-							((PropertyPanel)this.Controls[i]).AutoLayout();
-						}
-						he += this.Controls[i].Height;
+						((PropertyPanel)this.Controls[i]).AutoLayout();
 					}
-					DispYMax = he - this.Height;
-					if (DispYMax < 0) DispYMax = 0;
-					if (DispY > DispYMax) DispY = DispYMax;
+					he += this.Controls[i].Height;
 				}
-				else
-				{
-					DispY = 0;
-					DispYMax = 0;
-				}
+				DispYMax = he - this.Height;
+				if (DispYMax < 0) DispYMax = 0;
+				if (DispY > DispYMax) DispY = DispYMax;
 			}
 			else
 			{
@@ -134,14 +122,7 @@ true);
 				{
 					if (this.Controls[i].Visible == false) continue;
 					Point pp;
-					if (this.Controls[i] is PropertyPanel)
-					{
-						pp = new Point(0, t - DispY);
-					}
-					else
-					{
-						pp = new Point(LeftWidth, t - DispY);
-					}
+					pp = new Point(0, t - DispY);
 					if (this.Controls[i].Location != pp) this.Controls[i].Location = pp;
 					t += this.Controls[i].Height;
 				}

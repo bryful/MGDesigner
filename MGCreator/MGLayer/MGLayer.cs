@@ -9,12 +9,34 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MGCreator
 {
-
+	public enum MGStyle
+	{
+		None = -1,
+		Frame,
+		Grid,
+		Circle,
+		CircleScale,
+		Triangle,
+		Polygon,
+		Cross,
+		Zebra,
+		Label,
+		Parallelogram,
+		Scale,
+		Sheet,
+		Kagi,
+		Edge,
+		Side,
+		PNG,
+		JSON,
+	};
 	public enum SizeRootType
 	{
 		None,
@@ -42,6 +64,7 @@ namespace MGCreator
 	
 	public partial class MGLayer
     {
+		public readonly MGStyle MGStyle = MGStyle.Frame;
 		#region Event
 		// ************************************************************************
 
@@ -73,59 +96,17 @@ namespace MGCreator
 			{
 				LocationChanged(this, e);
 			}
-		}   
- 
+		}
+
 		#endregion
 		// ************************************************************************
-		#region Property
-		protected int m_Index = -1;
-		public int Index { get { return m_Index; } }
-		public void SetIndex(int idx) { m_Index = idx; }
-        protected MGForm? m_MGForm = null;
-		[Category("_MGLayer")]
-		public MGForm? MGForm
-        {
-            get { return m_MGForm; }
-        }
-        public MGStyle MGStyle = MGStyle.Frame;
-		protected string m_Name = "Layer";
-		[Category("_MGLayer")]
-		public string Name
-		{
-			get { return m_Name; }
-			set
-			{
-				if (m_Name != value)
-				{
-					m_Name = value;
-					OnNameChanged(new NameChangedEventArgs(m_Name,m_Index));
-				}
-			}
-		}
-
-		protected Bitmap m_Offscr = new Bitmap(100, 100, PixelFormat.Format32bppArgb);
-        public Bitmap OffScr() { return m_Offscr; }
-
-		protected bool m_CornerLock = false;
-		[Category("_MGLayer")]
-		public bool CornerLock
-		{
-            get 
-            {
-				return m_CornerLock;
-            }
-            set
-            {
-				SetCornerLock(value);
-
-			}
-
-        }
+		// **************************************************
 		public void SetCorner(bool IsEvent = true)
 		{
-			SetCorner(m_SizeRoot,IsEvent);
+			SetCorner(m_SizeRoot, IsEvent);
 		}
-		public void SetCorner(SizeRootType sr,bool IsEvent = true)
+		// **************************************************
+		public void SetCorner(SizeRootType sr, bool IsEvent = true)
 		{
 			if (m_MGForm == null) return;
 			Point p;
@@ -198,108 +179,13 @@ namespace MGCreator
 				SetCorner(true);
 			}
 		}
-		protected Point m_location = new Point(0, 0);
-        [Category("_MGLayer")]
-		public Point Location
-        {
-            get { return m_location; }
-            set
-            {
-				if(m_CornerLock==false)
-				{
-					if (m_location != value)
-					{
-						m_location = value;
-						OnLocationChanged(EventArgs.Empty);
-						if (m_MGForm != null) m_MGForm.Invalidate();
-					}
-				}
-				else
-				{
-					SetCorner(true);
-				}
-			}
-        }
-        [Category("_MGLayer")]
-        public int Left
-        {
-            get { return m_location.X; }
-        }
-        [Category("_MGLayer")]
-        public int Top
-        {
-            get { return m_location.Y; }
-        }
-
-
-		protected SizeRootType m_SizeRoot = SizeRootType.TopLeft;
-		[Category("_MGLayer")]
-		public SizeRootType SizeRoot
-		{
-            get { return m_SizeRoot; }
-            set 
-			{ 
-				m_SizeRoot = value;
-				if(m_CornerLock)
-				{
-					SetCornerLock(true, true);
-				}
-			}
-        }
-		protected Size m_Size = new Size(100, 100);
-        [Category("_MGLayer")]
-        public Size Size
-        {
-            get { return m_Size; }
-            set
-            {
-                if (m_Size != value)
-                {
-                    SetSize(value);
-                    //if (m_MGForm != null) m_MGForm.DrawAll();
-                }
-            }
-        }
-        [Category("_MGLayer")]
-        public int Width
-        {
-            get { return m_Size.Width; }
-        }
-        [Category("_MGLayer")]
-        public int Height
-        {
-            get { return m_Size.Height; }
-        }
-		[Category("_MGLayer")]
-        public Rectangle Bounds
-        {
-            get { return new Rectangle(m_location, m_Size); }
-        }
-		protected Padding m_DrawMargin = new Padding(0, 0, 0, 0);
-		/// <summary>
-		/// 描画マージン
-		/// </summary>
-		[Category("_MGLayer")]
-		public Padding DrawMargin
-		{
-			get { return m_DrawMargin; }
-			set
-			{
-				m_DrawMargin = value;
-				ChkOffScr();
-			}
-
-		}
-		protected Color m_ForeColor = Color.White;
-		protected Color m_BackColor = Color.Black;
-		#endregion
 		// ************************************************************************
 		#region Draw
 		public Color GetColors(MG_COLORS c, double op)
 		{
 			if (m_MGForm!=null)
 			{
-				return m_MGForm.GetColors(c, op);
+				return m_MGForm.GetMGColors(c, op);
 			}
 			else
 			{
@@ -420,7 +306,18 @@ namespace MGCreator
             {
                 if (IsClear) g.Clear(Color.Transparent);
 				Rectangle r2 = MarginRect(rct);
-				DrawFrame(g, p, 2, r2);
+
+				if((m_Back!=MG_COLORS.Transparent)&&(m_BackOpacity > 0))
+				{
+					sb.Color = GetColors(m_Back, m_BackOpacity);
+					g.FillRectangle(sb, r2);
+				}
+				if ((m_Frame != MG_COLORS.Transparent) && (m_FrameOpacity > 0))
+				{
+					sb.Color = GetColors(m_Frame, m_FrameOpacity);
+					MGc.DrawFrame(g, sb, r2, m_FrameWeight);
+				}
+
             }
             finally
             {
@@ -476,6 +373,11 @@ namespace MGCreator
         {
 
 			m_MGForm = m;
+			m_Back = MG_COLORS.Black;
+			m_FrameOpacity = 100;
+			m_Frame = MG_COLORS.White;
+			m_FrameOpacity = 100;
+
 			InitOffScr();
 			ChkOffScr();
 
@@ -716,7 +618,6 @@ namespace MGCreator
 			EditBool m_IsFull = new EditBool();
 			m_IsFull.SetCaptionPropName("IsFull", typeof(bool));
 			PList.Add(m_IsFull);
-				;
 			EditLayerLocation m_location = new EditLayerLocation();
 			PList.Add(m_location);
 
@@ -736,6 +637,10 @@ namespace MGCreator
 		public virtual List<Control> ParamsParam()
 		{
 			List<Control> PList = new List<Control>();
+			EditPadding m_F = new EditPadding();
+			m_F.SetCaptionPropName("FrameWeight", typeof(Padding));
+			PList.Add(m_F);
+
 			return PList;
 
 		}
@@ -743,26 +648,101 @@ namespace MGCreator
 		{
 			List<Control> PList = new List<Control>();
 
-			EditMGColors m_cFill = new EditMGColors();
-			m_cFill.SetCaptionPropName("Fill", typeof(MG_COLORS));
-			PList.Add(m_cFill);
+			EditMGColors m_B = new EditMGColors();
+			m_B.SetCaptionPropName("Back", typeof(MG_COLORS));
+			PList.Add(m_B);
 
-			EditNumber m_cFillOpacity = new EditNumber();
-			m_cFillOpacity.SetCaptionPropName("FillOpacity", typeof(float));
-			m_cFillOpacity.SetValueMinMax(0, 100);
-			PList.Add(m_cFillOpacity);
+			EditNumber m_BOpacity = new EditNumber();
+			m_BOpacity.SetCaptionPropName("BackOpacity", typeof(float));
+			m_BOpacity.SetValueMinMax(0, 100);
+			PList.Add(m_BOpacity);
 
-			EditMGColors m_cLine = new EditMGColors();
-			m_cLine.SetCaptionPropName("Line", typeof(MG_COLORS));
-			PList.Add(m_cLine);
+			EditMGColors m_F = new EditMGColors();
+			m_F.SetCaptionPropName("Frame", typeof(MG_COLORS));
+			PList.Add(m_F);
 
-			EditNumber m_cLineOpacity = new EditNumber();
-			m_cLineOpacity.SetCaptionPropName("LineOpacity", typeof(float));
-			m_cLineOpacity.SetValueMinMax(0, 100);
-			PList.Add(m_cLineOpacity);
+			EditNumber m_FOpacity = new EditNumber();
+			m_FOpacity.SetCaptionPropName("FrameOpacity", typeof(float));
+			m_FOpacity.SetValueMinMax(0, 100);
+			PList.Add(m_FOpacity);
 
 			return PList;
 		}
 		// ***************************************************************************
+		public virtual Bitmap? ToBitmap()
+		{
+			Bitmap? bmp = null;
+			if (m_MGForm == null) return null;
+			bmp= new Bitmap(m_MGForm.Width, m_MGForm.Height,PixelFormat.Format32bppArgb);
+			Graphics g = Graphics.FromImage(bmp);
+			Draw(g, new Rectangle(m_location, m_Size), true);
+			return bmp;
+		}
+		// ***************************************************************************
+		public virtual Bitmap? ToBitmapLayer()
+		{
+			Bitmap? bmp = null;
+			bmp = new Bitmap(m_Size.Width, m_Size.Height, PixelFormat.Format32bppArgb);
+			Graphics g = Graphics.FromImage(bmp);
+			Draw(g, new Rectangle(new Point(0,0), m_Size), true);
+			return bmp;
+		}
+		// ***************************************************************************
+		public virtual JsonObject ToJson()
+		{
+			MGj jn = new MGj(new JsonObject());
+			jn.SetValue("MGStyle", (int)MGStyle);
+			jn.SetValue("Name", m_Name);
+			jn.SetValue("IsFull", m_IsFull);
+			jn.SetValue("CornerLock", m_CornerLock);
+			jn.SetValue("SizeRoot", (int)m_SizeRoot);
+			jn.SetValueRectangle("Bounds", this.Bounds);
+			jn.SetValuePadding("DrawMargin", m_DrawMargin);
+			jn.SetValue("Back", (int)m_Back);
+			jn.SetValue("BackOpacity", m_BackOpacity);
+			jn.SetValue("Fill", (int)m_Fill);
+			jn.SetValue("FillOpacity", m_FillOpacity);
+			jn.SetValue("Line", (int)m_Line);
+			jn.SetValue("LineOpacity", m_LineOpacity);
+			jn.SetValue("LineWeight", m_LineWeight);
+			jn.SetValue("Frame", (int)m_Frame);
+			jn.SetValue("FrameOpacity", m_FrameOpacity);
+			jn.SetValuePadding("FrameWeight", m_FrameWeight);
+			return jn.Obj;
+		}
+		// ***************************************************************************
+		public virtual void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			if (jo == null) return;
+			MGj jn = new MGj(jo);
+			int v = 0;
+
+			if (jn.GetStr("Name", ref m_Name) == false) ret = false;
+			if (jn.GetBool("IsFull", ref m_IsFull) == false) ret = false;
+			if (jn.GetBool("CornerLock", ref m_CornerLock) == false) ret = false;
+			if (jn.GetInt("SizeRoot", ref v) == true) m_SizeRoot = (SizeRootType)v; else ret = false;
+			Rectangle r = new Rectangle(0, 0, 0, 0);
+			if (jn.GetRectangle("Bounds", ref r) == true)
+			{
+				m_location = r.Location;
+				m_Size = r.Size;
+			}
+			else {
+				ret = false;
+			}
+			if (jn.GetPadding("DrawMargin", ref m_DrawMargin) == false) ret = false;
+			v = 0;
+			if (jn.GetInt("Back", ref v) == true) m_Back = (MG_COLORS)v; else ret = false;
+			if (jn.GetFloat("BackOpacity", ref m_BackOpacity) == false)  ret = false;
+			if (jn.GetInt("Fill", ref v) == true) m_Fill = (MG_COLORS)v; else ret = false;
+			if (jn.GetFloat("FillOpacity", ref m_FillOpacity) == false) ret = false;
+			if (jn.GetInt("Line", ref v) == true) m_Line = (MG_COLORS)v; else ret = false;
+			if (jn.GetFloat("LineOpacity", ref m_LineOpacity) == false) ret = false;
+			if (jn.GetInt("Frame", ref v) == true) m_Frame = (MG_COLORS)v; else ret = false;
+			if (jn.GetFloat("FrameOpacity", ref m_LineOpacity) == false) ret = false;
+			if (jn.GetPadding("FrameWeight", ref m_FrameWeight) == false) ret = false;
+
+		}
 	}
 }

@@ -77,6 +77,11 @@ namespace MGCreator
 					{
 						Application.Exit();
 					}
+					else if (this is MGColorsSetting)
+					{
+						this.DialogResult = DialogResult.Cancel;
+						this.Close();
+					}
 					else
 					{
 						this.Hide();

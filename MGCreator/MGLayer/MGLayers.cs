@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
@@ -181,6 +182,9 @@ namespace MGCreator
 				case MGStyle.Cross:
 					ret = (MGLayer)(new MGLayerCross(m_MGForm));
 					break;
+				case MGStyle.Grid:
+					ret = (MGLayer)(new MGLayerGrid(m_MGForm));
+					break;
 				default:
 					ret = (MGLayer)(new MGLayer(m_MGForm));
 					break;
@@ -308,7 +312,7 @@ namespace MGCreator
 		}
 		public void TargetToTop()
 		{
-			if ((m_TargetIndex >= 0) && (m_TargetIndex < Count - 1))
+			if ((m_TargetIndex > 0) && (m_TargetIndex < Count))
 			{
 				OederChange(m_TargetIndex, 0);
 				m_TargetIndex = 0;
@@ -498,12 +502,25 @@ namespace MGCreator
 			MGFormSize dlg = new MGFormSize();
 			dlg.SizeRoot = m_Def_SR;
 			dlg.FormSize = m_MGForm.Size;
+			dlg.MGFrom = m_MGForm;
+			dlg.Back = m_MGForm.Back;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				SetFormSize(dlg.FormSize, dlg.SizeRoot);
 				m_Def_SR = dlg.SizeRoot;
+				m_MGForm.Back = dlg.Back;
 			}
 			dlg.Dispose();
+		}
+		public JsonArray ToJson()
+		{
+			JsonArray result = new JsonArray();
+			foreach(MGLayer l in m_Items)
+			{
+				JsonObject ja = l.ToJson();
+				result.Add(ja);
+			}
+			return result;
 		}
 	}
 }

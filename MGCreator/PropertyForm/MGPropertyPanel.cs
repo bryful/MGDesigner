@@ -91,9 +91,9 @@ true);
 			if (m_MGForm != null)
 			{
 				m_Layer = m_MGForm.TargetLayer;
+				this.SuspendLayout();
 				if (m_Layer != null)
 				{
-					this.SuspendLayout();
 					m_Main.Clear();
 					m_Main.AddControls(m_Layer.ParamsMain());
 					m_Main.AutoLayout();
@@ -104,10 +104,10 @@ true);
 					m_Color.Clear();
 					m_Color.AddControls(m_Layer.ParamsColors());
 					m_Color.AutoLayout();
-					this.AutoLayout();
 
-					this.ResumeLayout(true);
 				}
+				this.AutoLayout();
+				this.ResumeLayout(true);
 				SetFormSub(this, m_MGForm);
 			}
 		}

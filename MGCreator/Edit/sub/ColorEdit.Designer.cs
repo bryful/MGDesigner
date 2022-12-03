@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class PosEdit
+	partial class ColorEdit
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

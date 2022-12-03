@@ -14,7 +14,6 @@ namespace MGCreator
 
 	public partial class EditLayerLocation : Edit
 	{
-		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		protected override void SetMGForm(MGForm? m)
 		{
 			m_MGForm = m;
@@ -54,7 +53,7 @@ namespace MGCreator
 		// ****************************************************************************
 		
 		// ****************************************************************************
-		protected PosEdit m_edit = new PosEdit();
+		protected PointEdit m_edit = new PointEdit();
 		// ****************************************************************************
 		public EditLayerLocation()
 		{
@@ -73,7 +72,7 @@ namespace MGCreator
 			InitializeComponent();
 		}
 
-		private void M_posEdit_ValueChanged2(object sender, PosEdit.ValueChangedEventArgs e)
+		private void M_posEdit_ValueChanged2(object sender, PointEdit.ValueChangedEventArgs e)
 		{
 
 			if(m_Layer!=null)

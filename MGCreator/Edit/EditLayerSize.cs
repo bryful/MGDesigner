@@ -14,7 +14,6 @@ namespace MGCreator
 	public partial class EditLayerSize : Edit
 	{
 		
-		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
 		// ****************************************************************************
 		protected override void SetMGForm(MGForm? m)
 		{

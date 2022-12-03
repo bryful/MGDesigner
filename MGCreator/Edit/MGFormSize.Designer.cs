@@ -36,6 +36,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.lbSizePos = new System.Windows.Forms.Label();
 			this.resizeSetting1 = new MGCreator.SizeRootGrid();
+			this.editmgColors1 = new MGCreator.EditMGColors();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			this.SuspendLayout();
@@ -44,7 +45,7 @@
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnCancel.Location = new System.Drawing.Point(156, 89);
+			this.btnCancel.Location = new System.Drawing.Point(145, 129);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(60, 23);
 			this.btnCancel.TabIndex = 0;
@@ -55,7 +56,7 @@
 			// 
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnOK.Location = new System.Drawing.Point(222, 89);
+			this.btnOK.Location = new System.Drawing.Point(211, 129);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(63, 23);
 			this.btnOK.TabIndex = 1;
@@ -127,7 +128,7 @@
 			// lbSizePos
 			// 
 			this.lbSizePos.AutoSize = true;
-			this.lbSizePos.Location = new System.Drawing.Point(21, 80);
+			this.lbSizePos.Location = new System.Drawing.Point(21, 120);
 			this.lbSizePos.Name = "lbSizePos";
 			this.lbSizePos.Size = new System.Drawing.Size(50, 15);
 			this.lbSizePos.TabIndex = 7;
@@ -141,7 +142,7 @@
 			this.resizeSetting1.ForeColor = System.Drawing.Color.LightGray;
 			this.resizeSetting1.IsShowSwitch = false;
 			this.resizeSetting1.IsSmall = false;
-			this.resizeSetting1.Location = new System.Drawing.Point(77, 80);
+			this.resizeSetting1.Location = new System.Drawing.Point(90, 120);
 			this.resizeSetting1.MaximumSize = new System.Drawing.Size(30, 32);
 			this.resizeSetting1.MinimumSize = new System.Drawing.Size(30, 32);
 			this.resizeSetting1.Name = "resizeSetting1";
@@ -152,13 +153,28 @@
 			this.resizeSetting1.TabIndex = 8;
 			this.resizeSetting1.Text = "resizeSetting1";
 			// 
+			// editmgColors1
+			// 
+			this.editmgColors1.Caption = "MG_Colors";
+			this.editmgColors1.CaptionWidth = 90;
+			this.editmgColors1.ForeColor = System.Drawing.Color.LightGray;
+			this.editmgColors1.Location = new System.Drawing.Point(21, 84);
+			this.editmgColors1.MaximumSize = new System.Drawing.Size(0, 20);
+			this.editmgColors1.MGForm = null;
+			this.editmgColors1.MinimumSize = new System.Drawing.Size(20, 20);
+			this.editmgColors1.Name = "editmgColors1";
+			this.editmgColors1.Size = new System.Drawing.Size(264, 20);
+			this.editmgColors1.TabIndex = 9;
+			this.editmgColors1.Text = "editmgColors1";
+			// 
 			// MGFormSize
 			// 
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(310, 138);
+			this.ClientSize = new System.Drawing.Size(307, 178);
+			this.Controls.Add(this.editmgColors1);
 			this.Controls.Add(this.resizeSetting1);
 			this.Controls.Add(this.lbSizePos);
 			this.Controls.Add(this.label2);
@@ -187,5 +203,6 @@
 		private Label label2;
 		private Label lbSizePos;
 		private SizeRootGrid resizeSetting1;
+		private EditMGColors editmgColors1;
 	}
 }

@@ -121,7 +121,7 @@ true);
 				{
 					for (int i = this.Controls.Count - 1; i >= 0; i--)
 					{
-						if (this.Controls[i].Visible == false) continue;
+						this.Controls[i].Visible = true;
 
 						Point pp;
 						Size sz;

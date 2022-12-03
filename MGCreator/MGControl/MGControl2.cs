@@ -202,7 +202,7 @@ namespace MGCreator
 			if ((this.Parent != null) && (this.Parent is  MGForm))
 			{
 				MGForm m = (MGForm)this.Parent;
-				return m.GetColors(c, op);
+				return m.GetMGColors(c, op);
 			}
 			else
 			{
@@ -245,31 +245,6 @@ namespace MGCreator
 			this.ContextMenuStrip = m_Menu;
 		}
 
-		private void ToDownMenu_Click(object? sender, EventArgs e)
-		{
-			ToDown();
-		}
-
-		private void ToUpMenu_Click(object? sender, EventArgs e)
-		{
-			ToUp();
-		}
-
-		private void ToBackMenu_Click(object? sender, EventArgs e)
-		{
-			ToBack();
-		}
-
-		private void FrontMenu_Click(object? sender, EventArgs e)
-		{
-			ToFront();
-		}
-
-		private void DisposeMenu_Click(object? sender, EventArgs e)
-		{
-			DeleteMe();
-		}
-
 		// ************************************************************************
 		public MGControl2()
 		{
@@ -302,37 +277,7 @@ true);
 			set { base.Visible = true; }
 		}
 
-		public void DeleteMe()
-		{
-			int idx = ControlIndex;
-			if(idx<0)
-			{
-				this.Dispose();
-				return;
-			}
-			MGForm m = (MGForm)this.Parent;
-			m.DeleteControl(idx);
-		}
-		public void ToFront()
-		{
-			MGForm m = (MGForm)this.Parent;
-			m.ControlToFront(this);
-		}
-		public void ToBack()
-		{
-			MGForm m = (MGForm)this.Parent;
-			m.ControlToBack(this);
-		}
-		public void ToUp()
-		{
-			MGForm m = (MGForm)this.Parent;
-			m.ControlToUp(this);
-		}
-		public void ToDown()
-		{
-			MGForm m = (MGForm)this.Parent;
-			m.ControlToDown(this);
-		}
+
 		// ************************************************************************
 		public void ChkOffScr()
 		{

@@ -16,14 +16,7 @@ namespace MGCreator
 		{
 			InitializeComponent();
 			mgPropertyPanel1.ForeColor = Color.LightGray;
-			try
-			{
-				mgPropertyPanel1.Bounds = new Rectangle(3, this.HeaderHeight, this.Width - 6, this.Height - HeaderHeight - this.FooterHeight);
-			}
-			catch
-			{
-
-			}
+			
 		}
 		protected override void OnResize(EventArgs e)
 		{

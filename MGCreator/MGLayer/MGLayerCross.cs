@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.XPath;
 
@@ -95,9 +96,30 @@ namespace MGCreator
 			m_crossw.SetCaptionPropName("CrossWeight", typeof(float));
 			PList.Add(m_crossw);
 
+			EditNumber m_LineWidth = new EditNumber();
+			m_LineWidth.SetCaptionPropName("LineWeight", typeof(float));
+			PList.Add(m_LineWidth);
+
 			return PList;
 
 		}
+		// ***************************************************************************
+		public override JsonObject ToJson()
+		{
 
+			MGj jn = new MGj(base.ToJson());
+			jn.SetValue("CrossWeight", m_CrossWeight);
+			return jn.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			if (jo == null) return;
+			base.FromJson(jo);
+			MGj jn = new MGj(jo);
+			if (jn.GetFloat("CrossWeight", ref m_CrossWeight) == false) ret = false;
+
+
+		}
 	}
 }

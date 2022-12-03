@@ -12,30 +12,7 @@ namespace MGCreator
 {
 	public partial class EditLayerSizeRoot : Edit
 	{
-		public new readonly MGStyle ShowMGStyle = MGStyle.ALL;
-		/*
-		[Category("_MG")]
-		public new MGForm? MGForm
-		{
-			get { return m_MGForm; }
-			set
-			{
-				m_MGForm = value;
-				if (m_MGForm != null)
-				{
-					m_MGForm.Layers.TargetLayerChanged += Layers_TargetLayerChanged;
-					m_Layer = m_MGForm.Layers.TargetLayer;
-					if (m_Layer != null)
-					{
-						m_edit.SizeRoot = m_Layer.SizeRoot;
-						m_edit.CornerLock = m_Layer.CornerLock;
-						PropError = false;
-						this.Invalidate();
-					}
-				}
-			}
-		}
-		*/
+
 		protected override void SetMGForm(MGForm? m)
 		{
 			m_MGForm = m;

@@ -41,6 +41,16 @@ namespace MGCreator
 				numericUpDown2.Value = (decimal)value.Height;
 			}
 		}
+		public MG_COLORS Back
+		{
+			get { return editmgColors1.Value; }
+			set { editmgColors1.Value = value; }
+		}
+		public MGForm? MGFrom
+		{
+			get { return editmgColors1.MGForm; }
+			set { editmgColors1.MGForm = value; }
+		}
 		public MGFormSize()
 		{
 			this.StartPosition = FormStartPosition.CenterScreen;

@@ -14,7 +14,6 @@ namespace MGCreator
 
 	public partial class EditName : Edit
 	{
-		public new readonly  MGStyle ShowMGStyle = MGStyle.ALL;
 	
 		protected override void GetValeuFromControl()
 		{

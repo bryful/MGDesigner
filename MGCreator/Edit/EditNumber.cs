@@ -13,7 +13,7 @@ namespace MGCreator
 	public partial class EditNumber : Edit
 	{
 		[Category("_MG")]
-		public TargetType TargetType
+		public new TargetType TargetType
 		{
 			get { return m_edit1.TargetType; }
 			set

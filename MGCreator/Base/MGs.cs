@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
@@ -96,6 +98,8 @@ namespace MGCreator
                 int v = 0;
                 if (int.TryParse(sa[0], out v))
                 {
+                    if (v < 0) v = 0;
+                    else if (v > 255) v = 255;
                     col = Color.FromArgb(v, v, v);
                     ret = true;
                 }
@@ -220,5 +224,6 @@ namespace MGCreator
             }
 		    return ret;
 		}
+
 	}
 }

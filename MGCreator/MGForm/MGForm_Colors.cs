@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
@@ -17,37 +18,37 @@ namespace MGCreator
 		GrayLight,
 		GrayDrak,
 		GrayDrakDark,
-		RedTrue,
-		Red,
 		RedLight,
+		Red,
 		RedDark,
+		RedTrue,
 		Blood,
 		Pink,
-		GreenTrue,
-		Green,
 		GreenLight,
+		Green,
 		GreenDark,
-		Emerald,
+		GreenTrue,
 		EmeraldLight,
+		Emerald,
 		EmeraldDark,
-		BlueTrue,
-		Blue,
 		BlueLight,
+		Blue,
 		BlueDark,
+		BlueTrue,
 		SkayBlue,
-		Cyan,
 		CyanLight,
+		Cyan,
 		CyanDark,
-		Yellow,
 		YellowLight,
+		Yellow,
 		YellowDark,
 		YellowGreen,
 		Cream,
-		Magenta,
 		MagentaLight,
+		Magenta,
 		MagentaDark,
-		Orange,
 		OrangeLight,
+		Orange,
 		OrangeDark,
 		Transparent
 	}
@@ -55,8 +56,123 @@ namespace MGCreator
 	{
 		// *****************************************************************************
 		private Color[] m_Colors = new Color[(int)MG_COLORS.Transparent];
+		private Color[] m_ColorsBackup = new Color[(int)MG_COLORS.Transparent];
 		// *****************************************************************************
-		public Color GetColors(MG_COLORS v, double opa = 100)
+		public void PushColors() { m_ColorsBackup = Colors(); }
+		public void PopColors() { SetColors(m_ColorsBackup); }
+		[Category("_MG")]
+		public int TargetIndex
+		{
+			get { return Layers.TargetIndex; }
+			set
+			{
+				Layers.TargetIndex = value;
+			}
+		}
+
+		private bool m_Anti = false;
+		[Category("_MG")]
+		public bool Anti
+		{
+			get { return m_Anti; }
+			set
+			{
+				m_Anti = value;
+				//DrawAll();
+			}
+		}
+
+		// *****************************************************************************
+		public string[] MGColorsName()
+		{
+			string [] sa = Enum.GetNames(typeof(MG_COLORS));
+			List<string> ret = new List<string>();
+			foreach(string s in sa)
+			{
+				if(s!= "Transparent")
+				{
+					ret.Add(s);
+				}
+			}
+			return ret.ToArray();
+		}
+		public Color[] Colors()
+		{
+			Color[] colors = new Color[(int)MG_COLORS.Transparent];
+			for(int i=0;i< (int)MG_COLORS.Transparent;i++)
+			{
+				colors[i] = m_Colors[i];
+			}
+			return colors;
+		}
+		// *****************************************************************************
+		public void SetColors(Color[] cols)
+		{
+			if(cols.Length != m_Colors.Length) return;
+			for (int i = 0; i < (int)MG_COLORS.Transparent; i++)
+			{
+				m_Colors[i] = cols[i];
+			}
+			DrawAll();
+			this.Invalidate();
+		}
+		// *****************************************************************************
+		public JsonArray MGColorsToJson()
+		{
+			JsonArray jsonArray = new JsonArray();
+			foreach(Color c in m_Colors)
+			{
+				jsonArray.Add(MGj.ColorToJson(c));
+			}
+			return jsonArray;
+		}
+		static public Color[]? FormJsonToColors(JsonArray ja)
+		{
+			//JsonArray? ja = jo.AsArray();
+			if (ja == null) return null;
+			if (ja.Count < (int)MG_COLORS.Transparent) return null;
+			int idx = 0;
+			Color[] colors = new Color[(int)MG_COLORS.Transparent];
+			foreach (var o in ja)
+			{
+				if (idx >= (int)MG_COLORS.Transparent) break;
+				if(o == null) continue;
+				Color? c = MGj.JsonToColor(o.AsArray());
+				if (c != null)
+				{
+					colors[idx] = (Color)c;
+				}
+				idx++;
+			}
+			return colors;
+		}
+		public bool FormJsonToMGColors(JsonArray jo)
+		{
+			JsonArray? ja = jo.AsArray();
+			if(ja ==null) return false;
+			if(ja.Count < m_Colors.Length) return false;
+			InitColor();
+			int idx = 0;
+			foreach(var o in ja)
+			{
+				if (idx >= m_Colors.Length) break;
+				Color? c = MGj.JsonToColor(o.AsArray());
+				if(c!=null)
+				{
+					m_Colors[idx] = (Color)c;
+				}
+				idx++;
+			}
+			return true;
+		}
+		public JsonObject MGColorsJson()
+		{
+			JsonObject jo = new JsonObject();
+			jo.Add("Colors", MGColorsToJson());
+			return jo;
+		}
+		// *****************************************************************************
+		public Color GetMGColors(MG_COLORS v, double opa = 100)
 		{
 			Color ret = Color.White;
 			int v2 = (int)v;
@@ -126,9 +242,9 @@ namespace MGCreator
 			m_Colors[(int)MG_COLORS.MagentaDark] = Color.FromArgb(72, 50, 80);
 			m_Colors[(int)MG_COLORS.MagentaLight] = Color.FromArgb(189, 123, 211);
 
-			m_Colors[(int)MG_COLORS.Yellow] = Color.FromArgb(119, 117, 66);
-			m_Colors[(int)MG_COLORS.YellowDark] = Color.FromArgb(73, 71, 45);
-			m_Colors[(int)MG_COLORS.YellowLight] = Color.FromArgb(209, 206, 116);
+			m_Colors[(int)MG_COLORS.Yellow] = Color.FromArgb(167, 164, 97);
+			m_Colors[(int)MG_COLORS.YellowDark] = Color.FromArgb(117, 114, 72);
+			m_Colors[(int)MG_COLORS.YellowLight] = Color.FromArgb(222, 220, 156);
 			m_Colors[(int)MG_COLORS.YellowGreen] = Color.FromArgb(77, 195, 91);
 			m_Colors[(int)MG_COLORS.Cream] = Color.FromArgb(212, 218, 165);
 
@@ -138,6 +254,17 @@ namespace MGCreator
 	
 		}
 
+		private MG_COLORS m_Back = MG_COLORS.Black;
+		[Category("_MG")]
+		public MG_COLORS Back
+		{
+			get { return m_Back; }
+			set
+			{
+				m_Back = value;
+				this.Invalidate();
+			}
+		}
 
 		#region Prop
 		[Category("_MG_Colors")]
@@ -227,6 +354,18 @@ namespace MGCreator
 		{
 			get { return m_Colors[(int)MG_COLORS.Emerald]; }
 			set { SetMG_Colors(MG_COLORS.Emerald, value); }
+		}
+		[Category("_MG_Colors")]
+		public Color EmeraldLight
+		{
+			get { return m_Colors[(int)MG_COLORS.EmeraldLight]; }
+			set { SetMG_Colors(MG_COLORS.EmeraldLight, value); }
+		}
+		[Category("_MG_Colors")]
+		public Color EmeraldDark
+		{
+			get { return m_Colors[(int)MG_COLORS.EmeraldDark]; }
+			set { SetMG_Colors(MG_COLORS.EmeraldDark, value); }
 		}
 		[Category("_MG_Colors")]
 		public Color Blue

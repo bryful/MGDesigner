@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BRY;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -16,39 +18,7 @@ namespace MGCreator
 	{
 		public MGLayers Layers= new MGLayers();
 		public MGProjectForm? MGProjectForm = null;
-		[Category("_MG")]
-		public int TargetIndex
-		{
-			get { return Layers.TargetIndex; }
-			set
-			{
-				Layers.TargetIndex =value;
-			}
-		}
-
-		private bool m_Anti = false;
-		[Category("_MG")]
-		public bool Anti
-		{
-			get { return m_Anti; }
-			set
-			{
-				m_Anti = value;
-				//DrawAll();
-			}
-		}
-		private MG_COLORS m_Back = MG_COLORS.Black;
-		[Category("_MG")]
-		public MG_COLORS Back
-		{
-			get { return m_Back; }
-			set
-			{
-				m_Back = value;
-				this.Invalidate();
-			}
-		}
-
+	
 
 		public void ShowMGFromMenu(int x,int y)
 		{
@@ -68,12 +38,24 @@ namespace MGCreator
 			MGFormSizeMenu.Text = "MGSize";
 			MGFormSizeMenu.Click += MGFormSizeMenu_Click;
 
+			ToolStripMenuItem MGColorsSettingMenu = new ToolStripMenuItem();
+			MGColorsSettingMenu.Name = "MGColors";
+			MGColorsSettingMenu.Text = "MGColors";
+			MGColorsSettingMenu.Click += MGColorsSettingMenu_Click;
 
+
+			menu.Items.Add(MGColorsSettingMenu);
+			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(MGPropMenu);
 			menu.Items.Add(MGFormSizeMenu);
 			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(QuitMenu);
 			menu.Show(this,x,y);
+		}
+
+		private void MGColorsSettingMenu_Click(object? sender, EventArgs e)
+		{
+			ShowMGColorsSettings();
 		}
 
 		private void MGFormSizeMenu_Click(object? sender, EventArgs e)
@@ -103,7 +85,7 @@ namespace MGCreator
 		{
 			Application.Exit();
 		}
-
+		// ********************************************************************************
 		public MGForm()
 		{
 			Layers.SetMGForm(this);
@@ -120,6 +102,18 @@ ControlStyles.SupportsTransparentBackColor,
 //ControlStyles.Selectable
 true);
 
+
+		}
+		// ********************************************************************************
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+		}
+		//*******************************************************************************
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			base.OnFormClosed(e);
 
 		}
 		//*******************************************************************************
@@ -156,7 +150,7 @@ true);
 			try
 			{
 
-				sb.Color = GetColors(m_Back);
+				sb.Color = GetMGColors(m_Back);
 				g.FillRectangle(sb, this.ClientRectangle);
 				if((Layers!=null)&&(Layers.Count>0))
 				{
@@ -316,6 +310,60 @@ true);
 				this.Invalidate();
 			}
 			base.OnMouseUp(e);
+		}
+
+		public bool MGColorPicker(MG_COLORS mg)
+		{
+			bool ret = false;
+			if (mg == MG_COLORS.Transparent) return ret;
+			Color? c = GetMGColors(mg, 100);
+			if (c==null) return ret;
+
+			ColorDialog dlg = new ColorDialog();
+			dlg.Color = (Color)c;
+			if(dlg.ShowDialog() == DialogResult.OK)
+			{
+				SetMG_Colors(mg, dlg.Color);
+				this.DrawAll();
+				ret = true;
+			}
+			return ret;
+		}
+		// ************************************************************
+		private void ChkMGLyers()
+		{
+			Layers.ChkLayers();
+		}
+
+		// ************************************************************
+		public void AddLayer(MGStyle mG)
+		{
+			Layers.AddLayer(mG);
+		}
+
+		// ************************************************************
+		public void ShowMGColorsSettings()
+		{
+			MGColorsSetting dlg = new MGColorsSetting(this);
+			PushColors();
+			dlg.Location = new Point(this.Left+100,this.Top+100);
+			if(dlg.ShowDialog() == DialogResult.OK)
+			{
+
+			}
+			else
+			{
+				PopColors();
+			}
+		}
+		public JsonObject ToJson()
+		{
+			MGj jn = new MGj(new JsonObject());
+			jn.SetValueSize("Size", this.Size);
+			jn.SetValue("Back", (int)m_Back);
+			jn.SetValue("Layers", Layers.ToJson());
+
+			return jn.Obj;
 		}
 	}
 }

@@ -15,34 +15,6 @@ namespace MGCreator
 	public partial class Edit : Control
 	{
 		protected bool PropError = false;
-		public new bool Visible
-		{
-			get { return base.Visible; }
-			set
-			{
-				if ((ShowMGStyle & m_MGStyle) == 0)
-				{
-					base.Visible = false;
-				}
-				else
-				{
-					base.Visible = value;
-				}
-			}
-		}
-		public readonly MGStyle ShowMGStyle = MGStyle.ALL;
-
-		private MGStyle m_MGStyle = MGStyle.ALL;
-		public void SetMGStyle(MGStyle style)
-		{
-			m_MGStyle = style;
-			bool _IsShow = true;
-			if(this.Parent != null)
-			{
-				_IsShow = ((PropertyPanel)this.Parent).IsOpen;
-			}
-			this.Visible = _IsShow;
-		}
 		// **********************************************************
 		
 		protected virtual Type? GetTypeFromProp(string n)
@@ -82,7 +54,7 @@ namespace MGCreator
 			}
 			return result;
 		}
-		protected bool SetValueToProp(string n, object v,Type T)
+		protected virtual bool SetValueToProp(string n, object v,Type T)
 		{
 			PropError = true;
 			bool result = false;

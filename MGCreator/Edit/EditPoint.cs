@@ -63,7 +63,7 @@ namespace MGCreator
 				this.Invalidate();
 			}
 		}
-		private PosEdit m_edit = new PosEdit();
+		private PointEdit m_edit = new PointEdit();
 		public EditPoint()
 		{
 			this.Size = new Size(180, 20);
@@ -72,10 +72,16 @@ namespace MGCreator
 			m_edit.Name = "pointEdit";
 			m_edit.Location = new Point(m_CaptionWidth, 0);
 			m_edit.Size = new Size(this.Width - m_CaptionWidth, this.Height);
+			m_edit.ValueChanged += M_edit_ValueChanged;
 			Caption = "Point";
 			this.Controls.Add(m_edit);
 			InitializeComponent();
 			ChkSize();
+		}
+
+		private void M_edit_ValueChanged(object sender, PointEdit.ValueChangedEventArgs e)
+		{
+			SetValeuToControl();
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)

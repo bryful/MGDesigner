@@ -9,6 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ColorPicker\**" />
+    <EmbeddedResource Remove="ColorPicker\**" />
+    <None Remove="ColorPicker\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MGControl\MGControl2.cs" />
+    <Compile Remove="MGControl\MGControl2.Designer.cs" />
+    <Compile Remove="MGControl\MGControl2_prop.cs" />
+    <Compile Remove="MGControl\MSControl2_Draw.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="MGControl\MGControl2.cs" />
+    <None Include="MGControl\MGControl2.Designer.cs" />
+    <None Include="MGControl\MGControl2_prop.cs" />
+    <None Include="MGControl\MSControl2_Draw.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="PropertyForm\MGPropertyPanel.cs">
       <SubType>Component</SubType>
     </Compile>

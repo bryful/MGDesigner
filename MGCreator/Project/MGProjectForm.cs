@@ -1,10 +1,12 @@
-﻿using System;
+﻿using BRY;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,14 +14,76 @@ namespace MGCreator
 {
 	public partial class MGProjectForm : MGToolForm
 	{
+		private Point MGFormPoint = new Point(-1, -1);
+		private Point MGPropPoint = new Point(-1, -1);
+		private Color[] m_MGColors = new Color[(int)MG_COLORS.Transparent];
+		private MG_COLORS m_Back = MG_COLORS.Black;
+		public MGForm? MGForm = null;
+		public MGPropertyForm? MGPropertyForm = null;
+
 		// *******************************************************************************
 		public MGProjectForm()
 		{
 			InitializeComponent();
-			ShowMGPropertyForm(false);
 		}
 		// *******************************************************************************
-		public MGPropertyForm? MGPropertyForm = null;
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			PrefFile pf = new PrefFile(this);
+			if(pf.Load())
+			{
+				bool ok = false;
+				Rectangle r = pf.GetRect("ProjectBounds", out ok);
+				if (ok)
+				{
+					if (PrefFile.ScreenIn(r))
+					{
+						this.Bounds = r;
+					}
+				}
+				Point p = pf.GetPoint("MGFormPoint", out ok);
+				if (ok) MGFormPoint = p;
+				p = pf.GetPoint("MGPropPoint", out ok);
+				if (ok) MGPropPoint = p;
+				ShowMGPropertyForm(false);
+				JsonArray? mc = pf.Array("MGColors");
+				if(mc!=null)
+				{
+					Color[]? a = MGForm.FormJsonToColors(mc);
+					if(a!=null)
+					{
+						m_MGColors = a;
+					}
+				}
+				int v = pf.GetValueInt("Back", out ok);
+				if(ok)
+				{
+					m_Back = (MG_COLORS)v;
+				}
+
+			}
+
+		}
+		// *******************************************************************************
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			base.OnFormClosed(e);
+			PrefFile pf = new PrefFile(this);
+			pf.SetRect("ProjectBounds", this.Bounds);
+			if (MGForm != null)
+			{
+				pf.SetPoint("MGFormPoint", MGForm.Location);
+				pf.AddArray("MGColors", MGForm.MGColorsToJson());
+				pf.SetValue("Back", (int)MGForm.Back);
+			}
+			if (MGPropertyForm != null)
+			{
+				pf.SetPoint("MGPropPoint", MGPropertyForm.Location);
+			}
+			pf.Save();
+		}
+		// *******************************************************************************
 		public void ShowMGPropertyForm(bool isV=true)
 		{
 			if (MGForm == null) return;
@@ -27,6 +91,18 @@ namespace MGCreator
 			{
 				MGPropertyForm = new MGPropertyForm();
 				MGPropertyForm.MGForm = MGForm;
+				MGPropertyForm.StartPosition = FormStartPosition.Manual;
+				if (MGPropPoint.X != -1)
+				{
+
+					MGPropertyForm.Location = MGPropPoint;
+				}
+				else
+				{
+					MGPropertyForm.Location = new Point(
+						this.Left, 
+						this.Bottom+5);
+				}
 
 				if (isV)
 				{
@@ -39,7 +115,7 @@ namespace MGCreator
 				}
 
 			}
-				else
+			else
 			{
 				if (MGPropertyForm.Visible == false)
 				{
@@ -54,7 +130,6 @@ namespace MGCreator
 			}
 		}
 		// *******************************************************************************
-		public MGForm? MGForm = null;
 		public void ShowMGForm()
 		{
 			if(MGForm==null)
@@ -63,14 +138,24 @@ namespace MGCreator
 				dlg.StartPosition = FormStartPosition.Manual;
 				dlg.Location = Cursor.Position;
 				dlg.IsShowPosSet = false;
-				if(dlg.ShowDialog() == DialogResult.OK)
+				MGForm = new MGForm();
+				dlg.MGFrom = MGForm;
+				dlg.Back = m_Back;
+				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					MGForm = new MGForm();
 					MGForm.Size = dlg.FormSize;
 					MGForm.MGProjectForm = this;
-					MGForm.Location = new Point(this.Left + this.Width + 5, this.Top);
-
-
+					
+					MGForm.Back = dlg.Back;
+					if (MGFormPoint.X != -1)
+					{
+						MGForm.Location = MGFormPoint;
+					}
+					else
+					{
+						MGForm.Location = new Point(this.Left + this.Width + 5, this.Top);
+					}
+					MGForm.SetColors(m_MGColors);
 					layerlListBox1.SetMGForm(MGForm);
 					MGForm.Layers.LayerAdded += Layers_LayerAdded;
 					MGForm.Layers.LayerRemoved += Layers_LayerAdded;
@@ -80,6 +165,10 @@ namespace MGCreator
 
 
 					MGForm.Show();
+				}
+				else
+				{
+					MGForm = null;
 				}
 
 			}
@@ -123,7 +212,7 @@ namespace MGCreator
 		{
 			if (MGForm != null)
 			{
-				MGForm.AddControl(mgStyleComb1.MGStyle);
+				MGForm.AddLayer(mgStyleComb1.MGStyle);
 			}
 		}
 
