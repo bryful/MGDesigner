@@ -92,11 +92,11 @@ namespace MGCreator
 			List<Control> PList = new List<Control>();
 			PList.AddRange( base.ParamsParam());
 
-			EditNumber m_crossw = new EditNumber();
+			EditInt m_crossw = new EditInt();
 			m_crossw.SetCaptionPropName("CrossWeight", typeof(float));
 			PList.Add(m_crossw);
 
-			EditNumber m_LineWidth = new EditNumber();
+			EditInt m_LineWidth = new EditInt();
 			m_LineWidth.SetCaptionPropName("LineWeight", typeof(float));
 			PList.Add(m_LineWidth);
 

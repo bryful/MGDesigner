@@ -652,7 +652,7 @@ namespace MGCreator
 			m_B.SetCaptionPropName("Back", typeof(MG_COLORS));
 			PList.Add(m_B);
 
-			EditNumber m_BOpacity = new EditNumber();
+			EditInt m_BOpacity = new EditInt();
 			m_BOpacity.SetCaptionPropName("BackOpacity", typeof(float));
 			m_BOpacity.SetValueMinMax(0, 100);
 			PList.Add(m_BOpacity);
@@ -661,7 +661,7 @@ namespace MGCreator
 			m_F.SetCaptionPropName("Frame", typeof(MG_COLORS));
 			PList.Add(m_F);
 
-			EditNumber m_FOpacity = new EditNumber();
+			EditInt m_FOpacity = new EditInt();
 			m_FOpacity.SetCaptionPropName("FrameOpacity", typeof(float));
 			m_FOpacity.SetValueMinMax(0, 100);
 			PList.Add(m_FOpacity);

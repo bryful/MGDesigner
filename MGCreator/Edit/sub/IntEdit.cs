@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class FloatEdit : Control
+	public partial class IntEdit : Control
 	{
 		public class ValueChangedEventArgs : EventArgs
 		{
-			public float Value;
-			public ValueChangedEventArgs(float v)
+			public int Value;
+			public ValueChangedEventArgs(int v)
 			{
 				Value = v;
 			}
@@ -35,9 +35,9 @@ namespace MGCreator
 		private int m_BtnHeight = 20;
 		private Color m_PushBackColor = Color.LightGray;
 
-		protected float m_Value = 0;
+		protected int m_Value = 0;
 		[Category("_MG")]
-		public float Value
+		public int Value
 		{
 			get
 			{
@@ -49,9 +49,9 @@ namespace MGCreator
 				this.Invalidate();
 			}
 		}
-		protected float m_ValueMax = 30000;
+		protected int m_ValueMax = 30000;
 		[Category("_MG")]
-		public float ValueMax
+		public int ValueMax
 		{
 			get
 			{
@@ -64,9 +64,9 @@ namespace MGCreator
 				this.Invalidate();
 			}
 		}
-		protected float m_ValueMin = 0;
+		protected int m_ValueMin = 0;
 		[Category("_MG")]
-		public float ValueMin
+		public int ValueMin
 		{
 			get
 			{
@@ -79,7 +79,7 @@ namespace MGCreator
 				this.Invalidate();
 			}
 		}
-		public FloatEdit()
+		public IntEdit()
 		{
 			this.BackColor = Color.Black;
 			this.ForeColor = Color.LightGray;
@@ -144,10 +144,9 @@ true);
 				sb.Dispose();
 				p.Dispose();
 			}
-
 		}
 		private CrossDir m_mdpos = CrossDir.None;
-		private float m_mdvalue = 1;
+		private int m_mdvalue = 1;
 		private bool m_isEdit = false;
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -193,20 +192,18 @@ true);
 		{
 			if (m_mdpos != CrossDir.None)
 			{
-				float v = 0;
+				int v = 0;
 				bool b = false;
 				switch (m_mdpos)
 				{
 					case CrossDir.Left:
 						v = m_Value - m_mdvalue;
 						if (v < m_ValueMin) v = m_ValueMin;
-
 						if (m_Value != v) { Value = v; b = true; }
 						break;
 					case CrossDir.Right:
 						v = m_Value + m_mdvalue;
 						if (v > m_ValueMax) v = m_ValueMax;
-
 						if (m_Value != v) { Value = v; b = true; }
 						break;
 
@@ -243,12 +240,12 @@ true);
 		{
 			bool ret = false;
 			TextBox tb = (TextBox)this.Controls[this.Controls.Count - 1];
-			float v = 0;
+			int v = 0;
 			if (MGs.StringToValue(tb.Text, ref v))
 			{
 				if (v < m_ValueMin) v = m_ValueMin;
 				else if (v > m_ValueMax) v = m_ValueMax;
-				if (v != m_Value)
+				if (v!=m_Value)
 				{
 					m_Value = v;
 					ret = true;

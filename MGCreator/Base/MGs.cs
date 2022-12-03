@@ -15,10 +15,21 @@ namespace MGCreator
         {
             return $"{p.Left},{p.Right},{p.Top},{p.Bottom}";
         }
-        static public string ValueToString(float p)
+
+		static public string ValueToString(double p)
+		{
+			int v = (int)(p * 100 + 0.5);
+			p = (double)((double)v / 100);
+			return $"{p}";
+		}
+		static public string ValueToString(float p)
         {
             int v = (int)(p * 100 + 0.5);
             p = (float)((float)v / 100);
+			return $"{p}";
+		}
+		static public string ValueToString(int p)
+		{
 			return $"{p}";
 		}
 		static public string ValueToString(Point p)
@@ -224,6 +235,27 @@ namespace MGCreator
             }
 		    return ret;
 		}
-
+		static public bool StringToValue(string s, ref double f)
+		{
+			bool ret = false;
+			double v = 0;
+			if (double.TryParse(s, out v))
+			{
+				f = v;
+				ret = true;
+			}
+			return ret;
+		}
+		static public bool StringToValue(string s, ref int f)
+		{
+			bool ret = false;
+			int v = 0;
+			if (int.TryParse(s, out v))
+			{
+				f = v;
+				ret = true;
+			}
+			return ret;
+		}
 	}
 }

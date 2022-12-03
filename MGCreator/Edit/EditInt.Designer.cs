@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class EditNumber
+	partial class EditInt
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。

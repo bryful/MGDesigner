@@ -164,7 +164,7 @@ namespace MGCreator
             m_goffset.SetCaptionPropName("GridOffset", typeof(Point));
             PList.Add(m_goffset);
 
-            EditNumber m_lw = new EditNumber();
+            EditInt m_lw = new EditInt();
             m_lw.SetCaptionPropName("GridWeight", typeof(float));
             PList.Add(m_lw);
 
@@ -183,7 +183,7 @@ namespace MGCreator
             m_gc.SetCaptionPropName("Grid", typeof(MG_COLORS));
             PList.Add(m_gc);
 
-            EditNumber m_gco = new EditNumber();
+            EditInt m_gco = new EditInt();
             m_gco.SetCaptionPropName("GridOpacity", typeof(float));
             m_gco.SetValueMinMax(0, 100);
             PList.Add(m_gco);
@@ -192,7 +192,7 @@ namespace MGCreator
             m_gf.SetCaptionPropName("Back", typeof(MG_COLORS));
             PList.Add(m_gf);
 
-            EditNumber m_gfo = new EditNumber();
+            EditInt m_gfo = new EditInt();
             m_gfo.SetCaptionPropName("BackOpacity", typeof(float));
             m_gfo.SetValueMinMax(0, 100);
             PList.Add(m_gfo);
@@ -201,7 +201,7 @@ namespace MGCreator
             m_fm.SetCaptionPropName("Frame", typeof(MG_COLORS));
             PList.Add(m_fm);
 
-            EditNumber m_fmo = new EditNumber();
+            EditInt m_fmo = new EditInt();
             m_fmo.SetCaptionPropName("FrameOpacity", typeof(float));
             m_fmo.SetValueMinMax(0, 100);
             PList.Add(m_fmo);
