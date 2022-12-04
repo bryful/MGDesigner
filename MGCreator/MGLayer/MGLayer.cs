@@ -616,7 +616,7 @@ namespace MGCreator
 			PList.Add(m_name);
 			
 			EditBool m_IsFull = new EditBool();
-			m_IsFull.SetCaptionPropName("IsFull", typeof(bool));
+			m_IsFull.SetCaptionPropName("IsFull");
 			PList.Add(m_IsFull);
 			EditLayerLocation m_location = new EditLayerLocation();
 			PList.Add(m_location);
@@ -628,7 +628,7 @@ namespace MGCreator
 			PList.Add(m_Size);
 
 			EditPadding m_DrawMargin = new EditPadding();
-			m_DrawMargin.SetCaptionPropName("DrawMargin", typeof(Padding));
+			m_DrawMargin.SetCaptionPropName("DrawMargin");
 
 			PList.Add(m_DrawMargin);
 
@@ -638,7 +638,7 @@ namespace MGCreator
 		{
 			List<Control> PList = new List<Control>();
 			EditPadding m_F = new EditPadding();
-			m_F.SetCaptionPropName("FrameWeight", typeof(Padding));
+			m_F.SetCaptionPropName("FrameWeight");
 			PList.Add(m_F);
 
 			return PList;
@@ -649,20 +649,20 @@ namespace MGCreator
 			List<Control> PList = new List<Control>();
 
 			EditMGColors m_B = new EditMGColors();
-			m_B.SetCaptionPropName("Back", typeof(MG_COLORS));
+			m_B.SetCaptionPropName("Back");
 			PList.Add(m_B);
 
-			EditInt m_BOpacity = new EditInt();
-			m_BOpacity.SetCaptionPropName("BackOpacity", typeof(float));
+			EditFloat m_BOpacity = new EditFloat();
+			m_BOpacity.SetCaptionPropName("BackOpacity");
 			m_BOpacity.SetValueMinMax(0, 100);
 			PList.Add(m_BOpacity);
 
 			EditMGColors m_F = new EditMGColors();
-			m_F.SetCaptionPropName("Frame", typeof(MG_COLORS));
+			m_F.SetCaptionPropName("Frame");
 			PList.Add(m_F);
 
-			EditInt m_FOpacity = new EditInt();
-			m_FOpacity.SetCaptionPropName("FrameOpacity", typeof(float));
+			EditFloat m_FOpacity = new EditFloat();
+			m_FOpacity.SetCaptionPropName("FrameOpacity");
 			m_FOpacity.SetValueMinMax(0, 100);
 			PList.Add(m_FOpacity);
 
@@ -682,9 +682,18 @@ namespace MGCreator
 		public virtual Bitmap? ToBitmapLayer()
 		{
 			Bitmap? bmp = null;
-			bmp = new Bitmap(m_Size.Width, m_Size.Height, PixelFormat.Format32bppArgb);
-			Graphics g = Graphics.FromImage(bmp);
-			Draw(g, new Rectangle(new Point(0,0), m_Size), true);
+			if(m_IsFull)
+			{
+				if (m_MGForm == null) return null;
+				return ToBitmap();
+			}
+			else
+			{
+				bmp = new Bitmap(m_Size.Width, m_Size.Height, PixelFormat.Format32bppArgb);
+				Graphics g = Graphics.FromImage(bmp);
+				Draw(g, new Rectangle(new Point(0, 0), m_Size), true);
+
+			}
 			return bmp;
 		}
 		// ***************************************************************************

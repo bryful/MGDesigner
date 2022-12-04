@@ -64,7 +64,8 @@ namespace MGCreator
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
-			SetCaptionPropName("Name",typeof(string));
+			SetCaptionPropName("Name");
+			SetTargetType(typeof(string));
 			// ********************
 			// ********************
 			InitializeComponent();

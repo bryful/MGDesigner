@@ -65,7 +65,8 @@ namespace MGCreator
 		}
 		public EditPadding()
 		{
-			SetCaptionPropName("Padding", typeof(Padding));
+			SetCaptionPropName("Padding");
+			SetTargetType(typeof(Padding));
 			//this.Controls.Add(m_Padding);
 			InitializeComponent();
 		}

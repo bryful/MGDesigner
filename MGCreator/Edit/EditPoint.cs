@@ -74,6 +74,7 @@ namespace MGCreator
 			m_edit.Size = new Size(this.Width - m_CaptionWidth, this.Height);
 			m_edit.ValueChanged += M_edit_ValueChanged;
 			Caption = "Point";
+			SetTargetType(typeof(Point));
 			this.Controls.Add(m_edit);
 			InitializeComponent();
 			ChkSize();

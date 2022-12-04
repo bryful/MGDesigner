@@ -121,18 +121,21 @@ namespace MGCreator
 		{
 			get { return m_TargetType; }
 		}
+		protected virtual void SetTargetType(Type c)
+		{
+			m_TargetType = c;
+		}
 		// **********************************************************
-		public void SetCaptionPropName(string c, string p,Type t)
+		public void SetCaptionPropName(string c, string p)
 		{
 			m_Caption = c;
 			m_PropName = p;
-			m_TargetType = t;
 			//GetValeuFromControl();
 		}
 		// **********************************************************
-		public void SetCaptionPropName(string c, Type t)
+		public void SetCaptionPropName(string c)
 		{
-			SetCaptionPropName(c, c,t);
+			SetCaptionPropName(c, c);
 		}
 
 		// **********************************************************

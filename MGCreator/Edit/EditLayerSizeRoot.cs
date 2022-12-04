@@ -68,7 +68,8 @@ namespace MGCreator
 			this.ForeColor = Color.LightGray;
 			this.BackColor = Color.Black;
 			Caption = "Position";
-			SetCaptionPropName("SizeRoot", "SizeRoot", typeof(SizeRootType));
+			SetCaptionPropName("SizeRoot", "SizeRoot");
+			SetTargetType(typeof(SizeRootType));
 			// ********************
 			m_edit.Name = "ScaleGrid";
 			m_edit.AutoSize = false;

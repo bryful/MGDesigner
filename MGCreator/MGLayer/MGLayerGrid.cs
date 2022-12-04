@@ -156,20 +156,20 @@ namespace MGCreator
             //PList.AddRange(base.ParamsParam());
 
             EditSize m_gsize = new EditSize();
-            m_gsize.SetCaptionPropName("GridSize", typeof(Size));
+            m_gsize.SetCaptionPropName("GridSize");
             PList.Add(m_gsize);
 
 
             EditPoint m_goffset = new EditPoint();
-            m_goffset.SetCaptionPropName("GridOffset", typeof(Point));
+            m_goffset.SetCaptionPropName("GridOffset");
             PList.Add(m_goffset);
 
-            EditInt m_lw = new EditInt();
-            m_lw.SetCaptionPropName("GridWeight", typeof(float));
+			EditFloat m_lw = new EditFloat();
+            m_lw.SetCaptionPropName("GridWeight");
             PList.Add(m_lw);
 
             EditPadding m_gfw = new EditPadding();
-            m_gfw.SetCaptionPropName("FrameWeight", typeof(Padding));
+            m_gfw.SetCaptionPropName("FrameWeight");
             PList.Add(m_gfw);
 
             return PList;
@@ -180,29 +180,29 @@ namespace MGCreator
             List<Control> PList = new List<Control>();
 
             EditMGColors m_gc = new EditMGColors();
-            m_gc.SetCaptionPropName("Grid", typeof(MG_COLORS));
+            m_gc.SetCaptionPropName("Grid");
             PList.Add(m_gc);
 
-            EditInt m_gco = new EditInt();
-            m_gco.SetCaptionPropName("GridOpacity", typeof(float));
+			EditFloat m_gco = new EditFloat();
+            m_gco.SetCaptionPropName("GridOpacity");
             m_gco.SetValueMinMax(0, 100);
             PList.Add(m_gco);
 
             EditMGColors m_gf = new EditMGColors();
-            m_gf.SetCaptionPropName("Back", typeof(MG_COLORS));
+            m_gf.SetCaptionPropName("Back");
             PList.Add(m_gf);
 
-            EditInt m_gfo = new EditInt();
-            m_gfo.SetCaptionPropName("BackOpacity", typeof(float));
+			EditFloat m_gfo = new EditFloat();
+            m_gfo.SetCaptionPropName("BackOpacity");
             m_gfo.SetValueMinMax(0, 100);
             PList.Add(m_gfo);
 
             EditMGColors m_fm = new EditMGColors();
-            m_fm.SetCaptionPropName("Frame", typeof(MG_COLORS));
+            m_fm.SetCaptionPropName("Frame");
             PList.Add(m_fm);
 
-            EditInt m_fmo = new EditInt();
-            m_fmo.SetCaptionPropName("FrameOpacity", typeof(float));
+			EditFloat m_fmo = new EditFloat();
+            m_fmo.SetCaptionPropName("FrameOpacity");
             m_fmo.SetValueMinMax(0, 100);
             PList.Add(m_fmo);
 

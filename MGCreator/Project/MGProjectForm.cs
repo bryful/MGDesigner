@@ -51,7 +51,8 @@ namespace MGCreator
 				if(mc!=null)
 				{
 					Color[]? a = MGForm.FormJsonToColors(mc);
-					if(a!=null)
+					MessageBox.Show($"{a.ToString()}");
+					if (a!=null)
 					{
 						m_MGColors = a;
 					}

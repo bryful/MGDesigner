@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditInt : Edit
+	public partial class EditFloat : Edit
 	{
-
+		
 		protected override void GetValeuFromControl()
 		{
 			if (m_Layer != null)
@@ -21,13 +21,13 @@ namespace MGCreator
 				_EventFLag = false;
 				try
 				{
-					//Type? p = GetTypeFromProp(m_PropName);
-					//if (p != null)
+					Type? p = GetTypeFromProp(m_PropName);
+					if (p != null)
 					{
-						int? b = (int?)GetValueFromProp(m_PropName, typeof(int));
+						float? b = (float?)GetValueFromProp(m_PropName, p);
 						if (b != null)
 						{
-							m_edit1.Value = (int)b;
+							m_edit1.Value = (float)b;
 						}
 					}
 				}
@@ -58,31 +58,31 @@ namespace MGCreator
 				}
 			}
 		}
-		public int ValueMax
+		public float ValueMax
 		{
 			get { return m_edit1.ValueMax; }
 			set { m_edit1.ValueMax = value; }
 		}
-		public int ValueMin
+		public float ValueMin
 		{
 			get { return m_edit1.ValueMin; }
 			set { m_edit1.ValueMin = value; }
 		}
-		public int Value
+		public float Value
 		{
 			get { return m_edit1.Value; }
 			set { m_edit1.Value = value; }
 		}
-		public void SetValueMinMax(int n, int m)
+		public void SetValueMinMax(float n, float m)
 		{
 			m_edit1.ValueMin = n;
 			m_edit1.ValueMax = m;
 		}
-		protected IntEdit m_edit1 = new IntEdit();
-		public EditInt()
+		protected FloatEdit m_edit1 = new FloatEdit();
+		public EditFloat()
 		{
-			SetTargetType(typeof(int));
-			Caption = "int";
+			SetTargetType(typeof(float));
+			Caption = "float";
 			m_PropName = "LineWidth";
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
@@ -93,13 +93,13 @@ namespace MGCreator
 			m_edit1.Size = new Size(80, 20);
 			m_edit1.ValueMin = -32000;
 			m_edit1.ValueMax = 32000;
-			m_edit1.ValueChanged += M_edit1_ValueChanged;
+			m_edit1.ValueChanged += M_edit1_ValueChanged1;
 			this.Controls.Add(m_edit1);
 			InitializeComponent();
 			ChkSize();
 		}
 
-		private void M_edit1_ValueChanged(object sender, IntEdit.ValueChangedEventArgs e)
+		private void M_edit1_ValueChanged1(object sender, FloatEdit.ValueChangedEventArgs e)
 		{
 			SetValeuToControl();
 		}

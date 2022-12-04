@@ -62,6 +62,7 @@ namespace MGCreator
 		// ****************************************************************************
 		public EditLayerSize()
 		{
+			SetTargetType(typeof(Size));
 			this.ForeColor = Color.LightGray;
 			this.BackColor = Color.Black;
 			Caption = "Size";

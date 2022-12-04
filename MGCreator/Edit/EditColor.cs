@@ -13,6 +13,7 @@ namespace MGCreator
 
 	public partial class EditColor : Edit
 	{
+
 		public delegate void ValueChangedHandler(object sender, EventArgs e);
 		public event ValueChangedHandler? ValueChanged;
 		protected virtual void OnValueChanged(EventArgs e)
@@ -132,7 +133,8 @@ namespace MGCreator
 		private ColorEdit m_edit = new ColorEdit(); 
 		public EditColor()
 		{
-			m_TargetType = typeof(Color);
+			SetTargetType(typeof(Color));
+			Caption = "Color";
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
@@ -140,7 +142,6 @@ namespace MGCreator
 			m_edit.Location = new Point(m_CaptionWidth, 0);
 			m_edit.Size = new Size(this.Width - m_CaptionWidth, this.Height);
 			m_edit.ValueChanged += M_edit_ValueChanged;
-			Caption = "Color";
 			this.Controls.Add(m_edit);
 			InitializeComponent();
 			ChkSize();

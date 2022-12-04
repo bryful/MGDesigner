@@ -12,6 +12,7 @@ namespace MGCreator
 {
 	public partial class EditBool : Edit
 	{
+
 		// ****************************************************************************
 		protected bool m_BoolValue = false;
 		protected override void GetValeuFromControl()
@@ -54,10 +55,11 @@ namespace MGCreator
 		}
 		public EditBool()
 		{
+			SetTargetType(typeof(bool));
+			Caption = "bool";
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
-			Caption = "IsFull";
 			InitializeComponent();
 			ChkSize();
 		}

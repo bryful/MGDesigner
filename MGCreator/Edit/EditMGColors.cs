@@ -24,6 +24,7 @@ namespace MGCreator
 		}
 		public EditMGColors()
 		{
+			SetTargetType(typeof(MG_COLORS));
 			Caption = "MG_Colors";
 			m_cmb.Name = "cmb";
 			m_cmb.AutoSize = false;

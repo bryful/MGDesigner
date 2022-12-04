@@ -67,7 +67,7 @@ namespace MGCreator
 				ec.Name = cap;
 				//ec.Color = cols[idx];
 				ec.ValueChanged += Ec_ValueChanged;
-				ec.SetCaptionPropName(cap, typeof(Color));
+				ec.SetCaptionPropName(cap);
 				ec.ReGet();
 				ec.Location = new Point(0, ec.Height * idx);
 				ec.Size = new Size(panel1.ClientSize.Width-40, ec.Height);

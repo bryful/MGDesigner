@@ -8,7 +8,7 @@ using System.Xml.XPath;
 
 namespace MGCreator
 {
-    internal class MGLayerCross : MGLayer
+	internal class MGLayerCross : MGLayer
     {
         private float m_CrossWeight = 20;
         public float CrossWeight
@@ -92,12 +92,12 @@ namespace MGCreator
 			List<Control> PList = new List<Control>();
 			PList.AddRange( base.ParamsParam());
 
-			EditInt m_crossw = new EditInt();
-			m_crossw.SetCaptionPropName("CrossWeight", typeof(float));
+			EditFloat m_crossw = new EditFloat();
+			m_crossw.SetCaptionPropName("CrossWeight");
 			PList.Add(m_crossw);
 
-			EditInt m_LineWidth = new EditInt();
-			m_LineWidth.SetCaptionPropName("LineWeight", typeof(float));
+			EditFloat m_LineWidth = new EditFloat();
+			m_LineWidth.SetCaptionPropName("LineWeight");
 			PList.Add(m_LineWidth);
 
 			return PList;

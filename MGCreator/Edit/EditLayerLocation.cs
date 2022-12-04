@@ -60,6 +60,7 @@ namespace MGCreator
 			this.ForeColor = Color.LightGray;
 			this.BackColor = Color.Black;
 			Caption = "Position";
+			SetTargetType(typeof(Point));
 			// ********************
 			m_edit.Name = "Pos";
 			m_edit.AutoSize = false;

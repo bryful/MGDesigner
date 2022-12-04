@@ -68,7 +68,8 @@ namespace MGCreator
 			this.BackColor = Color.Black;
 			this.ForeColor = Color.LightGray;
 
-			SetCaptionPropName("Size", typeof(Size));
+			SetCaptionPropName("Size");
+			SetTargetType(typeof(Size));
 			this.Size = new Size(180, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
