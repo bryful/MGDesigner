@@ -10,6 +10,14 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
+	public enum CrossDir
+	{
+		None,
+		Top,
+		Right,
+		Bottom,
+		Left
+	}
 	public partial class SizeEdit : Control
 	{
 		public class ValueChangedEventArgs : EventArgs

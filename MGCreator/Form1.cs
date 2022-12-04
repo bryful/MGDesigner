@@ -32,5 +32,10 @@ namespace MGCreator
 		{
 			MessageBox.Show("aa");
 		}
+
+		private void mgIcon2_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

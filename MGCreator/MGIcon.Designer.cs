@@ -1,6 +1,6 @@
 ﻿namespace MGCreator
 {
-	partial class CrossKey
+	partial class MGIcon
 	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
