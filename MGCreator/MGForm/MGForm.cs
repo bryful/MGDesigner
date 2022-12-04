@@ -17,7 +17,7 @@ namespace MGCreator
 	public partial class MGForm : Form
 	{
 		public MGLayers Layers= new MGLayers();
-		public MGProjectForm? MGProjectForm = null;
+		public MGProjectPanel? MGProjectPanel = null;
 	
 
 		public void ShowMGFromMenu(int x,int y)
@@ -43,14 +43,64 @@ namespace MGCreator
 			MGColorsSettingMenu.Text = "MGColors";
 			MGColorsSettingMenu.Click += MGColorsSettingMenu_Click;
 
+			ToolStripMenuItem ExportMenu = new ToolStripMenuItem();
+			ExportMenu.Name = "Export";
+			ExportMenu.Text = "Export Layers(png)";
+			ExportMenu.Click += ExportMenu_Click;
 
-			menu.Items.Add(MGColorsSettingMenu);
+			ToolStripMenuItem ExportMixMenu = new ToolStripMenuItem();
+			ExportMixMenu.Name = "ExportMixed";
+			ExportMixMenu.Text = "Export Mixed Layers(png)";
+			ExportMixMenu.Click += ExportMixMenu_Click;
+
+			ToolStripMenuItem OpenMenu = new ToolStripMenuItem();
+			OpenMenu.Name = "Openjson";
+			OpenMenu.Text = "Open jsonFile";
+			//OpneMenu.Click += ExportMixMenu_Click;
+
+			ToolStripMenuItem SaveMenu = new ToolStripMenuItem();
+			SaveMenu.Name = "Savejson";
+			SaveMenu.Text = "Save jsonFile";
+			//OpneMenu.Click += ExportMixMenu_Click;
+
+			ToolStripMenuItem AntiMenu = new ToolStripMenuItem();
+			AntiMenu.Name = "Anti-Aliasing";
+			AntiMenu.Text = "Anti-Aliasing";
+			AntiMenu.Checked = this.m_Anti;
+			AntiMenu.Click += AntiMenu_Click;
+
+			menu.Items.Add(AntiMenu);
+			menu.Items.Add(new ToolStripSeparator());
+			menu.Items.Add(OpenMenu);
+			menu.Items.Add(SaveMenu);
 			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(MGPropMenu);
 			menu.Items.Add(MGFormSizeMenu);
 			menu.Items.Add(new ToolStripSeparator());
+			menu.Items.Add(MGColorsSettingMenu);
+			menu.Items.Add(new ToolStripSeparator());
+			menu.Items.Add(ExportMenu);
+			menu.Items.Add(ExportMixMenu);
+			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(QuitMenu);
 			menu.Show(this,x,y);
+		}
+
+		private void AntiMenu_Click(object? sender, EventArgs e)
+		{
+			m_Anti = !m_Anti;
+			DrawAll();
+			this.Invalidate();
+		}
+
+		private void ExportMixMenu_Click(object? sender, EventArgs e)
+		{
+			Layers.ExportMix(Layers.GetFileDialog());
+		}
+
+		private void ExportMenu_Click(object? sender, EventArgs e)
+		{
+			Layers.Export(Layers.GetFileDialog());
 		}
 
 		private void MGColorsSettingMenu_Click(object? sender, EventArgs e)
@@ -65,18 +115,23 @@ namespace MGCreator
 
 		private void MGPropMenu_Click(object? sender, EventArgs e)
 		{
-			if (MGProjectForm != null)
+			if (MGProjectPanel != null)
 			{
-				MGProjectForm.ShowMGPropertyForm();
+				MGProjectPanel.ShowMGPropertyForm();
 			}
 		}
 
 		private void MGListMenu_Click(object? sender, EventArgs e)
 		{
-			if(MGProjectForm != null)
+			if(MGProjectPanel != null)
 			{
-				MGProjectForm.Activate();
-				MGProjectForm.Focus();
+				if (MGProjectPanel is Form)
+				{
+					Form m = (Form)MGProjectPanel.Parent;
+
+					m.Activate();
+					MGProjectPanel.Focus();
+				}
 			}
 		}
 
@@ -89,6 +144,7 @@ namespace MGCreator
 		public MGForm()
 		{
 			Layers.SetMGForm(this);
+			SetMGForm();
 			this.FormBorderStyle = FormBorderStyle.None;
 			InitializeComponent();
 			InitColor();
@@ -101,9 +157,28 @@ ControlStyles.SupportsTransparentBackColor,
 //ControlStyles.UserMouse |
 //ControlStyles.Selectable
 true);
-
+			
 
 		}
+		// ********************************************************************************
+		public void SetMGForm()
+		{
+			Layers.TargetLayerChanged += Layers_Changed;
+			Layers.LayerAdded += Layers_LayerAdded;
+			Layers.LayerRemoved += Layers_LayerAdded;
+			Layers.LayerOrderChanged += Layers_LayerAdded;
+		}
+
+		private void Layers_LayerAdded(object sender, EventArgs e)
+		{
+			this.Invalidate();
+		}
+
+		private void Layers_Changed(object sender, MGLayers.TargetLayerChangedEventArgs e)
+		{
+			this.Invalidate();
+		}
+
 		// ********************************************************************************
 		protected override void OnLoad(EventArgs e)
 		{
@@ -158,7 +233,7 @@ true);
 					{
 						if (Layers[i] == null) continue;
 						MGLayer lyr = Layers[i];
-						DrawMGLayer(g, lyr,sb,p);
+						if(lyr.IsShow)DrawMGLayer(g, lyr,sb,p);
 					}
 					if(Layers.TargetIndex >=0)
 					{

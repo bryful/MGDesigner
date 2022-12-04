@@ -14,13 +14,14 @@ namespace MGCreator
 {
 	public partial class MGProjectForm : MGToolForm
 	{
-		private Point MGFormPoint = new Point(-1, -1);
-		private Point MGPropPoint = new Point(-1, -1);
-		private Color[] m_MGColors = new Color[(int)MG_COLORS.Transparent];
-		private MG_COLORS m_Back = MG_COLORS.Black;
-		public MGForm? MGForm = null;
-		public MGPropertyForm? MGPropertyForm = null;
-
+		public void ShowMGPropertyForm(bool isV = true)
+		{
+			pp.ShowMGPropertyForm(isV);
+		}
+		public void ShowMGForm()
+		{
+			pp.ShowMGForm();
+		}
 		// *******************************************************************************
 		public MGProjectForm()
 		{
@@ -43,24 +44,24 @@ namespace MGCreator
 					}
 				}
 				Point p = pf.GetPoint("MGFormPoint", out ok);
-				if (ok) MGFormPoint = p;
+				if (ok) pp.MGFormPoint = p;
 				p = pf.GetPoint("MGPropPoint", out ok);
-				if (ok) MGPropPoint = p;
+				if (ok) pp.MGPropPoint = p;
 				ShowMGPropertyForm(false);
 				JsonArray? mc = pf.Array("MGColors");
 				if(mc!=null)
 				{
 					Color[]? a = MGForm.FormJsonToColors(mc);
-					MessageBox.Show($"{a.ToString()}");
+					//MessageBox.Show($"{a.ToString()}");
 					if (a!=null)
 					{
-						m_MGColors = a;
+						pp.MGColors = a;
 					}
 				}
 				int v = pf.GetValueInt("Back", out ok);
 				if(ok)
 				{
-					m_Back = (MG_COLORS)v;
+					pp.Back = (MG_COLORS)v;
 				}
 
 			}
@@ -72,165 +73,19 @@ namespace MGCreator
 			base.OnFormClosed(e);
 			PrefFile pf = new PrefFile(this);
 			pf.SetRect("ProjectBounds", this.Bounds);
-			if (MGForm != null)
+			if (pp.MGForm != null)
 			{
-				pf.SetPoint("MGFormPoint", MGForm.Location);
-				pf.AddArray("MGColors", MGForm.MGColorsToJson());
-				pf.SetValue("Back", (int)MGForm.Back);
+				pf.SetPoint("MGFormPoint", pp.MGForm.Location);
+				pf.AddArray("MGColors", pp.MGForm.MGColorsToJson());
+				pf.SetValue("Back", (int)pp.MGForm.Back);
 			}
-			if (MGPropertyForm != null)
+			if (pp.MGPropertyForm != null)
 			{
-				pf.SetPoint("MGPropPoint", MGPropertyForm.Location);
+				pf.SetPoint("MGPropPoint", pp.MGPropertyForm.Location);
 			}
 			pf.Save();
 		}
-		// *******************************************************************************
-		public void ShowMGPropertyForm(bool isV=true)
-		{
-			if (MGForm == null) return;
-			if (MGPropertyForm == null)
-			{
-				MGPropertyForm = new MGPropertyForm();
-				MGPropertyForm.MGForm = MGForm;
-				MGPropertyForm.StartPosition = FormStartPosition.Manual;
-				if (MGPropPoint.X != -1)
-				{
-
-					MGPropertyForm.Location = MGPropPoint;
-				}
-				else
-				{
-					MGPropertyForm.Location = new Point(
-						this.Left, 
-						this.Bottom+5);
-				}
-
-				if (isV)
-				{
-					MGPropertyForm.Show();
-					MGPropertyForm.Visible = true;
-				}
-				else
-				{
-					MGPropertyForm.Visible = false;
-				}
-
-			}
-			else
-			{
-				if (MGPropertyForm.Visible == false)
-				{
-					MGPropertyForm.Visible = true;
-					MGPropertyForm.Activate();
-					MGPropertyForm.Focus();
-				}
-				else
-				{
-					MGPropertyForm.Visible = false;
-				}
-			}
-		}
-		// *******************************************************************************
-		public void ShowMGForm()
-		{
-			if(MGForm==null)
-			{
-				MGFormSize dlg = new MGFormSize();
-				dlg.StartPosition = FormStartPosition.Manual;
-				dlg.Location = Cursor.Position;
-				dlg.IsShowPosSet = false;
-				MGForm = new MGForm();
-				dlg.MGFrom = MGForm;
-				dlg.Back = m_Back;
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					MGForm.Size = dlg.FormSize;
-					MGForm.MGProjectForm = this;
-					
-					MGForm.Back = dlg.Back;
-					if (MGFormPoint.X != -1)
-					{
-						MGForm.Location = MGFormPoint;
-					}
-					else
-					{
-						MGForm.Location = new Point(this.Left + this.Width + 5, this.Top);
-					}
-					MGForm.SetColors(m_MGColors);
-					layerlListBox1.SetMGForm(MGForm);
-					MGForm.Layers.LayerAdded += Layers_LayerAdded;
-					MGForm.Layers.LayerRemoved += Layers_LayerAdded;
-					MGForm.Layers.LayerOrderChanged += Layers_LayerAdded;
-					MGForm.Layers.TargetLayerChanged += Layers_TargetLayerChanged;
 
 
-
-					MGForm.Show();
-				}
-				else
-				{
-					MGForm = null;
-				}
-
-			}
-			else
-			{
-				if(MGForm.Visible==false)
-				{
-					MGForm.Visible = true;
-				}
-				MGForm.Activate();
-				MGForm.Focus();
-			}
-		}
-
-		private void Layers_TargetLayerChanged(object sender, MGLayers.TargetLayerChangedEventArgs e)
-		{
-			if (e.Layer == null) return;
-			int idx = e.Index;
-			if ((idx >= 0) && (idx < layerlListBox1.Items.Count))
-			{
-				if (layerlListBox1.SelectedIndex != e.Index)
-				{
-					layerlListBox1.SelectedIndex = e.Index;
-				}
-			}
-		}
-
-		private void Layers_LayerAdded(object sender, EventArgs e)
-		{
-			layerlListBox1.ListUp();
-		}
-
-
-
-		private void btnNewMG_Click(object sender, EventArgs e)
-		{
-			ShowMGForm();
-		}
-
-		private void btnAdd_Click(object sender, EventArgs e)
-		{
-			if (MGForm != null)
-			{
-				MGForm.AddLayer(mgStyleComb1.MGStyle);
-			}
-		}
-
-		private void btnPropForm_Click(object sender, EventArgs e)
-		{
-			ShowMGPropertyForm();
-		}
-
-		private void btnUp_Click(object sender, EventArgs e)
-		{
-			MGFormSize dlg = new MGFormSize();
-
-			if(dlg.ShowDialog()==DialogResult.OK)
-			{
-
-			}
-			dlg.Dispose();
-		}
 	}
 }

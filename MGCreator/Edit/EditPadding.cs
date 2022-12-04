@@ -65,6 +65,8 @@ namespace MGCreator
 		}
 		public EditPadding()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			SetCaptionPropName("Padding");
 			SetTargetType(typeof(Padding));
 			//this.Controls.Add(m_Padding);

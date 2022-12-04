@@ -171,7 +171,9 @@ namespace MGCreator
 		}
 		public SizeRootGrid()
 		{
-			
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
+
 			InitializeComponent();
 			this.SetStyle(
 ControlStyles.DoubleBuffer |
@@ -181,8 +183,6 @@ ControlStyles.SupportsTransparentBackColor |
 ControlStyles.UserMouse |
 ControlStyles.Selectable,
 true);
-			this.BackColor = Color.Black;
-			this.ForeColor = Color.LightGray;
 			IsSmall = false;
 			ChkSize();
 		}

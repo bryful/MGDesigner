@@ -24,6 +24,8 @@ namespace MGCreator
 		}
 		public EditMGColors()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			SetTargetType(typeof(MG_COLORS));
 			Caption = "MG_Colors";
 			m_cmb.Name = "cmb";

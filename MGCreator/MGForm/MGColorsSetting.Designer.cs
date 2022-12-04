@@ -31,6 +31,7 @@
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnReset = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -69,11 +70,24 @@
 			this.panel1.Size = new System.Drawing.Size(242, 309);
 			this.panel1.TabIndex = 2;
 			// 
+			// btnReset
+			// 
+			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnReset.Location = new System.Drawing.Point(12, 355);
+			this.btnReset.Name = "btnReset";
+			this.btnReset.Size = new System.Drawing.Size(42, 23);
+			this.btnReset.TabIndex = 3;
+			this.btnReset.Text = "reset";
+			this.btnReset.UseVisualStyleBackColor = true;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+			// 
 			// MGColorsSetting
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(266, 401);
+			this.Controls.Add(this.btnReset);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
@@ -88,5 +102,6 @@
 		private Button btnOK;
 		private Button btnCancel;
 		private Panel panel1;
+		private Button btnReset;
 	}
 }

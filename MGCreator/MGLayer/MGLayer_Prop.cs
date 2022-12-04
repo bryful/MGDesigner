@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace MGCreator
 {
-	public partial class MGLayer
+	partial class MGLayer
 	{
+		public bool IsShow = true;
 		// **************************************************
 		protected int m_Index = -1;
 		public int Index { get { return m_Index; } }

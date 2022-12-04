@@ -117,6 +117,20 @@ namespace MGCreator
 			this.Invalidate();
 		}
 		// *****************************************************************************
+		public bool ChkColors()
+		{
+			bool b = true;
+			int cnt = 0;
+			for (int i = 0; i < (int)MG_COLORS.Transparent; i++)
+			{
+				if((m_Colors[i].ToArgb() ==0)|| (m_Colors[i].ToArgb() == 0xFF000000))
+				{
+					cnt++;
+				}
+			}
+			return (cnt != (int)MG_COLORS.Transparent);
+		}
+		// *****************************************************************************
 		public JsonArray MGColorsToJson()
 		{
 			JsonArray jsonArray = new JsonArray();

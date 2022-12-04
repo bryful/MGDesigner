@@ -47,7 +47,7 @@ namespace MGCreator
 		public ColorEdit()
 		{
 			this.Size = new Size(80, 20);
-			this.BackColor = Color.Black;
+			this.BackColor = Color.FromArgb(40, 40, 40);
 			this.ForeColor = Color.LightGray;
 			InitializeComponent();
 			this.SetStyle(

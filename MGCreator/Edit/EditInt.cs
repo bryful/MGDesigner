@@ -81,11 +81,13 @@ namespace MGCreator
 		protected IntEdit m_edit1 = new IntEdit();
 		public EditInt()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			SetTargetType(typeof(int));
 			Caption = "int";
 			m_PropName = "LineWidth";
 			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(220, 20);
+			this.MinimumSize = new Size(180, 20);
 			this.MaximumSize = new Size(0, 20);
 			m_edit1.Name = "int";
 			m_edit1.AutoSize = false;

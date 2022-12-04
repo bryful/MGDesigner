@@ -52,6 +52,8 @@ namespace MGCreator
 
 		public CrossKey()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			this.Size = new Size(m_BtnWidth*4,m_BtnHeight);
 			this.MinimumSize = this.Size;
 			this.MaximumSize = this.Size;

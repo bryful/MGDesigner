@@ -91,6 +91,23 @@ namespace MGCreator
 		{
 			this.DialogResult = DialogResult.Cancel;
 		}
+
+		private void btnReset_Click(object sender, EventArgs e)
+		{
+			if(m_MGForm!=null)
+			{
+				m_MGForm.InitColor();
+				foreach(Control control in panel1.Controls)
+				{
+					if (control is EditColor)
+					{
+						((EditColor)control).ReGet();
+					}
+				}
+				m_MGForm.DrawAll();
+				m_MGForm.Invalidate();
+			}
+		}
 	}
 
 }

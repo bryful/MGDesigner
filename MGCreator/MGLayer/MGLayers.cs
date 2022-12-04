@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -185,6 +186,21 @@ namespace MGCreator
 				case MGStyle.Grid:
 					ret = (MGLayer)(new MGLayerGrid(m_MGForm));
 					break;
+				case MGStyle.Circle:
+					ret = (MGLayer)(new MGLayerCircle(m_MGForm));
+					break;
+				case MGStyle.CircleScale:
+					ret = (MGLayer)(new MGLayerCircleScale(m_MGForm));
+					break;
+				case MGStyle.Triangle:
+					ret = (MGLayer)(new MGLayerTriangle(m_MGForm));
+					break;
+				case MGStyle.Polygon:
+					ret = (MGLayer)(new MGLayerPolygon(m_MGForm));
+					break;
+				case MGStyle.Zebra:
+					ret = (MGLayer)(new MGLayerZebra(m_MGForm));
+					break;
 				default:
 					ret = (MGLayer)(new MGLayer(m_MGForm));
 					break;
@@ -346,7 +362,13 @@ namespace MGCreator
 			DelMenu.Text = "Delete";
 			DelMenu.Click += DelMenu_Click;
 
+			ToolStripMenuItem ExportLayerMenu = new ToolStripMenuItem();
+			ExportLayerMenu.Name = "ExportLayer";
+			ExportLayerMenu.Text = "ExportLayerMenu";
+			ExportLayerMenu.Click += ExportLayerMenu_Click;
 
+			menu.Items.Add(ExportLayerMenu);
+			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(ToTopMenu);
 			menu.Items.Add(ToBottomMenu);
 			menu.Items.Add(new ToolStripSeparator());
@@ -355,6 +377,11 @@ namespace MGCreator
 			menu.Items.Add(new ToolStripSeparator());
 			menu.Items.Add(DelMenu);
 			menu.Show(m_MGForm, x, y);
+		}
+
+		private void ExportLayerMenu_Click(object? sender, EventArgs e)
+		{
+			ExportTargetLayer(GetFileDialog());
 		}
 
 		private void DelMenu_Click(object? sender, EventArgs e)
@@ -521,6 +548,124 @@ namespace MGCreator
 				result.Add(ja);
 			}
 			return result;
+		}
+		// ******************************************************************************************************
+		public bool Export(string? p)
+		{
+			bool ret = false;
+			if (m_MGForm == null) return ret;
+			if ((p == null) || (p == "")) return ret;
+			FileInfo fi = new FileInfo(p);
+			if (fi == null) return ret;
+			string d = Path.GetDirectoryName(fi.FullName);
+			string n = Path.GetFileNameWithoutExtension(fi.FullName);
+
+			int cnt = 1;
+			if (Count > 0)
+			{
+				for (int i = 0; i < Count; i++)
+				{
+					try
+					{
+						Bitmap? bmp = m_Items[i].ToBitmap();
+						if (bmp != null)
+						{
+							string fn = Path.Combine(d, n + $"{cnt:000}.png");
+							bmp.Save(fn, ImageFormat.Png);
+							bmp.Dispose();
+						}
+					}
+					catch
+					{
+						break;
+					}
+				}
+			}
+			if (cnt == Count)
+			{
+				Bitmap bmp = new Bitmap(m_MGForm.Width, m_MGForm.Height, PixelFormat.Format32bppArgb);
+				Graphics g = Graphics.FromImage(bmp);
+				g.Clear(m_MGForm.GetMGColors(m_MGForm.Back));
+				string fn = Path.Combine(d, n + $"{cnt:000}.png");
+				bmp.Save(fn, ImageFormat.Png);
+				bmp.Dispose();
+				ret = true;
+			}
+			return ret;
+		}
+		// ******************************************************************************************************
+		public bool ExportMix(string? p)
+		{
+			bool ret = false;
+			if (m_MGForm == null) return ret;
+			if((p==null)||(p=="")) return ret;
+			p = Path.ChangeExtension(p, ".png");
+
+
+			Bitmap bmp = new Bitmap(m_MGForm.Width, m_MGForm.Height, PixelFormat.Format32bppArgb);
+			Graphics g = Graphics.FromImage(bmp);
+			g.Clear(m_MGForm.GetMGColors(m_MGForm.Back));
+
+			if (Count > 0)
+			{
+				for (int i = Count-1; i >=0 ; i--)
+				{
+					try
+					{
+						if (m_Items[i].IsFull)
+						{
+							m_Items[i].Draw(g, m_MGForm.ClientRectangle, false);
+						}
+						else
+						{
+							g.DrawImage(m_Items[i].OffScr(), m_Items[i].Location);
+						}
+					}
+					catch
+					{
+						break;
+					}
+				}
+			}
+			bmp.Save(p, ImageFormat.Png);
+			bmp.Dispose();
+			return File.Exists(p);
+		}
+		// ******************************************************************************************************
+		public bool ExportTargetLayer(string p)
+		{
+			bool ret = false;
+			if (m_MGForm == null) return ret;
+			if(m_TargetIndex<0) return ret;
+			p = Path.ChangeExtension(p, ".png");
+			Bitmap bmp = new Bitmap(m_MGForm.Width, m_MGForm.Height, PixelFormat.Format32bppArgb);
+			Graphics g = Graphics.FromImage(bmp);
+			g.Clear(Color.Transparent);
+			g.DrawImage(m_Items[m_TargetIndex].OffScr(), m_Items[m_TargetIndex].Location);
+			bmp.Save(p, ImageFormat.Png);
+			bmp.Dispose();
+			return File.Exists(p);
+		}
+		 // *************************************************************************************************
+		private string m_FileName = "";
+		public string? GetFileDialog()
+		{
+			string? ret = null;
+			if (m_MGForm == null) return null;
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "*.png|*.png|*.*|*.*";
+			saveFileDialog.DefaultExt = ".png";
+			if(m_FileName!="")
+			{
+				saveFileDialog.InitialDirectory = Path.GetDirectoryName(m_FileName);
+				saveFileDialog.FileName = Path.GetFileName(m_FileName);
+			}
+			if(saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				ret = saveFileDialog.FileName;
+				m_FileName = ret;
+			}
+			return ret;
 		}
 	}
 }

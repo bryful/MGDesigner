@@ -133,10 +133,12 @@ namespace MGCreator
 		private ColorEdit m_edit = new ColorEdit(); 
 		public EditColor()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			SetTargetType(typeof(Color));
 			Caption = "Color";
 			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(220, 20);
+			this.MinimumSize = new Size(180, 20);
 			this.MaximumSize = new Size(0, 20);
 			m_edit.Name = "colorEdit";
 			m_edit.Location = new Point(m_CaptionWidth, 0);

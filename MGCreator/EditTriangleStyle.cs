@@ -10,10 +10,8 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditSize : Edit
+    public partial class EditTriangleStyle : Edit
 	{
-
-
 		protected override void GetValeuFromControl()
 		{
 			if (m_Layer != null)
@@ -22,8 +20,12 @@ namespace MGCreator
 				_EventFLag = false;
 				try
 				{
-					Size? p = (Size?)GetValueFromProp(m_PropName, typeof(Size));
-					if (p != null) m_sizeEdit.Value = (Size)p;
+					TriangleStyle? b = (TriangleStyle?)GetValueFromProp(m_PropName, typeof(TriangleStyle));
+					if (b != null)
+					{
+						m_edit.TrainglrStyle = (TriangleStyle)b;
+					}
+
 				}
 				finally
 				{
@@ -40,7 +42,7 @@ namespace MGCreator
 				_EventFLag = false;
 				try
 				{
-					SetValueToProp(m_PropName, m_sizeEdit.Value, typeof(Size));
+					SetValueToProp(m_PropName, m_edit.TrainglrStyle, typeof(TriangleStyle));
 				}
 				finally
 				{
@@ -48,44 +50,42 @@ namespace MGCreator
 				}
 			}
 		}
-		// ****************************************************************************
 		[Category("_MG")]
-		public Size Sizes
+		public TriangleStyle TrainglrStyle
 		{
 			get
 			{
-				return m_sizeEdit.Value;
+				return m_edit.TrainglrStyle;
 			}
 			set
 			{
-				m_sizeEdit.Value = value;
+				m_edit.TrainglrStyle = value;
 				this.Invalidate();
 			}
 		}
-		protected SizeEdit m_sizeEdit = new SizeEdit();
-		public EditSize()
+		private TriangleStyleComb m_edit = new TriangleStyleComb();
+		public EditTriangleStyle()
 		{
 			this.BackColor = Color.FromArgb(40, 40, 40);
 			this.ForeColor = Color.LightGray;
-
-
-			SetCaptionPropName("Size");
-			SetTargetType(typeof(Size));
 			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(180, 20);
+			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);
-			m_sizeEdit.Name = "float";
-			m_sizeEdit.AutoSize = false;
-			m_sizeEdit.Location = new Point(m_CaptionWidth, 0);
-			m_sizeEdit.Size = new Size(120, 20);
-			m_sizeEdit.ValueChanged += M_sizeEdit_ValueChanged;
-			this.Controls.Add(m_sizeEdit);
+			m_edit.Name = "TraiangleStyle";
+			m_edit.Location = new Point(m_CaptionWidth, 0);
+			m_edit.Size = new Size(this.Width - m_CaptionWidth, this.Height);
+			m_edit.ValueChanged += M_edit_ValueChanged;
+			SetCaptionPropName("TrainglrStyle");
+			SetTargetType(typeof(TriangleStyle));
+			this.Controls.Add(m_edit);
 			InitializeComponent();
 			ChkSize();
+
 		}
 
-		private void M_sizeEdit_ValueChanged(object sender, SizeEdit.ValueChangedEventArgs e)
+		private void M_edit_ValueChanged(object sender, TriangleStyleComb.ValueChangedEventArgs e)
 		{
+
 			SetValeuToControl();
 		}
 
@@ -100,8 +100,8 @@ namespace MGCreator
 		}
 		public void ChkSize()
 		{
-			m_sizeEdit.Width = this.Width - m_CaptionWidth;
-			m_sizeEdit.Location = new Point(m_CaptionWidth, 0);
+			m_edit.Width = this.Width - m_CaptionWidth;
+			m_edit.Location = new Point(m_CaptionWidth, 0);
 			this.Invalidate();
 		}
 	}

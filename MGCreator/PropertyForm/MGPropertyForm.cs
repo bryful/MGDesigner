@@ -15,8 +15,8 @@ namespace MGCreator
 		public MGPropertyForm()
 		{
 			InitializeComponent();
-			mgPropertyPanel1.ForeColor = Color.LightGray;
-			
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 		}
 		protected override void OnResize(EventArgs e)
 		{

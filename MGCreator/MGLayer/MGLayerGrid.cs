@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MGCreator
 {
     public class MGLayerGrid : MGLayer
-    {
+	{
         protected Size m_GridSize = new Size(100, 100);
         [Category("_MG")]
         public Size GridSize
@@ -82,7 +82,7 @@ namespace MGCreator
 			m_Back = MG_COLORS.Black;
             m_BackOpacity = 0;
             m_Frame = MG_COLORS.White;
-            m_FrameOpacity = 0;
+            m_FrameOpacity = 100;
             m_FrameWeight = new Padding(2, 2, 2, 2);
             m_GridOffset = new Point(0, 0);
 

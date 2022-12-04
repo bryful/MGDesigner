@@ -18,14 +18,20 @@ namespace MGCreator
 
 		static public string ValueToString(double p)
 		{
+			bool m = (p < 0);
+			if (m) p *= -1;
 			int v = (int)(p * 100 + 0.5);
 			p = (double)((double)v / 100);
+			if(m) p *= -1;
 			return $"{p}";
 		}
 		static public string ValueToString(float p)
         {
-            int v = (int)(p * 100 + 0.5);
+			bool m = (p < 0);
+			if (m) p *= -1;
+			int v = (int)(p * 100 + 0.5);
             p = (float)((float)v / 100);
+			if (m) p *= -1;
 			return $"{p}";
 		}
 		static public string ValueToString(int p)

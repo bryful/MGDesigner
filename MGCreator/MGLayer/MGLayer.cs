@@ -438,6 +438,7 @@ namespace MGCreator
 		public bool ChkMouseDown(MouseEventArgs e)
         {
             bool ret = false;
+			if ((IsShow == false)||(m_IsFull)) return ret;
             int x = e.X - m_location.X;
             int y = e.Y - m_location.Y;
             SizeRootType m = GetMDPos(x, y);
@@ -464,6 +465,7 @@ namespace MGCreator
 		public bool ChkMouseMove(MouseEventArgs e)
         {
 			bool ret = false;
+			if ((IsShow == false) || (m_IsFull)) return ret;
 			int x = e.X - m_location.X;
             int y = e.Y - m_location.Y;
             bool isIn = x >= 0 && y >= 0 && x < m_Size.Width && y < m_Size.Height;
@@ -596,7 +598,8 @@ namespace MGCreator
 		public bool ChkMouseUp(MouseEventArgs e)
         {
 			bool ret = false;
-            if (m_MouseDown != SizeRootType.None)
+			if ((IsShow == false) || (m_IsFull)) return ret;
+			if (m_MouseDown != SizeRootType.None)
             {
 				int x = e.X - m_location.X;
 				int y = e.Y - m_location.Y;
@@ -673,9 +676,18 @@ namespace MGCreator
 		{
 			Bitmap? bmp = null;
 			if (m_MGForm == null) return null;
-			bmp= new Bitmap(m_MGForm.Width, m_MGForm.Height,PixelFormat.Format32bppArgb);
-			Graphics g = Graphics.FromImage(bmp);
-			Draw(g, new Rectangle(m_location, m_Size), true);
+			if(m_IsFull)
+			{
+				bmp = new Bitmap(m_MGForm.Width, m_MGForm.Height, PixelFormat.Format32bppArgb);
+				Graphics g = Graphics.FromImage(bmp);
+				Draw(g, m_MGForm.ClientRectangle, true);
+			}
+			else
+			{
+				bmp = new Bitmap(m_MGForm.Width, m_MGForm.Height, PixelFormat.Format32bppArgb);
+				Graphics g = Graphics.FromImage(bmp);
+				Draw(g, new Rectangle(m_location, m_Size), true);
+			}
 			return bmp;
 		}
 		// ***************************************************************************

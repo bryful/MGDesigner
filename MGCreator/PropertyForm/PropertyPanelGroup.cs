@@ -64,7 +64,8 @@ ControlStyles.UserPaint |
 ControlStyles.AllPaintingInWmPaint |
 ControlStyles.SupportsTransparentBackColor,
 true);
-			this.BackColor = Color.Transparent;
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			//this.AutoSize = false;
 			this.AutoScroll = false;
 			AutoLayout();

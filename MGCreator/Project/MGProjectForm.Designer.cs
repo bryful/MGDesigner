@@ -35,10 +35,10 @@ namespace MGCreator
 			this.btnDel = new System.Windows.Forms.Button();
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
-			this.layerlListBox1 = new MGCreator.MGLayerListBox();
 			this.mgStyleComb1 = new MGCreator.MGStyleComb();
 			this.btnNewMG = new System.Windows.Forms.Button();
 			this.btnPropForm = new System.Windows.Forms.Button();
+			this.pp = new MGCreator.MGProjectPanel();
 			this.SuspendLayout();
 			// 
 			// btnAdd
@@ -51,7 +51,6 @@ namespace MGCreator
 			this.btnAdd.TabIndex = 1;
 			this.btnAdd.Text = "add";
 			this.btnAdd.UseVisualStyleBackColor = true;
-			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// btnDel
 			// 
@@ -75,7 +74,6 @@ namespace MGCreator
 			this.btnUp.TabIndex = 4;
 			this.btnUp.Text = "Up";
 			this.btnUp.UseVisualStyleBackColor = true;
-			this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
 			// 
 			// btnDown
 			// 
@@ -87,20 +85,6 @@ namespace MGCreator
 			this.btnDown.TabIndex = 5;
 			this.btnDown.Text = "Down";
 			this.btnDown.UseVisualStyleBackColor = true;
-			// 
-			// controlListBox1
-			// 
-			this.layerlListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.layerlListBox1.BackColor = System.Drawing.Color.Black;
-			this.layerlListBox1.ForeColor = System.Drawing.Color.LightGray;
-			this.layerlListBox1.FormattingEnabled = true;
-			this.layerlListBox1.ItemHeight = 15;
-			this.layerlListBox1.Location = new System.Drawing.Point(11, 126);
-			this.layerlListBox1.Name = "controlListBox1";
-			this.layerlListBox1.Size = new System.Drawing.Size(139, 289);
-			this.layerlListBox1.TabIndex = 6;
 			// 
 			// mgStyleComb1
 			// 
@@ -121,7 +105,9 @@ namespace MGCreator
             "Sheet",
             "Kagi",
             "Edge",
-            "Side"});
+            "Side",
+            "PNG",
+            "JSON"});
 			this.mgStyleComb1.Location = new System.Drawing.Point(11, 56);
 			this.mgStyleComb1.MGStyle = MGCreator.MGStyle.Frame;
 			this.mgStyleComb1.Name = "mgStyleComb1";
@@ -134,33 +120,51 @@ namespace MGCreator
 			this.btnNewMG.ForeColor = System.Drawing.Color.LightGray;
 			this.btnNewMG.Location = new System.Drawing.Point(11, 27);
 			this.btnNewMG.Name = "btnNewMG";
-			this.btnNewMG.Size = new System.Drawing.Size(57, 23);
+			this.btnNewMG.Size = new System.Drawing.Size(67, 23);
 			this.btnNewMG.TabIndex = 8;
-			this.btnNewMG.Text = "MG";
+			this.btnNewMG.Text = "showMG";
 			this.btnNewMG.UseVisualStyleBackColor = true;
-			this.btnNewMG.Click += new System.EventHandler(this.btnNewMG_Click);
 			// 
 			// btnPropForm
 			// 
 			this.btnPropForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnPropForm.ForeColor = System.Drawing.Color.LightGray;
-			this.btnPropForm.Location = new System.Drawing.Point(74, 27);
+			this.btnPropForm.Location = new System.Drawing.Point(84, 27);
 			this.btnPropForm.Name = "btnPropForm";
-			this.btnPropForm.Size = new System.Drawing.Size(76, 23);
+			this.btnPropForm.Size = new System.Drawing.Size(66, 23);
 			this.btnPropForm.TabIndex = 9;
 			this.btnPropForm.Text = "Property";
 			this.btnPropForm.UseVisualStyleBackColor = true;
-			this.btnPropForm.Click += new System.EventHandler(this.btnPropForm_Click);
+			// 
+			// pp
+			// 
+			this.pp.AddBtn = this.btnAdd;
+			this.pp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pp.DelBtn = this.btnDel;
+			this.pp.DownBtn = this.btnDown;
+			this.pp.Location = new System.Drawing.Point(12, 124);
+			this.pp.MGForm = null;
+			this.pp.Name = "pp";
+			this.pp.NewMGBtn = this.btnNewMG;
+			this.pp.PropBtn = this.btnPropForm;
+			this.pp.Size = new System.Drawing.Size(146, 305);
+			this.pp.StyleComb = this.mgStyleComb1;
+			this.pp.TabIndex = 10;
+			this.pp.Text = "mgProjectPanel1";
+			this.pp.UpBtn = this.btnDel;
 			// 
 			// MGProjectForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(158, 471);
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+			this.ClientSize = new System.Drawing.Size(170, 471);
+			this.Controls.Add(this.pp);
 			this.Controls.Add(this.btnPropForm);
 			this.Controls.Add(this.btnNewMG);
 			this.Controls.Add(this.mgStyleComb1);
-			this.Controls.Add(this.layerlListBox1);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);
 			this.Controls.Add(this.btnDel);
@@ -177,9 +181,9 @@ namespace MGCreator
 		private Button btnDel;
 		private Button btnUp;
 		private Button btnDown;
-		private MGLayerListBox layerlListBox1;
 		private MGStyleComb mgStyleComb1;
 		private Button btnNewMG;
 		private Button btnPropForm;
+		private MGProjectPanel pp;
 	}
 }

@@ -66,8 +66,10 @@ namespace MGCreator
 		private PointEdit m_edit = new PointEdit();
 		public EditPoint()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(220, 20);
+			this.MinimumSize = new Size(180, 20);
 			this.MaximumSize = new Size(0, 20);
 			m_edit.Name = "pointEdit";
 			m_edit.Location = new Point(m_CaptionWidth, 0);

@@ -33,6 +33,8 @@ namespace MGCreator
 			m_Main.Caption = "Main";
 			m_Params.Caption = "Params";
 			m_Color.Caption = "Colors";
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 
 			this.AddControl(m_Main);
 			this.AddControl(m_Params);

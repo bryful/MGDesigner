@@ -63,8 +63,8 @@ namespace MGCreator
 		public EditLayerSize()
 		{
 			SetTargetType(typeof(Size));
+			this.BackColor = Color.FromArgb(40, 40, 40);
 			this.ForeColor = Color.LightGray;
-			this.BackColor = Color.Black;
 			Caption = "Size";
 			// ********************
 			m_edit.Name = "x";

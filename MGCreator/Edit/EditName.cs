@@ -61,8 +61,10 @@ namespace MGCreator
 
 		public EditName()
 		{
+			this.BackColor = Color.FromArgb(40, 40, 40);
+			this.ForeColor = Color.LightGray;
 			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(220, 20);
+			this.MinimumSize = new Size(180, 20);
 			this.MaximumSize = new Size(0, 20);
 			SetCaptionPropName("Name");
 			SetTargetType(typeof(string));

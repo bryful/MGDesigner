@@ -199,6 +199,7 @@ namespace MGCreator
 		public Edit()
 		{
 			this.ForeColor = Color.LightGray;
+			this.BackColor = Color.FromArgb(40,40,40);
 			this.Size = new Size(240, 20);
 			this.MinimumSize = new Size(220, 20);
 			this.MaximumSize = new Size(0, 20);

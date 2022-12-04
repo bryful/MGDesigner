@@ -16,28 +16,13 @@ namespace MGCreator
 		public readonly int FooterHeight = 10;
 		public readonly int HeaderCloseBoxSize = 12;
 
+		private Color m_ActiveForeColor = Color.LightGray;
+		private Color m_NoActiveForeColor = Color.Gray;
 
-		// ***************************************************************************
-		/*
-		public MGForm? MGForm = null;
-		public void ShowMGForm()
-		{
-			if(MGForm==null)
-			{
-				MGForm = new MGForm();
-				MGForm.Show();
-			}
-			else
-			{
-				MGForm.Activate();
-				MGForm.Focus();
-			}
-		}
-		*/
 		// ***************************************************************************
 		public MGToolForm()
 		{
-			this.BackColor = Color.Black;
+			this.BackColor = Color.FromArgb(40,40,40);
 			this.ForeColor = Color.LightGray;
 			this.FormBorderStyle = FormBorderStyle.None;
 			this.TopMost = true;
@@ -50,19 +35,6 @@ namespace MGCreator
 				true);
 		}
 		// ***************************************************************************
-		/*
-		protected MGForm? m_MGForm = null;
-		[Category("_MG")]
-		public virtual MGForm? MGForm
-		{
-			get { return m_MGForm; }
-			set { SetMGForm(value); }
-		}
-		protected virtual void SetMGForm(MGForm? m)
-		{
-			m_MGForm = m;
-		}
-		*/
 		// ***************************************************************************
 		private Point m_MDPos = new Point(0, 0);
 		private Size m_MDSize = new Size(0, 0);
@@ -118,7 +90,7 @@ namespace MGCreator
 				{
 					this.Size = new Size(
 
-						m_MDSize.Width,
+						m_MDSize.Width+ax,
 						m_MDSize.Height + ay
 						);
 				}
@@ -149,10 +121,15 @@ namespace MGCreator
 			try
 			{
 				g.Clear(this.BackColor);
+				Color c = m_NoActiveForeColor;
+				if(Form.ActiveForm == this)
+				{
+					c = m_ActiveForeColor;
+				}
 				
 				Rectangle r = new Rectangle(0,0,this.Width,HeaderHeight-3);
 				//header
-				sb.Color = this.ForeColor;
+				sb.Color = c;
 				g.FillRectangle(sb, r);
 
 				//closebtn
@@ -162,11 +139,11 @@ namespace MGCreator
 
 				//footer
 				r = new Rectangle(0, this.Height- FooterHeight, this.Width - 1, FooterHeight);
-				sb.Color = this.ForeColor;
+				sb.Color = c;
 				g.FillRectangle(sb, r);
 				//Outline
 				r = new Rectangle(0,0,this.Width-1,this.Height-1);
-				p.Color = this.ForeColor;
+				p.Color = c;
 				g.DrawRectangle(p, r);
 
 				//caption
@@ -184,5 +161,15 @@ namespace MGCreator
 			}
 		}
 		// ***************************************************************************
+		protected override void OnActivated(EventArgs e)
+		{
+			base.OnActivated(e);
+			this.Invalidate();
+		}
+		protected override void OnDeactivate(EventArgs e)
+		{
+			base.OnDeactivate(e);
+			this.Invalidate();
+		}
 	}
 }

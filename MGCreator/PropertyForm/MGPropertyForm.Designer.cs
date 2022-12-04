@@ -36,7 +36,7 @@
 			this.mgPropertyPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.mgPropertyPanel1.BackColor = System.Drawing.Color.Transparent;
+			this.mgPropertyPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
 			this.mgPropertyPanel1.Caption = "PropertyPanel";
 			this.mgPropertyPanel1.Location = new System.Drawing.Point(9, 23);
 			this.mgPropertyPanel1.Margin = new System.Windows.Forms.Padding(0);

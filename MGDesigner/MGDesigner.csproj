@@ -107,4 +107,8 @@
     <Folder Include="Resources\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MGCreator\MGCreator.csproj" />
+  </ItemGroup>
+
 </Project>
