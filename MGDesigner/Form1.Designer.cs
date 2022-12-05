@@ -45,7 +45,6 @@
 			this.editTriangleStyle1.Size = new System.Drawing.Size(220, 20);
 			this.editTriangleStyle1.TabIndex = 0;
 			this.editTriangleStyle1.Text = "editTriangleStyle1";
-			this.editTriangleStyle1.TrainglrStyle = MGCreator.MGLayer.TriangleStyle.Center;
 			// 
 			// Form1
 			// 

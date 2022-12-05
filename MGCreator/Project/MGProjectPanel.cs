@@ -375,7 +375,18 @@ true);
 			}
 			base.OnMouseUp(e);
 		}
-
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			base.OnMouseWheel(e);
+			int y = m_DispY - e.Delta * SystemInformation.MouseWheelScrollLines *3 / 120;
+			if (y < 0) y = 0;
+			else if (y > m_DispYMax) y = m_DispYMax;
+			if (m_DispY != y)
+			{
+				m_DispY = y;
+				this.Invalidate();
+			}
+		}
 		// *********************************************************************************
 		// *******************************************************************************
 		public void ShowMGPropertyForm(bool isV = true)
@@ -453,7 +464,7 @@ true);
 					if(MGForm.ChkColors()==false)
 					{
 						MGForm.InitColor();
-						MessageBox.Show("Bug! Color Reset");
+						MessageBox.Show("Ouch! MG Colosr Reset");
 					}
 					MGForm.Show();
 					ShowMGPropertyForm(false);
@@ -474,5 +485,7 @@ true);
 				MGForm.Focus();
 			}
 		}
+		
+
 	}
 }

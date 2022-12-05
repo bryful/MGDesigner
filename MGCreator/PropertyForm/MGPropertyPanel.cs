@@ -96,17 +96,12 @@ true);
 				this.SuspendLayout();
 				if (m_Layer != null)
 				{
-					m_Main.Clear();
-					m_Main.AddControls(m_Layer.ParamsMain());
-					m_Main.AutoLayout();
-
-					m_Params.Clear();
-					m_Params.AddControls(m_Layer.ParamsParam());
-					m_Params.AutoLayout();
-					m_Color.Clear();
-					m_Color.AddControls(m_Layer.ParamsColors());
-					m_Color.AutoLayout();
-
+					m_Main.Clear(false);
+					m_Main.AddControls(m_Layer.ParamsMain(),false);
+					m_Params.Clear(false);
+					m_Params.AddControls(m_Layer.ParamsParam(), false);
+					m_Color.Clear(false);
+					m_Color.AddControls(m_Layer.ParamsColors(), false);
 				}
 				this.AutoLayout();
 				this.ResumeLayout(true);

@@ -56,12 +56,12 @@ namespace MGCreator
 			ToolStripMenuItem OpenMenu = new ToolStripMenuItem();
 			OpenMenu.Name = "Openjson";
 			OpenMenu.Text = "Open jsonFile";
-			//OpneMenu.Click += ExportMixMenu_Click;
+			OpenMenu.Click += OpenMenu_Click;	
 
 			ToolStripMenuItem SaveMenu = new ToolStripMenuItem();
 			SaveMenu.Name = "Savejson";
 			SaveMenu.Text = "Save jsonFile";
-			//OpneMenu.Click += ExportMixMenu_Click;
+			SaveMenu.Click += SaveMenu_Click;
 
 			ToolStripMenuItem AntiMenu = new ToolStripMenuItem();
 			AntiMenu.Name = "Anti-Aliasing";
@@ -86,6 +86,16 @@ namespace MGCreator
 			menu.Show(this,x,y);
 		}
 
+		private void OpenMenu_Click(object? sender, EventArgs e)
+		{
+			Load(Layers.LoadJsonFileDialog());
+		}
+
+		private void SaveMenu_Click(object? sender, EventArgs e)
+		{
+			Save(Layers.SaveJsonFileDialog());
+		}
+
 		private void AntiMenu_Click(object? sender, EventArgs e)
 		{
 			m_Anti = !m_Anti;
@@ -95,12 +105,12 @@ namespace MGCreator
 
 		private void ExportMixMenu_Click(object? sender, EventArgs e)
 		{
-			Layers.ExportMix(Layers.GetFileDialog());
+			Layers.ExportMix(Layers.SavePNGFileDialog());
 		}
 
 		private void ExportMenu_Click(object? sender, EventArgs e)
 		{
-			Layers.Export(Layers.GetFileDialog());
+			Layers.Export(Layers.SavePNGFileDialog());
 		}
 
 		private void MGColorsSettingMenu_Click(object? sender, EventArgs e)
@@ -434,11 +444,52 @@ true);
 		public JsonObject ToJson()
 		{
 			MGj jn = new MGj(new JsonObject());
+			jn.SetValue("Header", "MG");
 			jn.SetValueSize("Size", this.Size);
 			jn.SetValue("Back", (int)m_Back);
 			jn.SetValue("Layers", Layers.ToJson());
-
 			return jn.Obj;
+		}
+		public bool Save(string? p)
+		{
+			MGj mj = new MGj(ToJson());
+			return mj.Save(p);
+		}
+		public bool Load(string? p)
+		{
+			bool ret = false;
+			if(File.Exists(p)==false) return ret;
+			MGj mj = new MGj();
+			JsonObject? obj = mj.Load(p); 
+			if(obj == null) return ret;
+			return FromJson(obj);
+		}
+		public bool FromJson(JsonObject? jo)
+		{
+			bool ret = false;
+			if(jo==null) return ret;	
+			MGj jn = new MGj(jo);
+
+			string n = "";
+			if (jn.GetStr("Header", ref n) == false)
+			{
+				return ret;
+			}
+			else
+			{
+				if (n != "MG") return ret;
+			}
+			Size sz = new Size(0, 0);
+			if (jn.GetSize("Size", ref sz) == false) return ret;
+			MG_COLORS c = MG_COLORS.Black;
+			if (jn.GetMGColor("Back", ref c) == false) return ret;
+			JsonArray? ja = jn.GetArray("Layers");
+			if (ja == null) return ret;
+			Layers.Clear();
+			this.Size = sz;
+			this.m_Back = c;
+			ret = Layers.FromJson(ja);
+			return ret;
 		}
 	}
 }

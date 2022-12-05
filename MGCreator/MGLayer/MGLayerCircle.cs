@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
 {
     public class MGLayerCircle : MGLayer
     {
-        public MGLayerCircle(MGForm m) : base(m)
+		public new readonly MGStyle MGStyle = MGStyle.Circle;
+		public MGLayerCircle(MGForm m) : base(m)
         {
             Name = "Circle";
             m_Size = new Size(70, 70);
@@ -93,6 +95,22 @@ namespace MGCreator
 
             return PList;
         }
+		// ***************************************************************************
+		public override JsonObject ToJson()
+		{
+			MGj jn = new MGj(base.ToJson());
+			jn.SetMGStyle(MGStyle);
+			return jn.Obj;
+		}
+		// ***************************************************************************
+		public override void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			if (jo == null) return;
+			base.FromJson(jo);
+			MGj jn = new MGj(jo);
+			int v = 0;
 
-    }
+		}
+	}
 }

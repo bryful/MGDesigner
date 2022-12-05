@@ -4,24 +4,88 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MGCreator
 {
     public class MGj
     {
         public JsonObject? Obj = null;
-        public MGj(JsonObject? obj)
+        public MGj(JsonObject? obj=null)
         {
             Obj = obj;
         }
-        public void SetValue(string key, JsonNode? value)
+        public bool Save(string? p)
+        {
+			bool ret = false;
+			if ((Obj==null)||(p == null) || (p == "")) return ret;
+			try
+			{
+				string js = Obj.ToJsonString();
+				File.WriteAllText(p, js);
+				ret = true;
+			}
+			catch
+			{
+				ret = false;
+			}
+			return ret;
+		}
+        public JsonObject? Load(string? p)
+        {
+			JsonObject? ret = null;
+			if ((p == null) || (p == "")) return ret;
+			try
+			{
+				if (File.Exists(p) == true)
+				{
+					string str = File.ReadAllText(p);
+					if (str != "")
+					{
+						var doc = JsonNode.Parse(str);
+						if (doc != null)
+						{
+							Obj = (JsonObject)doc;
+							ret = Obj;
+						}
+					}
+				}
+            }
+            catch
+            {
+                Obj = null;
+                ret = null; ;
+			}
+			return ret;
+		}
+		public JsonArray? GetArray(string key)
+        {
+            JsonArray? ja = null;
+
+			if (Obj == null) return ja;
+			if (Obj.ContainsKey(key))
+			{
+				ja = Obj[key].AsArray();
+			}
+            return ja;
+		}
+		
+		public void SetValue(string key, JsonNode? value)
         {
             if (Obj != null)
             {
                 Obj.Add(key, value);
             }
         }
-        public string? ValueStr(string key)
+		public void SetValue(string key, MG_COLORS value)
+		{
+			if (Obj != null)
+			{
+				Obj.Add(key, (int)value);
+			}
+		}
+		public string? ValueStr(string key)
         {
             string? ret = null;
             if (Obj != null)
@@ -455,9 +519,62 @@ namespace MGCreator
             if (ret == false && def != null) s = (Color)def;
             return ret;
         }
-        // *************************************************************************************
-        // *****************************************************************
-        static public JsonArray RectangleToJson(Rectangle sz)
+		public bool GetMGColor(string key, ref MG_COLORS s, MG_COLORS? def = null)
+		{
+			bool ret = false;
+			if (Obj != null)
+			{
+				if (Obj.ContainsKey(key))
+				{
+					int? v = Obj[key].GetValue<int?>();
+					if (v != null)
+					{
+						s = (MG_COLORS)v;
+						ret = true;
+					}
+				}
+			}
+			if (ret == false && def != null) s = (MG_COLORS)def;
+			return ret;
+		}
+		// *************************************************************************************
+		public void SetMGStyle(MGStyle ms)
+		{
+			if (Obj != null)
+			{
+				string key = "MGStyle";
+				if (Obj.ContainsKey(key))
+                {
+                    Obj[key] = (int)ms;
+                }
+                else
+                {
+					Obj.Add(key, (int)ms);
+				}
+			}
+		}
+		// *************************************************************************************
+		public bool GetMGStyle(ref MGStyle? ms)
+		{
+			bool ret = false;
+            if (Obj != null)
+            {
+                string key = "MGStyle";
+
+				if (Obj.ContainsKey(key))
+				{
+					int? v = Obj[key].GetValue<int?>();
+					if (v != null)
+					{
+						ms = (MGStyle)v;
+						ret = true;
+					}
+				}
+			}
+			return ret;
+		}
+		// *****************************************************************
+		static public JsonArray RectangleToJson(Rectangle sz)
         {
             JsonArray arr = new JsonArray();
             arr.Add(sz.Left);
@@ -565,5 +682,6 @@ namespace MGCreator
             }
             return ret;
         }
+
     }
 }

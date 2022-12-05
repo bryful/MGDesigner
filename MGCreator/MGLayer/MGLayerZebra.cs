@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
@@ -11,7 +12,9 @@ namespace MGCreator
 
     public class MGLayerZebra : MGLayer
     {
-        protected float m_Rot = 45;
+		public new readonly MGStyle MGStyle = MGStyle.Zebra;
+
+		protected float m_Rot = 45;
         [Category("_MG")]
         public float Rot
         {
@@ -172,5 +175,28 @@ namespace MGCreator
             PList.Add(m_GO);
             return PList;
         }
-    }
+		public override JsonObject ToJson()
+		{
+
+			MGj jn = new MGj(base.ToJson());
+            jn.SetMGStyle(MGStyle);
+			jn.SetValue("Rot", m_Rot);
+			jn.SetValue("ZebraWidth", m_ZebraWidth);
+			jn.SetValue("ZebraOpacity", m_ZebraOpacity);
+
+			return jn.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			if (jo == null) return;
+			base.FromJson(jo);
+			MGj jn = new MGj(jo);
+			int v = 0;
+			if (jn.GetFloat("Rot", ref m_Rot) == false) ret = false;
+			if (jn.GetFloat("ZebraWidth", ref m_ZebraWidth) == false) ret = false;
+			if (jn.GetFloat("ZebraOpacity", ref m_ZebraOpacity) == false) ret = false;
+
+		}
+	}
 }

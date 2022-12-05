@@ -16,15 +16,6 @@ namespace MGCreator
 	{
 		const int LeftWidth = 20;
 		const int RightWidth = 25;
-		// ******************************************
-		private string m_Caption = "PropertyPanel";
-		[Category("_MG")]
-		public string Caption
-		{
-			get { return m_Caption; }
-			set { m_Caption = value; this.Invalidate(); }
-		}
-
 		private int DispY = 0;
 		private int DispYMax = 0;
 		// ******************************************
@@ -34,6 +25,7 @@ namespace MGCreator
 			this.Controls.SetChildIndex(c, 0);
 			if (IsLayout) AutoLayout();
 		}
+		// ******************************************
 		public void AddControls(List<Control>? c, bool IsLayout = true)
 		{
 			if ((c != null) && (c.Count > 0))
@@ -42,12 +34,12 @@ namespace MGCreator
 				{
 					this.Controls.Add(c2);
 					this.Controls.SetChildIndex(c2, 0);
-					if (IsLayout) AutoLayout();
 				}
 
 			}
 			if (IsLayout) AutoLayout();
 		}
+		// ******************************************
 		public void Clear()
 		{
 			this.Controls.Clear();
@@ -75,11 +67,11 @@ true);
 		{
 			int t = 0;
 			int he = 0;
+			this.SuspendLayout();
 			if (this.Controls.Count > 0)
 			{
 				for (int i = this.Controls.Count - 1; i >= 0; i--)
 				{
-					if (this.Controls[i].Visible == false) continue;
 					if(this.Controls[i] is PropertyPanel)
 					{
 						((PropertyPanel)this.Controls[i]).AutoLayout();
@@ -99,20 +91,16 @@ true);
 			{
 				for (int i = this.Controls.Count - 1; i >= 0; i--)
 				{
-					if (this.Controls[i].Visible == false) continue;
-
-					Point pp;
-					Size sz;
-					pp = new Point(0, t - DispY);
-					sz = new Size(this.Width - RightWidth, this.Controls[i].Height);
+					Point pp = new Point(0, t - DispY);
+					Size sz = new Size(this.Width - RightWidth, this.Controls[i].Height);
 					t += this.Controls[i].Height;
 					if (this.Controls[i].Location != pp) this.Controls[i].Location = pp;
 					if (this.Controls[i].Size != sz) this.Controls[i].Size = sz;
 				}
-				this.ResumeLayout(false);
 			}
-
+			this.ResumeLayout();
 		}
+		// ******************************************
 		public void ScrolExec()
 		{
 			if (this.Controls.Count > 0)
@@ -121,9 +109,7 @@ true);
 				this.SuspendLayout();
 				for (int i = this.Controls.Count - 1; i >= 0; i--)
 				{
-					if (this.Controls[i].Visible == false) continue;
-					Point pp;
-					pp = new Point(0, t - DispY);
+					Point pp = new Point(0, t - DispY);
 					if (this.Controls[i].Location != pp) this.Controls[i].Location = pp;
 					t += this.Controls[i].Height;
 				}
@@ -131,6 +117,7 @@ true);
 				this.Invalidate();
 			}
 		}
+		// ******************************************
 		protected override void InitLayout()
 		{
 			base.InitLayout();
@@ -146,6 +133,7 @@ true);
 		{
 			bool IsChild = (this.Parent is PropertyPanel);
 			Graphics g = pe.Graphics;
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			//base.OnPaint(pe);
 			SolidBrush sb = new SolidBrush(this.ForeColor);
 			Pen p = new Pen(this.ForeColor, 1);
@@ -171,7 +159,7 @@ true);
 				sb.Dispose();
 			}
 		}
-
+		// ***************************************************************************
 		private int md_p = 0;
 		private int md_y = 0;
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -215,6 +203,18 @@ true);
 			md_p = 0;
 			md_y = 0;
 			base.OnMouseUp(e);
+		}
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			base.OnMouseWheel(e);
+			int y = DispY + e.Delta * SystemInformation.MouseWheelScrollLines *3 / 120;
+			if (y < 0) y = 0;
+			else if (y > DispYMax) y = DispYMax;
+			if(DispYMax != y)
+			{
+				DispYMax = y;
+				this.Invalidate();
+			}
 		}
 	}
 }

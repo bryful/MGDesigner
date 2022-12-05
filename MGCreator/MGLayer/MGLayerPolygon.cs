@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,7 +13,9 @@ namespace MGCreator
 {
     public partial class MGLayerPolygon : MGLayer
     {
-        protected int m_Count = 4;
+		public new readonly MGStyle MGStyle = MGStyle.Polygon;
+
+		protected int m_Count = 4;
         [Category("_MG")]
         public int Count
         {
@@ -140,5 +143,26 @@ namespace MGCreator
 
             return PList;
         }
-    }
+		public override JsonObject ToJson()
+		{
+
+			MGj jn = new MGj(base.ToJson());
+			jn.SetMGStyle(MGStyle);
+			jn.SetValue("Count", (int)m_Count);
+			jn.SetValue("Rot", m_Rot);
+
+			return jn.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			if (jo == null) return;
+			base.FromJson(jo);
+			MGj jn = new MGj(jo);
+			int v = 0;
+			if (jn.GetInt("Count", ref v) == false) ret = false;
+			if (jn.GetFloat("Rot", ref m_Rot) == false) ret = false;
+
+		}
+	}
 }

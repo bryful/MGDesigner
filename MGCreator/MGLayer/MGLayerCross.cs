@@ -10,7 +10,9 @@ namespace MGCreator
 {
 	internal class MGLayerCross : MGLayer
     {
-        private float m_CrossWeight = 20;
+		public new readonly MGStyle MGStyle = MGStyle.Cross;
+		
+		private float m_CrossWeight = 20;
         public float CrossWeight
         {
             get { return m_CrossWeight; }
@@ -29,7 +31,9 @@ namespace MGCreator
             m_Line = MG_COLORS.White;
             m_LineOpacity = 0;
             m_LineWeight = 1;
-        }
+			m_CrossWeight = 20;
+
+		}
 		// ***************************************************************************
         private PointF[] CrossRegion(RectangleF r, float wt)
         {
@@ -108,6 +112,7 @@ namespace MGCreator
 		{
 
 			MGj jn = new MGj(base.ToJson());
+			jn.SetMGStyle(MGStyle);
 			jn.SetValue("CrossWeight", m_CrossWeight);
 			return jn.Obj;
 		}

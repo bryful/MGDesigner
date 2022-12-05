@@ -25,7 +25,7 @@ namespace MGCreator
 		}
 
 		// **************************************************
-		protected string m_Name = "Layer";
+		protected string m_Name = "Frame";
 		[Category("_MGLayer")]
 		public string Name
 		{

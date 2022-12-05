@@ -242,7 +242,7 @@ namespace MGCreator
 			OnLayerAdded(EventArgs.Empty);
 			TargetIndex = 0;
 		}
-
+		
 		private void Layer_NameChanged1(object sender, NameChangedEventArgs e)
 		{
 			OnLayerNameChanged(e);
@@ -270,6 +270,19 @@ namespace MGCreator
 				if (m_MGForm != null) m_MGForm.Invalidate();
 
 			}
+		}
+		// **********************************************************************************
+		public void Clear()
+		{
+			if(Count>0)
+			{
+				foreach(MGLayer ml in this.m_Items)
+				{
+					ml.Dispose();
+				}
+				this.m_Items.Clear();
+			}
+			OnLayerRemoved(EventArgs.Empty);
 		}
 		// **********************************************************************************
 		public void TargetRemove()
@@ -381,7 +394,7 @@ namespace MGCreator
 
 		private void ExportLayerMenu_Click(object? sender, EventArgs e)
 		{
-			ExportTargetLayer(GetFileDialog());
+			ExportTargetLayer(SavePNGFileDialog());
 		}
 
 		private void DelMenu_Click(object? sender, EventArgs e)
@@ -539,15 +552,45 @@ namespace MGCreator
 			}
 			dlg.Dispose();
 		}
+		// ******************************************************************************************************
 		public JsonArray ToJson()
 		{
 			JsonArray result = new JsonArray();
-			foreach(MGLayer l in m_Items)
+			if (m_Items.Count > 0)
 			{
-				JsonObject ja = l.ToJson();
-				result.Add(ja);
+				foreach (MGLayer l in m_Items)
+				{
+					JsonObject ja = l.ToJson();
+					result.Add(ja);
+				}
 			}
 			return result;
+		}
+		public bool FromJson(JsonArray ja)
+		{
+			bool ret = false;
+			if (m_MGForm == null) return ret;
+			if (ja.Count > 0)
+			{
+				foreach (JsonObject? o in ja)
+				{
+					if (o == null) continue;
+					MGj mj = new MGj(o);
+					MGStyle? ms = null; 
+					if(mj.GetMGStyle(ref ms)==false) continue;
+					if (ms == null) continue;
+					MGLayer? layer = CreateLayer((MGStyle)ms);
+					if (layer == null) continue;
+					layer.FromJson(o);
+					layer.ChkOffScr();
+					layer.NameChanged += Layer_NameChanged1;
+					m_Items.Add(layer);
+				}
+			}
+			ChkLayers();
+			OnLayerAdded(EventArgs.Empty);
+			if(Count > 0) TargetIndex = 0;
+			return true;
 		}
 		// ******************************************************************************************************
 		public bool Export(string? p)
@@ -579,9 +622,10 @@ namespace MGCreator
 					{
 						break;
 					}
+					cnt++;
 				}
 			}
-			if (cnt == Count)
+			if (cnt == Count+1)
 			{
 				Bitmap bmp = new Bitmap(m_MGForm.Width, m_MGForm.Height, PixelFormat.Format32bppArgb);
 				Graphics g = Graphics.FromImage(bmp);
@@ -648,7 +692,7 @@ namespace MGCreator
 		}
 		 // *************************************************************************************************
 		private string m_FileName = "";
-		public string? GetFileDialog()
+		public string? SavePNGFileDialog()
 		{
 			string? ret = null;
 			if (m_MGForm == null) return null;
@@ -658,11 +702,49 @@ namespace MGCreator
 			if(m_FileName!="")
 			{
 				saveFileDialog.InitialDirectory = Path.GetDirectoryName(m_FileName);
-				saveFileDialog.FileName = Path.GetFileName(m_FileName);
+				saveFileDialog.FileName = Path.ChangeExtension( Path.GetFileName(m_FileName) ,".png");
 			}
 			if(saveFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				ret = saveFileDialog.FileName;
+				m_FileName = ret;
+			}
+			return ret;
+		}
+		public string? SaveJsonFileDialog()
+		{
+			string? ret = null;
+			if (m_MGForm == null) return null;
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "*.json|*.json|*.*|*.*";
+			saveFileDialog.DefaultExt = ".json";
+			if (m_FileName != "")
+			{
+				saveFileDialog.InitialDirectory = Path.GetDirectoryName(m_FileName);
+				saveFileDialog.FileName = Path.ChangeExtension(Path.GetFileName(m_FileName), ".json");
+			}
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				ret = saveFileDialog.FileName;
+				m_FileName = ret;
+			}
+			return ret;
+		}
+		public string? LoadJsonFileDialog()
+		{
+			string? ret = null;
+			if (m_MGForm == null) return null;
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Filter = "*.json|*.json|*.*|*.*";
+			dlg.DefaultExt = ".json";
+			if (m_FileName != "")
+			{
+				dlg.InitialDirectory = Path.GetDirectoryName(m_FileName);
+				dlg.FileName = Path.ChangeExtension(Path.GetFileName(m_FileName), ".json");
+			}
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				ret = dlg.FileName;
 				m_FileName = ret;
 			}
 			return ret;

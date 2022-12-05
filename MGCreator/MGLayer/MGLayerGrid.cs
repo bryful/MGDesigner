@@ -10,6 +10,8 @@ namespace MGCreator
 {
     public class MGLayerGrid : MGLayer
 	{
+		public new readonly MGStyle MGStyle = MGStyle.Grid;
+		
         protected Size m_GridSize = new Size(100, 100);
         [Category("_MG")]
         public Size GridSize
@@ -74,7 +76,7 @@ namespace MGCreator
         }
         public MGLayerGrid(MGForm m) : base(m)
         {
-            Name = "Gtid";
+            Name = "Grid";
             m_Size = new Size(200, 200);
             m_Grid = MG_COLORS.White;
             m_GridOpacity = 100;
@@ -214,6 +216,7 @@ namespace MGCreator
 		{
 
 			MGj jn = new MGj(base.ToJson());
+			jn.SetMGStyle(MGStyle);
 			jn.SetValueSize("GridSize", m_GridSize);
 			jn.SetValue("Grid", (int)m_Grid);
 			jn.SetValue("GridOpacity", m_GridOpacity);

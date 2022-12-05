@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
@@ -17,7 +18,9 @@ namespace MGCreator
     }
     public class MGLayerTriangle : MGLayer
     {
-        protected TriangleStyle m_TriangleStyle = TriangleStyle.Center;
+		public new readonly MGStyle MGStyle = MGStyle.Triangle;
+
+		protected TriangleStyle m_TriangleStyle = TriangleStyle.Center;
         [Category("_MG")]
         public TriangleStyle TriangleStyle
         {
@@ -155,5 +158,27 @@ namespace MGCreator
 
             return PList;
         }
-    }
+		public override JsonObject ToJson()
+		{
+
+			MGj jn = new MGj(base.ToJson());
+			jn.SetMGStyle(MGStyle);
+			jn.SetValue("TriangleStyle", (int)m_TriangleStyle);
+			jn.SetValue("Rot", m_Rot);
+			return jn.Obj;
+		}
+		public override void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			if (jo == null) return;
+			base.FromJson(jo);
+			MGj jn = new MGj(jo);
+            int v = 0;
+
+            if (jn.GetInt("TriangleStyle", ref v) == true) { m_TriangleStyle = (TriangleStyle)v; } else { ret = false; }
+			if (jn.GetFloat("Rot", ref m_Rot) == false) ret = false;
+
+
+		}
+	}
 }

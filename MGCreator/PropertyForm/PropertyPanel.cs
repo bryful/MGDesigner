@@ -19,16 +19,7 @@ namespace MGCreator
 		const int LeftWidth = 5;
 		const int RightWidth = 25;
 
-		// ******************************************
-		public delegate void IsShowChangedHandler(object sender, EventArgs e);
-		public event IsShowChangedHandler? IsShowChanged;
-		protected virtual void OnIsShowChanged(EventArgs e)
-		{
-			if (IsShowChanged != null)
-			{
-				IsShowChanged(this, e);
-			}
-		}
+		
 		// ******************************************
 		private bool m_IsOpen = true;
 		[Category("_MG")]
@@ -51,11 +42,7 @@ namespace MGCreator
 					c.Visible =b;
 				}
 			}
-			AutoLayout();
-			if(this.Parent is PropertyPanelGroup)
-			{
-				((PropertyPanelGroup)this.Parent).AutoLayout();
-			}
+			AutoLayoutParent();
 			this.Invalidate();
 		}
 		// ******************************************
@@ -74,7 +61,7 @@ namespace MGCreator
 			c.Visible = m_IsOpen;
 			this.Controls.Add(c);
 			this.Controls.SetChildIndex(c, 0);
-			if(IsLayout)AutoLayout();
+			if(IsLayout) AutoLayoutParent();
 		}
 		public void AddControls(List<Control>? c, bool IsLayout = true)
 		{
@@ -84,16 +71,15 @@ namespace MGCreator
 					c2.Visible = m_IsOpen;
 					this.Controls.Add(c2);
 					this.Controls.SetChildIndex(c2, 0);
-					if (IsLayout) AutoLayout();
 				}
 
 			}
-			if (IsLayout) AutoLayout();
+			if (IsLayout) AutoLayoutParent();
 		}
-		public void Clear()
+		public void Clear(bool isEvent=true)
 		{
 			this.Controls.Clear();
-			this.AutoLayout();
+			if(isEvent)this.AutoLayoutParent();
 		}
 		// ******************************************
 		public PropertyPanel()
@@ -113,9 +99,22 @@ true);
 			AutoLayout();
 		}
 		// ******************************************
+		public bool AutoLayoutParent()
+		{
+			bool ret = false;
+			if(this.Parent is PropertyPanelGroup)
+			{
+				((PropertyPanelGroup)this.Parent).AutoLayout();
+				ret = true;
+			}
+			return ret;
+		}
+
+		// ******************************************
 		public void AutoLayout()
 		{
 			int t = HeaderHeight;
+			this.SuspendLayout();
 			if (this.Controls.Count > 0)
 			{
 				if (m_IsOpen)
@@ -123,11 +122,8 @@ true);
 					for (int i = this.Controls.Count - 1; i >= 0; i--)
 					{
 						this.Controls[i].Visible = true;
-
-						Point pp;
-						Size sz;
-						pp = new Point(LeftWidth, t);
-						sz = new Size(this.Width - LeftWidth, this.Controls[i].Height);
+						Point pp = new Point(LeftWidth, t);
+						Size sz = new Size(this.Width - LeftWidth, this.Controls[i].Height);
 						t += this.Controls[i].Height;
 						if (this.Controls[i].Location != pp) this.Controls[i].Location = pp;
 						if (this.Controls[i].Size != sz) this.Controls[i].Size = sz;
@@ -144,6 +140,7 @@ true);
 			}
 			Size ss = new Size(this.Width, t + FooterHeight);
 			if (this.Size != ss) this.Size = ss;
+			this.ResumeLayout();
 
 		}
 		protected override void InitLayout()

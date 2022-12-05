@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MGCreator
 {
     public class MGLayerCircleScale : MGLayer
     {
-        protected float m_CircleRot = 45;
+		public new readonly MGStyle MGStyle = MGStyle.CircleScale;
+
+		protected float m_Rot = 45;
         [Category("_MG")]
-        public float CircleRot
+        public float Rot
         {
-            get { return m_CircleRot; }
+            get { return m_Rot; }
             set
             {
-                m_CircleRot = value;
+                m_Rot = value;
                 ChkOffScr();
             }
 
         }
-        protected float m_CircleRotOffset = 0;
+        protected float m_RotOffset = 0;
         [Category("_MG")]
-        public float CircleRotOffset
+        public float RotOffset
         {
-            get { return m_CircleRotOffset; }
+            get { return m_RotOffset; }
             set
             {
-                m_CircleRotOffset = value;
+                m_RotOffset = value;
                 ChkOffScr();
             }
 
@@ -51,8 +54,8 @@ namespace MGCreator
             m_Line = MG_COLORS.White;
             m_LineOpacity = 100;
             m_LineWeight = 2;
-            m_CircleRot = 45;
-            m_CircleRotOffset = 0;
+            m_Rot = 45;
+            m_RotOffset = 0;
             m_CircleWidth = 20;
         }
         // ***************************************************************************
@@ -79,7 +82,7 @@ namespace MGCreator
                     p.Color = GetColors(m_Line, m_LineOpacity);
                     p.Width = m_LineWeight;
 
-                    int rotCount = (int)(360 / m_CircleRot+0.5);
+                    int rotCount = (int)(360 / m_Rot+0.5);
 
                     float l0 = radius;
                     float l1 = radius - m_CircleWidth;
@@ -87,7 +90,7 @@ namespace MGCreator
 
                     for (int i = 0; i < rotCount; i++)
                     {
-                        float r = i * m_CircleRot - m_CircleRotOffset;
+                        float r = i * m_Rot - m_RotOffset;
                         double xd = Math.Sin(r * Math.PI / 180);
                         double yd = Math.Cos(r * Math.PI / 180);
                         float x0 = (float)(cx + l0 * xd);
@@ -150,5 +153,28 @@ namespace MGCreator
 
             return PList;
         }
-    }
+		// ***************************************************************************
+		public override JsonObject ToJson()
+		{
+			MGj jn = new MGj(base.ToJson());
+
+			jn.SetMGStyle(MGStyle);
+			jn.SetValue("Rot", m_Rot);
+			jn.SetValue("RotOffset", m_RotOffset);
+			jn.SetValue("CircleWidth", m_CircleWidth);
+			return jn.Obj;
+		}
+		// ***************************************************************************
+		public override void FromJson(JsonObject jo)
+		{
+			bool ret = false;
+			base.FromJson(jo);
+			MGj jn = new MGj(jo);
+
+			if (jn.GetFloat("Rot", ref m_Rot) == false) ret = false;
+			if (jn.GetFloat("RotOffset", ref m_RotOffset) == false) ret = false;
+			if (jn.GetFloat("CircleWidth", ref m_CircleWidth) == false) ret = false;
+
+		}
+	}
 }
