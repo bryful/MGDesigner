@@ -467,7 +467,6 @@ true);
 						MessageBox.Show("Ouch! MG Colosr Reset");
 					}
 					MGForm.Show();
-					ShowMGPropertyForm(false);
 				}
 				else
 				{

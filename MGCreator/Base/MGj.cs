@@ -12,11 +12,13 @@ namespace MGCreator
     public class MGj
     {
         public JsonObject? Obj = null;
+        // ******************************************
         public MGj(JsonObject? obj=null)
         {
             Obj = obj;
         }
-        public bool Save(string? p)
+		// ******************************************
+		public bool Save(string? p)
         {
 			bool ret = false;
 			if ((Obj==null)||(p == null) || (p == "")) return ret;
@@ -32,7 +34,8 @@ namespace MGCreator
 			}
 			return ret;
 		}
-        public JsonObject? Load(string? p)
+		// ******************************************
+		public JsonObject? Load(string? p)
         {
 			JsonObject? ret = null;
 			if ((p == null) || (p == "")) return ret;
@@ -59,6 +62,7 @@ namespace MGCreator
 			}
 			return ret;
 		}
+		// ******************************************
 		public JsonArray? GetArray(string key)
         {
             JsonArray? ja = null;
@@ -70,19 +74,34 @@ namespace MGCreator
 			}
             return ja;
 		}
-		
+
+		// ******************************************
 		public void SetValue(string key, JsonNode? value)
         {
             if (Obj != null)
             {
-                Obj.Add(key, value);
-            }
+                if(Obj.ContainsKey(key))
+                {
+                    Obj[key] = value;
+                }
+                else
+                {
+					Obj.Add(key, value);
+				}
+			}
         }
 		public void SetValue(string key, MG_COLORS value)
 		{
 			if (Obj != null)
 			{
-				Obj.Add(key, (int)value);
+				if (Obj.ContainsKey(key))
+				{
+					Obj[key] = (int)value;
+				}
+				else
+				{
+					Obj.Add(key, (int)value);
+				}
 			}
 		}
 		public string? ValueStr(string key)
@@ -178,9 +197,80 @@ namespace MGCreator
             ja.Add(c.R);
             ja.Add(c.G);
             ja.Add(c.B);
-            Obj.Add(key, ja);
-        }
-        public Point? ValuePoint(string key)
+            if(Obj.ContainsKey(key))
+            {
+                Obj[key] = ja;
+            }
+            else
+            {
+				Obj.Add(key, ja);
+			}
+		}
+		public void SetValueColors(string key, Color[] c)
+		{
+			if (Obj == null) return;
+			JsonArray ja = new JsonArray();
+            if (c.Length>0)
+            {
+                for(int i=0;i<c.Length; i++)
+                {
+                    Color c2 = c[i];
+					JsonArray ja1 = new JsonArray();
+					ja1.Add(c2.R);
+					ja1.Add(c2.G);
+					ja1.Add(c2.B);
+
+                    ja.Add(ja1);
+				}
+			}
+            if(Obj.ContainsKey(key))
+            {
+                Obj[key] = ja;
+
+            }
+            else
+            {
+                Obj.Add(key, ja);
+            }
+		}
+		public bool GetValueColors(string key, ref Color[] c)
+		{
+            bool ret = false;
+			if (Obj == null) return ret;
+            if(Obj.ContainsKey(key))
+            {
+				JsonArray? ja = Obj[key].AsArray();
+                if(ja!=null)
+                {
+                    if (ja.Count != (int)MG_COLORS.Transparent) return ret;
+                    Color [] result = new Color[ja.Count];
+                    for(int i=0; i<ja.Count;i++)
+                    {
+                        bool b = false;
+                        JsonArray? a = ja[i].AsArray();
+
+						if (a != null && a.Count >= 3)
+						{
+							int? v0 = a[0].GetValue<int?>();
+							int? v1 = a[1].GetValue<int?>();
+							int? v2 = a[2].GetValue<int?>();
+							if (v0 != null && v1 != null && v2 != null)
+							{
+                                result[i] 
+                                    = Color.FromArgb((int)v0, (int)v1, (int)v2);
+                                b = true;
+							}
+						}
+                        if (b == false) return ret;
+
+					}
+                    c = result;
+                    ret = true;
+                }
+			}
+            return ret;
+		}
+		public Point? ValuePoint(string key)
         {
             Point? ret = null;
             if (Obj != null)
@@ -208,8 +298,15 @@ namespace MGCreator
             JsonArray ja = new JsonArray();
             ja.Add(c.X);
             ja.Add(c.Y);
-            Obj.Add(key, ja);
-        }
+            if (Obj.ContainsKey(key))
+            {
+                Obj[key]= ja;
+            }
+            else
+            {
+				Obj.Add(key, ja);
+			}
+		}
         public Size? ValueSize(string key)
         {
             Size? ret = null;
@@ -238,8 +335,15 @@ namespace MGCreator
             JsonArray ja = new JsonArray();
             ja.Add(c.Width);
             ja.Add(c.Height);
-            Obj.Add(key, ja);
-        }
+            if(Obj.ContainsKey(key))
+            {
+				Obj[key] =  ja;
+			}
+            else
+            {
+				Obj.Add(key, ja);
+			}
+		}
         public Padding? ValuePadding(string key)
         {
             Padding? ret = null;
@@ -272,8 +376,15 @@ namespace MGCreator
             ja.Add(c.Top);
             ja.Add(c.Right);
             ja.Add(c.Bottom);
-            Obj.Add(key, ja);
-        }
+            if(Obj.ContainsKey(key))
+            {
+				Obj[key] = ja;
+			}
+            else
+            {
+				Obj.Add(key, ja);
+			}
+		}
         public Rectangle? ValueRectangle(string key)
         {
             Rectangle? ret = null;
@@ -306,8 +417,16 @@ namespace MGCreator
             ja.Add(c.Top);
             ja.Add(c.Width);
             ja.Add(c.Height);
-            Obj.Add(key, ja);
-        }
+            if (Obj.ContainsKey(key))
+            {
+                Obj[key] = ja;
+            }
+            else
+            {
+				Obj.Add(key, ja);
+
+			}
+		}
 
         public bool GetStr(string key, ref string s, string? def = null)
         {

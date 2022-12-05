@@ -47,7 +47,6 @@ namespace MGCreator
 				if (ok) pp.MGFormPoint = p;
 				p = pf.GetPoint("MGPropPoint", out ok);
 				if (ok) pp.MGPropPoint = p;
-				ShowMGPropertyForm(false);
 				JsonArray? mc = pf.Array("MGColors");
 				if(mc!=null)
 				{
@@ -63,6 +62,8 @@ namespace MGCreator
 				{
 					pp.Back = (MG_COLORS)v;
 				}
+				ShowMGForm();
+				ShowMGPropertyForm(false);
 
 			}
 

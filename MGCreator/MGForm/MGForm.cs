@@ -447,6 +447,7 @@ true);
 			jn.SetValue("Header", "MG");
 			jn.SetValueSize("Size", this.Size);
 			jn.SetValue("Back", (int)m_Back);
+			jn.SetValueColors("MG_Colors", m_Colors);
 			jn.SetValue("Layers", Layers.ToJson());
 			return jn.Obj;
 		}
@@ -483,6 +484,12 @@ true);
 			if (jn.GetSize("Size", ref sz) == false) return ret;
 			MG_COLORS c = MG_COLORS.Black;
 			if (jn.GetMGColor("Back", ref c) == false) return ret;
+			if (jn.GetValueColors("MG_Colors", ref m_Colors) == false)
+			{
+				InitColor();
+			}
+
+
 			JsonArray? ja = jn.GetArray("Layers");
 			if (ja == null) return ret;
 			Layers.Clear();
