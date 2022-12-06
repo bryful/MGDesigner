@@ -53,16 +53,16 @@ namespace MGCreator
         public MGLayerZebra(MGForm m) : base(m)
         {
             Name = "Zebra";
-            m_Back = MG_COLORS.Black;
+            m_Back = MG_COL.Black;
             m_BackOpacity = 0;
 
-            m_Fill = MG_COLORS.White;
+            m_Fill = MG_COL.White;
             m_FillOpacity = 100;
 
             m_Rot = 45;
             m_ZebraWidth = 20;
 
-            m_Frame = MG_COLORS.White;
+            m_Frame = MG_COL.White;
             m_FrameOpacity = 0;
             m_FrameWeight = new Padding(2, 2, 2, 2);
         }
@@ -91,17 +91,17 @@ namespace MGCreator
                 Region region = new Region(path);
                 g.SetClip(region, CombineMode.Replace);
 
-                if (m_BackOpacity > 0 && m_Back != MG_COLORS.Transparent)
+                if (m_BackOpacity > 0 && m_Back != MG_COL.Transparent)
                 {
                     sb.Color = b;
                     g.FillRectangle(sb, rct2);
                 }
-                if (m_FillOpacity > 0 && m_Fill != MG_COLORS.Transparent && m_ZebraWidth > 0)
+                if (m_FillOpacity > 0 && m_Fill != MG_COL.Transparent && m_ZebraWidth > 0)
                 {
                     sb.Color = c;
                     MGc.DrawZebra(g, sb, rct2, m_ZebraWidth, m_Rot);
                 }
-                if (m_FrameOpacity > 0 && m_Frame != MG_COLORS.Transparent)
+                if (m_FrameOpacity > 0 && m_Frame != MG_COL.Transparent)
                 {
                     sb.Color = m_MGForm.GetMGColors(m_Frame, m_FrameOpacity);
                     MGc.DrawFrame(g, sb, rct2, m_FrameWeight);

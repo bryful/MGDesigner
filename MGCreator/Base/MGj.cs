@@ -90,7 +90,7 @@ namespace MGCreator
 				}
 			}
         }
-		public void SetValue(string key, MG_COLORS value)
+		public void SetValue(string key, MG_COL value)
 		{
 			if (Obj != null)
 			{
@@ -242,7 +242,7 @@ namespace MGCreator
 				JsonArray? ja = Obj[key].AsArray();
                 if(ja!=null)
                 {
-                    if (ja.Count != (int)MG_COLORS.Transparent) return ret;
+                    if (ja.Count != (int)MG_COL.Transparent) return ret;
                     Color [] result = new Color[ja.Count];
                     for(int i=0; i<ja.Count;i++)
                     {
@@ -638,7 +638,7 @@ namespace MGCreator
             if (ret == false && def != null) s = (Color)def;
             return ret;
         }
-		public bool GetMGColor(string key, ref MG_COLORS s, MG_COLORS? def = null)
+		public bool GetMGColor(string key, ref MG_COL s, MG_COL? def = null)
 		{
 			bool ret = false;
 			if (Obj != null)
@@ -648,12 +648,12 @@ namespace MGCreator
 					int? v = Obj[key].GetValue<int?>();
 					if (v != null)
 					{
-						s = (MG_COLORS)v;
+						s = (MG_COL)v;
 						ret = true;
 					}
 				}
 			}
-			if (ret == false && def != null) s = (MG_COLORS)def;
+			if (ret == false && def != null) s = (MG_COL)def;
 			return ret;
 		}
 		// *************************************************************************************

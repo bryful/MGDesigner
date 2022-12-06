@@ -31,19 +31,25 @@ namespace MGCreator
 			//panel1.SizeChanged += Panel1_SizeChanged;
 		}
 
-		private void Panel1_SizeChanged(object? sender, EventArgs e)
+		protected override void OnResize(EventArgs e)
 		{
-			if(panel1.Controls.Count>0)
+			if (panel1 != null)
 			{
-				foreach(Control c in panel1.Controls)
+				panel1.Bounds = new Rectangle(5, 30, this.Width-10, this.Height - 120);
+				this.Invalidate();
+				this.SuspendLayout();
+				if (panel1.Controls.Count > 0)
 				{
-					c.Width = panel1.ClientSize.Width-40;
-					c.Invalidate();
+					foreach (Control c in panel1.Controls)
+					{
+						c.Width = panel1.ClientSize.Width - 40;
+					}
 				}
+				this.ResumeLayout();
+				this.Invalidate();
 			}
-			this.Invalidate();
+			base.OnResize(e);
 		}
-
 		protected override void OnClosed(EventArgs e)
 		{
 			if (this.DialogResult == DialogResult.Cancel)

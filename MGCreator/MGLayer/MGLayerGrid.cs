@@ -24,9 +24,9 @@ namespace MGCreator
             }
 
         }
-        protected MG_COLORS m_Grid = MG_COLORS.White;
+        protected MG_COL m_Grid = MG_COL.White;
         [Category("_MG")]
-        public MG_COLORS Grid
+        public MG_COL Grid
         {
             get { return m_Grid; }
             set
@@ -78,12 +78,12 @@ namespace MGCreator
         {
             Name = "Grid";
             m_Size = new Size(200, 200);
-            m_Grid = MG_COLORS.White;
+            m_Grid = MG_COL.White;
             m_GridOpacity = 100;
             m_GridWeight = 1;
-			m_Back = MG_COLORS.Black;
+			m_Back = MG_COL.Black;
             m_BackOpacity = 0;
-            m_Frame = MG_COLORS.White;
+            m_Frame = MG_COL.White;
             m_FrameOpacity = 100;
             m_FrameWeight = new Padding(2, 2, 2, 2);
             m_GridOffset = new Point(0, 0);
@@ -100,7 +100,7 @@ namespace MGCreator
                 if (IsClear) g.Clear(Color.Transparent);
                 Rectangle rct2 = MarginRect(rct);
 
-                if (m_Back != MG_COLORS.Transparent && m_Back > 0)
+                if (m_Back != MG_COL.Transparent && m_Back > 0)
                 {
                     sb.Color = GetColors(m_Back, m_BackOpacity);
                     g.FillRectangle(sb, rct2);
@@ -108,7 +108,7 @@ namespace MGCreator
 
                 float cx = rct2.Left + (float)rct2.Width / 2 + m_GridOffset.X;
                 float cy = rct2.Top + (float)rct2.Height / 2 + m_GridOffset.Y;
-                if (m_GridOpacity > 0 && m_Grid != MG_COLORS.Transparent)
+                if (m_GridOpacity > 0 && m_Grid != MG_COL.Transparent)
                 {
                     p.Color = GetColors(m_Grid, m_GridOpacity);
                     p.Width = m_GridWeight;
@@ -139,7 +139,7 @@ namespace MGCreator
                         x += m_GridSize.Width;
                     }
                 }
-                if((m_Frame!=MG_COLORS.Transparent)||(m_FrameOpacity>0))
+                if((m_Frame!=MG_COL.Transparent)||(m_FrameOpacity>0))
                 {
 					sb.Color = GetColors(m_Frame, m_FrameOpacity);
 					MGc.DrawFrame(g, sb, rct2, m_FrameWeight);
@@ -233,7 +233,7 @@ namespace MGCreator
 			MGj jn = new MGj(jo);
             int v = 0;
 			if (jn.GetSize("GridSize", ref m_GridSize) == false) ret = false;
-            if (jn.GetInt("Grid", ref v) == false) ret = false; else m_Grid = (MG_COLORS)v;
+            if (jn.GetInt("Grid", ref v) == false) ret = false; else m_Grid = (MG_COL)v;
 			if (jn.GetFloat("GridOpacity", ref m_GridOpacity) == false) ret = false;
 			if (jn.GetFloat("GridWeight", ref m_GridWeight) == false) ret = false;
 			if (jn.GetPoint("GridOffset", ref m_GridOffset) == false) ret = false;

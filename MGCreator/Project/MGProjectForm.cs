@@ -51,16 +51,27 @@ namespace MGCreator
 				if(mc!=null)
 				{
 					Color[]? a = MGForm.FormJsonToColors(mc);
-					//MessageBox.Show($"{a.ToString()}");
 					if (a!=null)
 					{
-						pp.MGColors = a;
+						if( MGColor.ChkColors(a))
+						{
+							pp.MGColors = a;
+						}
+						else
+						{
+							pp.MGColors = MGColor.InitColors();
+						}
 					}
 				}
 				int v = pf.GetValueInt("Back", out ok);
 				if(ok)
 				{
-					pp.Back = (MG_COLORS)v;
+					pp.Back = (MG_COL)v;
+				}
+				Size szz = pf.GetSize("MGSize", out ok);
+				if(ok)
+				{
+					pp.MGSize = szz;
 				}
 				ShowMGForm();
 				ShowMGPropertyForm(false);
@@ -79,6 +90,8 @@ namespace MGCreator
 				pf.SetPoint("MGFormPoint", pp.MGForm.Location);
 				pf.AddArray("MGColors", pp.MGForm.MGColorsToJson());
 				pf.SetValue("Back", (int)pp.MGForm.Back);
+				pf.SetSize("MGSize", pp.MGForm.Size);
+
 			}
 			if (pp.MGPropertyForm != null)
 			{

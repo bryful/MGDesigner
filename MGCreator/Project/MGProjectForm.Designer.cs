@@ -36,7 +36,6 @@ namespace MGCreator
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
 			this.mgStyleComb1 = new MGCreator.MGStyleComb();
-			this.btnNewMG = new System.Windows.Forms.Button();
 			this.btnPropForm = new System.Windows.Forms.Button();
 			this.pp = new MGCreator.MGProjectPanel();
 			this.SuspendLayout();
@@ -114,24 +113,13 @@ namespace MGCreator
 			this.mgStyleComb1.Size = new System.Drawing.Size(93, 23);
 			this.mgStyleComb1.TabIndex = 7;
 			// 
-			// btnNewMG
-			// 
-			this.btnNewMG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnNewMG.ForeColor = System.Drawing.Color.LightGray;
-			this.btnNewMG.Location = new System.Drawing.Point(11, 27);
-			this.btnNewMG.Name = "btnNewMG";
-			this.btnNewMG.Size = new System.Drawing.Size(67, 23);
-			this.btnNewMG.TabIndex = 8;
-			this.btnNewMG.Text = "showMG";
-			this.btnNewMG.UseVisualStyleBackColor = true;
-			// 
 			// btnPropForm
 			// 
 			this.btnPropForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnPropForm.ForeColor = System.Drawing.Color.LightGray;
-			this.btnPropForm.Location = new System.Drawing.Point(84, 27);
+			this.btnPropForm.Location = new System.Drawing.Point(11, 27);
 			this.btnPropForm.Name = "btnPropForm";
-			this.btnPropForm.Size = new System.Drawing.Size(66, 23);
+			this.btnPropForm.Size = new System.Drawing.Size(147, 23);
 			this.btnPropForm.TabIndex = 9;
 			this.btnPropForm.Text = "Property";
 			this.btnPropForm.UseVisualStyleBackColor = true;
@@ -147,7 +135,6 @@ namespace MGCreator
 			this.pp.Location = new System.Drawing.Point(12, 124);
 			this.pp.MGForm = null;
 			this.pp.Name = "pp";
-			this.pp.NewMGBtn = this.btnNewMG;
 			this.pp.PropBtn = this.btnPropForm;
 			this.pp.Size = new System.Drawing.Size(146, 305);
 			this.pp.StyleComb = this.mgStyleComb1;
@@ -163,7 +150,6 @@ namespace MGCreator
 			this.ClientSize = new System.Drawing.Size(170, 471);
 			this.Controls.Add(this.pp);
 			this.Controls.Add(this.btnPropForm);
-			this.Controls.Add(this.btnNewMG);
 			this.Controls.Add(this.mgStyleComb1);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);
@@ -182,7 +168,6 @@ namespace MGCreator
 		private Button btnUp;
 		private Button btnDown;
 		private MGStyleComb mgStyleComb1;
-		private Button btnNewMG;
 		private Button btnPropForm;
 		private MGProjectPanel pp;
 	}

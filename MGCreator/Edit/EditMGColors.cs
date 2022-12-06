@@ -17,7 +17,7 @@ namespace MGCreator
 		const int DrawWidth = 40;
 		private MGColorComb m_cmb = new MGColorComb();
 
-		public MG_COLORS Value
+		public MG_COL Value
 		{
 			get { return m_cmb.MGColors; }
 			set { m_cmb.MGColors = value;this.Invalidate(); }
@@ -26,7 +26,7 @@ namespace MGCreator
 		{
 			this.BackColor = Color.FromArgb(40, 40, 40);
 			this.ForeColor = Color.LightGray;
-			SetTargetType(typeof(MG_COLORS));
+			SetTargetType(typeof(MG_COL));
 			Caption = "MG_Colors";
 			m_cmb.Name = "cmb";
 			m_cmb.AutoSize = false;
@@ -63,8 +63,8 @@ true);
 				_EventFLag = false;
 				try
 				{
-					MG_COLORS? v = (MG_COLORS?)GetValueFromProp(m_PropName,typeof(MG_COLORS));
-					if (v != null) m_cmb.MGColors = (MG_COLORS)v;
+					MG_COL? v = (MG_COL?)GetValueFromProp(m_PropName,typeof(MG_COL));
+					if (v != null) m_cmb.MGColors = (MG_COL)v;
 				}
 				finally
 				{
@@ -79,7 +79,7 @@ true);
 			{
 				if (_EventFLag == false) return;
 				_EventFLag = false;
-				SetValueToProp(m_PropName, (object)m_cmb.MGColors,typeof(MG_COLORS));
+				SetValueToProp(m_PropName, (object)m_cmb.MGColors,typeof(MG_COL));
 				this.Invalidate();
 				_EventFLag = true;
 			}
@@ -93,7 +93,7 @@ true);
 			p.Width = 1;
 			try
 			{
-				bool IsT = (m_cmb.MGColors == MG_COLORS.Transparent);
+				bool IsT = (m_cmb.MGColors == MG_COL.Transparent);
 				Rectangle r = new Rectangle(m_CaptionWidth + 2, 2, DrawWidth - 4, this.Height - 4);
 				if (IsT==false)
 				{

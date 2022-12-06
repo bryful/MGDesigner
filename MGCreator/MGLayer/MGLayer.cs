@@ -181,7 +181,7 @@ namespace MGCreator
 		}
 		// ************************************************************************
 		#region Draw
-		public Color GetColors(MG_COLORS c, double op)
+		public Color GetColors(MG_COL c, double op)
 		{
 			if (m_MGForm!=null)
 			{
@@ -307,12 +307,12 @@ namespace MGCreator
                 if (IsClear) g.Clear(Color.Transparent);
 				Rectangle r2 = MarginRect(rct);
 
-				if((m_Back!=MG_COLORS.Transparent)&&(m_BackOpacity > 0))
+				if((m_Back!=MG_COL.Transparent)&&(m_BackOpacity > 0))
 				{
 					sb.Color = GetColors(m_Back, m_BackOpacity);
 					g.FillRectangle(sb, r2);
 				}
-				if ((m_Frame != MG_COLORS.Transparent) && (m_FrameOpacity > 0))
+				if ((m_Frame != MG_COL.Transparent) && (m_FrameOpacity > 0))
 				{
 					sb.Color = GetColors(m_Frame, m_FrameOpacity);
 					MGc.DrawFrame(g, sb, r2, m_FrameWeight);
@@ -373,9 +373,9 @@ namespace MGCreator
         {
 			m_Name = "Frame";
 			m_MGForm = m;
-			m_Back = MG_COLORS.Black;
+			m_Back = MG_COL.Black;
 			m_FrameOpacity = 100;
-			m_Frame = MG_COLORS.White;
+			m_Frame = MG_COL.White;
 			m_FrameOpacity = 100;
 
 			InitOffScr();
@@ -761,14 +761,14 @@ namespace MGCreator
 			}
 			if (jn.GetPadding("DrawMargin", ref m_DrawMargin) == false) { ret = false; } 
 			v = 0;
-			if (jn.GetInt("Back", ref v) == true) m_Back = (MG_COLORS)v; else ret = false;
+			if (jn.GetInt("Back", ref v) == true) m_Back = (MG_COL)v; else ret = false;
 			if (jn.GetFloat("BackOpacity", ref m_BackOpacity) == false)  ret = false;
-			if (jn.GetInt("Fill", ref v) == true) m_Fill = (MG_COLORS)v; else ret = false;
+			if (jn.GetInt("Fill", ref v) == true) m_Fill = (MG_COL)v; else ret = false;
 			if (jn.GetFloat("FillOpacity", ref m_FillOpacity) == false) ret = false;
-			if (jn.GetInt("Line", ref v) == true) m_Line = (MG_COLORS)v; else ret = false;
+			if (jn.GetInt("Line", ref v) == true) m_Line = (MG_COL)v; else ret = false;
 			if (jn.GetFloat("LineOpacity", ref m_LineOpacity) == false) ret = false;
 			if (jn.GetFloat("LineWeight", ref m_LineWeight) == false) ret = false;
-			if (jn.GetInt("Frame", ref v) == true) m_Frame = (MG_COLORS)v; else ret = false;
+			if (jn.GetInt("Frame", ref v) == true) m_Frame = (MG_COL)v; else ret = false;
 			if (jn.GetFloat("FrameOpacity", ref m_LineOpacity) == false) ret = false;
 			if (jn.GetPadding("FrameWeight", ref m_FrameWeight) == false) ret = false;
 

@@ -15,8 +15,9 @@ namespace MGCreator
 	{
 		public Point MGFormPoint = new Point(-1, -1);
 		public Point MGPropPoint = new Point(-1, -1);
-		public Color[] MGColors = new Color[(int)MG_COLORS.Transparent];
-		public MG_COLORS Back = MG_COLORS.Black;
+		public Color[] MGColors = new Color[(int)MG_COL.Transparent];
+		public MG_COL Back = MG_COL.Black;
+		public Size MGSize = new Size(1280, 720);
 		public MGPropertyForm? MGPropertyForm = null;
 
 		private MGForm? m_MGForm = null;
@@ -191,6 +192,7 @@ namespace MGCreator
 
 		public MGProjectPanel()
 		{
+			MGColors = MGColor.InitColors();
 			m_sf.Alignment = StringAlignment.Near;
 			m_sf.LineAlignment = StringAlignment.Center;
 			InitializeComponent();
@@ -439,39 +441,26 @@ true);
 		{
 			if (MGForm == null)
 			{
-				MGFormSize dlg = new MGFormSize();
-				dlg.StartPosition = FormStartPosition.Manual;
-				dlg.Location = Cursor.Position;
-				dlg.IsShowPosSet = false;
 				MGForm = new MGForm();
-				dlg.MGFrom = MGForm;
-				dlg.Back = Back;
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					MGForm.Size = dlg.FormSize;
-					MGForm.MGProjectPanel = this;
+				MGForm.Size = MGSize;
+				MGForm.MGProjectPanel = this;
 
-					MGForm.Back = dlg.Back;
-					if (MGFormPoint.X != -1)
-					{
-						MGForm.Location = MGFormPoint;
-					}
-					else
-					{
-						MGForm.Location = new Point(this.Left + this.Width + 5, this.Top);
-					}
-					MGForm.SetColors(MGColors);
-					if(MGForm.ChkColors()==false)
-					{
-						MGForm.InitColor();
-						MessageBox.Show("Ouch! MG Colosr Reset");
-					}
-					MGForm.Show();
+				MGForm.Back = Back;
+				if (MGFormPoint.X != -1)
+				{
+					MGForm.Location = MGFormPoint;
 				}
 				else
 				{
-					MGForm = null;
+					MGForm.Location = new Point(this.Left + this.Width + 5, this.Top);
 				}
+				MGForm.SetColors(MGColors);
+				if (MGForm.ChkColors() == false)
+				{
+					MGForm.InitColor();
+					MessageBox.Show("Ouch! MG Colosr Reset");
+				}
+				MGForm.Show();
 
 			}
 			else

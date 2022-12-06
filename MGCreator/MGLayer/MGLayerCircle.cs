@@ -14,9 +14,9 @@ namespace MGCreator
         {
             Name = "Circle";
             m_Size = new Size(70, 70);
-            m_Fill = MG_COLORS.Black;
+            m_Fill = MG_COL.Black;
             m_FillOpacity = 0;
-            m_Line = MG_COLORS.White;
+            m_Line = MG_COL.White;
             m_LineOpacity = 100;
             m_LineWeight = 2;
         }
@@ -37,13 +37,13 @@ namespace MGCreator
                 if (radius > r.Height) radius = r.Height;
                 radius /= 2;
                 Rectangle r2 = new Rectangle((int)(cx - radius), (int)(cy - radius), (int)(radius * 2), (int)(radius * 2));
-                if (m_Fill != MG_COLORS.Transparent && m_FillOpacity > 0)
+                if (m_Fill != MG_COL.Transparent && m_FillOpacity > 0)
                 {
                     sb.Color = GetColors(m_Fill, m_FillOpacity);
                     g.FillEllipse(sb, r2);
                 }
 
-                if (m_Line != MG_COLORS.Transparent && m_LineOpacity > 0 && m_LineWeight > 0)
+                if (m_Line != MG_COL.Transparent && m_LineOpacity > 0 && m_LineWeight > 0)
                 {
                     radius -= m_LineWeight / 2;
                     r2 = new Rectangle((int)(cx - radius), (int)(cy - radius), (int)(radius * 2), (int)(radius * 2));

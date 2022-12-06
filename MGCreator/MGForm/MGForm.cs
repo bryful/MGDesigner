@@ -135,7 +135,7 @@ namespace MGCreator
 		{
 			if(MGProjectPanel != null)
 			{
-				if (MGProjectPanel is Form)
+				if (MGProjectPanel is MGProjectPanel)
 				{
 					Form m = (Form)MGProjectPanel.Parent;
 
@@ -193,12 +193,13 @@ true);
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-
 		}
 		//*******************************************************************************
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			base.OnFormClosed(e);
+			//MGColor.ColorPictToClip("ColorPalette.png");
+			MGColor.SaveColorPict(m_Colors,"ColorPalette.png");
 
 		}
 		//*******************************************************************************
@@ -397,10 +398,10 @@ true);
 			base.OnMouseUp(e);
 		}
 
-		public bool MGColorPicker(MG_COLORS mg)
+		public bool MGColorPicker(MG_COL mg)
 		{
 			bool ret = false;
-			if (mg == MG_COLORS.Transparent) return ret;
+			if (mg == MG_COL.Transparent) return ret;
 			Color? c = GetMGColors(mg, 100);
 			if (c==null) return ret;
 
@@ -482,7 +483,7 @@ true);
 			}
 			Size sz = new Size(0, 0);
 			if (jn.GetSize("Size", ref sz) == false) return ret;
-			MG_COLORS c = MG_COLORS.Black;
+			MG_COL c = MG_COL.Black;
 			if (jn.GetMGColor("Back", ref c) == false) return ret;
 			if (jn.GetValueColors("MG_Colors", ref m_Colors) == false)
 			{

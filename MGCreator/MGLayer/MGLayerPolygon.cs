@@ -42,10 +42,10 @@ namespace MGCreator
         public MGLayerPolygon(MGForm m) : base(m)
         {
             Name = "Polygon";
-            m_Line = MG_COLORS.White;
+            m_Line = MG_COL.White;
             m_LineOpacity = 100;
             m_LineWeight = 2;
-            m_Fill = MG_COLORS.White;
+            m_Fill = MG_COL.White;
             m_FillOpacity = 0;
             m_Count = 4;
             m_Rot = 0;
@@ -68,14 +68,14 @@ namespace MGCreator
                 float cx = rct2.Left + (float)rct2.Width / 2;
                 float cy = rct2.Top + (float)rct2.Height / 2;
 
-                if (m_FillOpacity > 0 && m_Fill != MG_COLORS.Transparent)
+                if (m_FillOpacity > 0 && m_Fill != MG_COL.Transparent)
                 {
                     sb.Color = m_MGForm.GetMGColors(m_Fill, m_FillOpacity);
                     PointF[] pnts = MGc.PolygonPolygon(m_Count, new PointF(cx, cy), radius, m_Rot);
                     g.FillPolygon(sb, pnts);
 
                 }
-                if (m_LineOpacity > 0 && m_Line != MG_COLORS.Transparent && m_LineWeight > 0)
+                if (m_LineOpacity > 0 && m_Line != MG_COL.Transparent && m_LineWeight > 0)
                 {
                     sb.Color = m_MGForm.GetMGColors(m_Line, m_LineOpacity);
                     p.Width = m_LineWeight;

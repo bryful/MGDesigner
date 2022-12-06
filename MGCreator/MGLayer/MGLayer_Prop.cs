@@ -156,12 +156,12 @@ namespace MGCreator
 		protected Color m_ForeColor = Color.White;
 		protected Color m_BackColor = Color.Black;
 		// ********************************************
-		protected MG_COLORS m_Back = MG_COLORS.Black;
+		protected MG_COL m_Back = MG_COL.Black;
 		/// <summary>
 		/// 基本となる塗りつぶし入り
 		/// </summary>
 		[Category("_MG")]
-		public MG_COLORS Back
+		public MG_COL Back
 		{
 			get { return m_Back; }
 			set
@@ -184,12 +184,12 @@ namespace MGCreator
 				ChkOffScr();
 			}
 		}       // ********************************************
-		protected MG_COLORS m_Fill = MG_COLORS.White;
+		protected MG_COL m_Fill = MG_COL.White;
 		/// <summary>
 		/// 基本となる塗りつぶし入り
 		/// </summary>
 		[Category("_MG")]
-		public MG_COLORS Fill
+		public MG_COL Fill
 		{
 			get { return m_Fill; }
 			set
@@ -212,12 +212,12 @@ namespace MGCreator
 				ChkOffScr();
 			}
 		}
-		protected MG_COLORS m_Line = MG_COLORS.Red;
+		protected MG_COL m_Line = MG_COL.Red;
 		/// <summary>
 		/// 線の色
 		/// </summary>
 		[Category("_MG")]
-		public MG_COLORS Line
+		public MG_COL Line
 		{
 			get { return m_Line; }
 			set
@@ -256,12 +256,12 @@ namespace MGCreator
 				ChkOffScr();
 			}
 		}
-		protected MG_COLORS m_Frame = MG_COLORS.White;
+		protected MG_COL m_Frame = MG_COL.White;
 		/// <summary>
 		/// 線の色
 		/// </summary>
 		[Category("_MG")]
-		public MG_COLORS Frame
+		public MG_COL Frame
 		{
 			get { return m_Frame; }
 			set

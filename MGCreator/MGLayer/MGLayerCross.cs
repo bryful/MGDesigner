@@ -26,9 +26,9 @@ namespace MGCreator
         {
             Name = "Cross";
             m_Size = new Size(100,100);
-            m_Fill = MG_COLORS.White;
+            m_Fill = MG_COL.White;
             m_FillOpacity = 100;
-            m_Line = MG_COLORS.White;
+            m_Line = MG_COL.White;
             m_LineOpacity = 0;
             m_LineWeight = 1;
 			m_CrossWeight = 20;
@@ -67,14 +67,14 @@ namespace MGCreator
                 if (IsClear) g.Clear(Color.Transparent);
 
                 Rectangle r = MarginRect(rct);
-                if( (m_Fill!=MG_COLORS.Transparent)&&(m_FillOpacity>0))
+                if( (m_Fill!=MG_COL.Transparent)&&(m_FillOpacity>0))
                 {
                     sb.Color = GetColors(m_Fill, m_FillOpacity);
 					PointF[] ps = CrossRegion(r, m_CrossWeight);
                     g.FillPolygon(sb, ps);
 				}
 
-				if ((m_Line != MG_COLORS.Transparent) && (m_LineOpacity > 0)&&(m_CrossWeight>0))
+				if ((m_Line != MG_COL.Transparent) && (m_LineOpacity > 0)&&(m_CrossWeight>0))
 				{
 					p.Color = GetColors(m_Line, m_LineOpacity);
                     p.Width = m_LineWeight;

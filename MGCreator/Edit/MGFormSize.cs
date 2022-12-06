@@ -41,7 +41,7 @@ namespace MGCreator
 				numericUpDown2.Value = (decimal)value.Height;
 			}
 		}
-		public MG_COLORS Back
+		public MG_COL Back
 		{
 			get { return editmgColors1.Value; }
 			set { editmgColors1.Value = value; }

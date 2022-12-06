@@ -197,6 +197,46 @@ namespace BRY
 			return ret;
 		}
 		// ****************************************************
+		public void SetSize(string key, Size p)
+		{
+			JsonObject pnt = new JsonObject();
+			pnt.Add("Width", p.Width);
+			pnt.Add("Height", p.Height);
+			m_data.Add(key, pnt);
+		}
+		// ****************************************************
+		public Size GetSize(string key, out bool ok)
+		{
+			Size ret = new Size(0, 0);
+			ok = false;
+			if (key == "") return ret;
+			try
+			{
+				if (m_data.ContainsKey(key))
+				{
+					JsonObject obj = m_data[key].AsObject();
+					if (obj != null)
+					{
+						if (obj.ContainsKey("Width") && obj.ContainsKey("Height"))
+						{
+							int? W = obj["Width"].GetValue<int?>();
+							int? H = obj["Height"].GetValue<int?>();
+							if (W != null && H != null)
+							{
+								ret = new Size((int)W, (int)H);
+								ok = true;
+							}
+						}
+					}
+				}
+			}
+			catch
+			{
+				ok = false;
+			}
+			return ret;
+		}
+		// ****************************************************
 		public void SetValue(string key, string v)
 		{
 			m_data.Add(key, v);

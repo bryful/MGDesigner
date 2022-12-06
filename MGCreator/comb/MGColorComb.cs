@@ -12,13 +12,13 @@ namespace MGCreator
 {
 	public partial class MGColorComb : ComboBox
 	{
-		private MG_COLORS[] m_ColorsTable = new MG_COLORS[(int)(MG_COLORS.Transparent) + 1];
+		private MG_COL[] m_ColorsTable = new MG_COL[(int)(MG_COL.Transparent) + 1];
 		[Category("_MG")]
-		public MG_COLORS MGColors
+		public MG_COL MGColors
 		{
 			get 
 			{
-				MG_COLORS ret = MG_COLORS.White;
+				MG_COL ret = MG_COL.White;
 				if(SelectedIndex>=0)
 				{
 					ret = m_ColorsTable[SelectedIndex];
@@ -56,8 +56,8 @@ namespace MGCreator
 			base.InitLayout();
 			DropDownStyle = ComboBoxStyle.DropDownList;
 			Items.Clear();
-			m_ColorsTable = (MG_COLORS[])Enum.GetValues(typeof(MG_COLORS));
-			Items.AddRange(Enum.GetNames(typeof(MG_COLORS)));
+			m_ColorsTable = (MG_COL[])Enum.GetValues(typeof(MG_COL));
+			Items.AddRange(Enum.GetNames(typeof(MG_COL)));
 			SelectedIndex = 0;
 		}
 

@@ -51,7 +51,7 @@ namespace MGCreator
         public MGLayerCircleScale(MGForm m) : base(m)
         {
             Name = "CircleScale";
-            m_Line = MG_COLORS.White;
+            m_Line = MG_COL.White;
             m_LineOpacity = 100;
             m_LineWeight = 2;
             m_Rot = 45;
@@ -69,7 +69,7 @@ namespace MGCreator
                 if (IsClear) g.Clear(Color.Transparent);
 
 
-                if (m_Line != MG_COLORS.Transparent && m_LineOpacity > 0 && m_LineWeight > 0)
+                if (m_Line != MG_COL.Transparent && m_LineOpacity > 0 && m_LineWeight > 0)
                 {
                     Rectangle r1 = MarginRect(rct);
                     float cx = r1.Left + (float)r1.Width / 2;
@@ -119,12 +119,12 @@ namespace MGCreator
             PList.Add(m_LineWidth);
 
             EditFloat m_cr = new EditFloat();
-            m_cr.SetCaptionPropName("Rot", "CircleRot");
+            m_cr.SetCaptionPropName("Rot", "Rot");
             m_cr.SetValueMinMax(1, 180);
             PList.Add(m_cr);
 
             EditFloat m_cro = new EditFloat();
-            m_cro.SetCaptionPropName("RotOffset", "CircleRotOffset");
+            m_cro.SetCaptionPropName("RotOffset", "RotOffset");
             m_cro.SetValueMinMax(-90, 90);
             PList.Add(m_cro);
 

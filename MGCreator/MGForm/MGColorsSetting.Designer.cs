@@ -38,7 +38,7 @@
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnOK.Location = new System.Drawing.Point(179, 355);
+			this.btnOK.Location = new System.Drawing.Point(213, 354);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 0;
@@ -50,7 +50,7 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnCancel.Location = new System.Drawing.Point(98, 355);
+			this.btnCancel.Location = new System.Drawing.Point(132, 354);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 1;
@@ -64,17 +64,17 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.AutoScroll = true;
-			this.panel1.Location = new System.Drawing.Point(12, 31);
+			this.panel1.Location = new System.Drawing.Point(0, 30);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(242, 309);
+			this.panel1.Size = new System.Drawing.Size(300, 310);
 			this.panel1.TabIndex = 2;
 			// 
 			// btnReset
 			// 
-			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnReset.Location = new System.Drawing.Point(12, 355);
+			this.btnReset.Location = new System.Drawing.Point(21, 354);
 			this.btnReset.Name = "btnReset";
 			this.btnReset.Size = new System.Drawing.Size(42, 23);
 			this.btnReset.TabIndex = 3;
@@ -86,7 +86,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(266, 401);
+			this.ClientSize = new System.Drawing.Size(300, 400);
 			this.Controls.Add(this.btnReset);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.btnCancel);

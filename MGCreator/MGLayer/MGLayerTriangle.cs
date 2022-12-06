@@ -47,10 +47,10 @@ namespace MGCreator
         public MGLayerTriangle(MGForm m) : base(m)
         {
             Name = "Triangle";
-            m_Line = MG_COLORS.White;
+            m_Line = MG_COL.White;
             m_LineOpacity = 100;
             m_LineWeight = 2;
-            m_Fill = MG_COLORS.White;
+            m_Fill = MG_COL.White;
             m_FillOpacity = 0;
             m_TriangleStyle = TriangleStyle.Center;
             m_Rot = 0;
@@ -79,13 +79,13 @@ namespace MGCreator
                         MGc.Triangle(g, p, sb, new PointF(cx, cy), radius, m_Rot);
                         break;
                     default:
-                        if (m_FillOpacity > 0 && m_Fill != MG_COLORS.Transparent)
+                        if (m_FillOpacity > 0 && m_Fill != MG_COL.Transparent)
                         {
 
                             PointF[] t2 = MGc.TrianglePolygon(rct2, m_TriangleStyle);
                             g.FillPolygon(sb, t2);
                         }
-                        if (m_LineOpacity > 0 && m_Line != MG_COLORS.Transparent && m_LineWeight > 0)
+                        if (m_LineOpacity > 0 && m_Line != MG_COL.Transparent && m_LineWeight > 0)
                         {
                             RectangleF rct3 = new RectangleF(
                                 (float)rct2.Left + m_LineWeight,
