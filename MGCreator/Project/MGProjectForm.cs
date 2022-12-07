@@ -47,22 +47,13 @@ namespace MGCreator
 				if (ok) pp.MGFormPoint = p;
 				p = pf.GetPoint("MGPropPoint", out ok);
 				if (ok) pp.MGPropPoint = p;
-				JsonArray? mc = pf.Array("MGColors");
-				if(mc!=null)
+				string cp = Path.Combine(pf.FileDirectory, "MGColors.json");
+				Color[]? cols = MGColor.OpenMGColors(cp);
+				if(cols != null)
 				{
-					Color[]? a = MGForm.FormJsonToColors(mc);
-					if (a!=null)
-					{
-						if( MGColor.ChkColors(a))
-						{
-							pp.MGColors = a;
-						}
-						else
-						{
-							pp.MGColors = MGColor.InitColors();
-						}
-					}
+					pp.MGColors = cols;
 				}
+
 				int v = pf.GetValueInt("Back", out ok);
 				if(ok)
 				{
@@ -88,10 +79,11 @@ namespace MGCreator
 			if (pp.MGForm != null)
 			{
 				pf.SetPoint("MGFormPoint", pp.MGForm.Location);
-				pf.AddArray("MGColors", pp.MGForm.MGColorsToJson());
 				pf.SetValue("Back", (int)pp.MGForm.Back);
 				pf.SetSize("MGSize", pp.MGForm.Size);
 
+				string p = Path.Combine(pf.FileDirectory, "MGColors.json");
+				if (MGColor.SaveMGColors(p, pp.MGForm.Colors())) { }
 			}
 			if (pp.MGPropertyForm != null)
 			{

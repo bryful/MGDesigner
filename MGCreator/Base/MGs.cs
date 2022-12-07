@@ -15,7 +15,10 @@ namespace MGCreator
         {
             return $"{p.Left},{p.Right},{p.Top},{p.Bottom}";
         }
-
+		static public string ValueToString(Rectangle p)
+		{
+			return $"{p.Left},{p.Top},{p.Width},{p.Height}";
+		}
 		static public string ValueToString(double p)
 		{
 			bool m = (p < 0);
@@ -101,8 +104,42 @@ namespace MGCreator
             }
             return ret;
         }
-        // *****************************************************************
-        static public bool StringToValue(string s, ref Color col)
+		static public bool StringToValue(string s, ref Rectangle rct)
+		{
+			bool ret = false;
+			string[] sa = s.Split(',');
+			if (sa.Length < 4)
+			{
+				ret = false;
+			}
+			else
+			{
+				int v0 = rct.Left;
+				int v1 = rct.Top;
+				int v2 = rct.Width;
+				int v3 = rct.Height;
+				if (sa.Length > 0)
+				{
+					if (int.TryParse(sa[0], out v0) == false) v0 = rct.Left;
+				}
+				if (sa.Length > 1)
+				{
+					if (int.TryParse(sa[1], out v1) == false) v1 = rct.Top;
+				}
+				if (sa.Length > 2)
+				{
+					if (int.TryParse(sa[2], out v2) == false) v2 = rct.Width;
+				}
+				if (sa.Length > 3)
+				{
+					if (int.TryParse(sa[3], out v3) == false) v3 = rct.Height;
+				}
+				rct = new Rectangle(v0, v1, v2, v3);
+				ret = true;
+			}
+			return ret;
+		}        // *****************************************************************
+		static public bool StringToValue(string s, ref Color col)
         {
             bool ret = false;
             string[] sa = s.Split(',');

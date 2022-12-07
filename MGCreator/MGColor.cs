@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MGCreator
 {
@@ -125,59 +126,9 @@ namespace MGCreator
 			ret[(int)MG_COL.Orange] = Color.FromArgb(243, 140, 7);
 			ret[(int)MG_COL.OrangeDark] = Color.FromArgb(175, 104, 12);
 
-
-			/*
-			ret[(int)MG_COL.White] = Color.FromArgb(231, 226, 226);
-			ret[(int)MG_COL.WhiteTrue] = Color.FromArgb(0xFF, 0xFF, 0xFF);
-			ret[(int)MG_COL.Black] = Color.FromArgb(10, 10, 10);
-			ret[(int)MG_COL.BLackTrue] = Color.FromArgb(0x00, 0x00, 0x00);
-			ret[(int)MG_COL.Gray] = Color.FromArgb(95, 95, 95);
-			ret[(int)MG_COL.GrayDrak] = Color.FromArgb(60, 60, 60);
-			ret[(int)MG_COL.GrayLight] = Color.FromArgb(172, 158, 158);
-			ret[(int)MG_COL.GrayDrakDark] = Color.FromArgb(30, 30, 30);
-
-			ret[(int)MG_COL.Red] = Color.FromArgb(193, 74, 74);
-			ret[(int)MG_COL.RedTrue] = Color.FromArgb(0xFF, 0x00, 0x00);
-			ret[(int)MG_COL.RedDark] = Color.FromArgb(116, 54, 54);
-			ret[(int)MG_COL.RedLight] = Color.FromArgb(219, 151, 151);
-			ret[(int)MG_COL.Blood] = Color.FromArgb(121, 50, 73);
-			ret[(int)MG_COL.Pink] = Color.FromArgb(202, 167, 216);
-
-			ret[(int)MG_COL.Green] = Color.FromArgb(83, 138, 68);
-			ret[(int)MG_COL.GreenTrue] = Color.FromArgb(0x00, 0xFF, 0x00);
-			ret[(int)MG_COL.GreenDark] = Color.FromArgb(143, 211, 125);
-			ret[(int)MG_COL.GreenLight] = Color.FromArgb(58, 85, 49);
-
-			ret[(int)MG_COL.Emerald] = Color.FromArgb(68, 138, 117);
-			ret[(int)MG_COL.EmeraldLight] = Color.FromArgb(68 + 100, 138 + 100, 117 + 100);
-			ret[(int)MG_COL.EmeraldDark] = Color.FromArgb(68 - 50, 138 - 50, 117 - 50);
-
-			ret[(int)MG_COL.Blue] = Color.FromArgb(67, 82, 128);
-			ret[(int)MG_COL.BlueTrue] = Color.FromArgb(0x00, 0x00, 0xFF);
-			ret[(int)MG_COL.BlueDark] = Color.FromArgb(47, 55, 79);
-			ret[(int)MG_COL.BlueLight] = Color.FromArgb(121, 145, 211);
-			ret[(int)MG_COL.SkayBlue] = Color.FromArgb(107, 172, 202);
-
-			ret[(int)MG_COL.Cyan] = Color.FromArgb(81, 146, 140);
-			ret[(int)MG_COL.CyanDark] = Color.FromArgb(55, 88, 85);
-			ret[(int)MG_COL.CyanLight] = Color.FromArgb(134, 214, 207);
-
-			ret[(int)MG_COL.Magenta] = Color.FromArgb(116, 76, 131);
-			ret[(int)MG_COL.MagentaDark] = Color.FromArgb(72, 50, 80);
-			ret[(int)MG_COL.MagentaLight] = Color.FromArgb(189, 123, 211);
-
-			ret[(int)MG_COL.Yellow] = Color.FromArgb(167, 164, 97);
-			ret[(int)MG_COL.YellowDark] = Color.FromArgb(117, 114, 72);
-			ret[(int)MG_COL.YellowLight] = Color.FromArgb(222, 220, 156);
-			ret[(int)MG_COL.YellowGreen] = Color.FromArgb(77, 195, 91);
-			ret[(int)MG_COL.Cream] = Color.FromArgb(212, 218, 165);
-
-			ret[(int)MG_COL.Orange] = Color.FromArgb(195, 154, 77);
-			ret[(int)MG_COL.OrangeDark] = Color.FromArgb(118, 96, 56);
-			ret[(int)MG_COL.OrangeLight] = Color.FromArgb(219, 196, 153);
-			*/
 			return ret;
 		}
+		// **************************************************************************************
 		static public bool SaveColorPict(Color[] cols, string p)
 		{
 			int w = 50;
@@ -202,6 +153,7 @@ namespace MGCreator
 			bmp.Save(p,ImageFormat.Png);
 			return (File.Exists(p));
 		}
+		// **************************************************************************************
 		static public Color[]? LoadColorPict(string p)
 		{
 			if (File.Exists(p) == false) return null;
@@ -216,6 +168,7 @@ namespace MGCreator
 			}
 			return ret;
 		}
+		// **************************************************************************************
 		static public bool ColorPictToClip(string p)
 		{
 			Color[]? ret = LoadColorPict(p);
@@ -236,6 +189,84 @@ namespace MGCreator
 			}
 			Clipboard.SetText(s);
 			return true;
+		}
+		static public bool SaveMGColors(string p, Color[] cols)
+		{
+			bool ret = false;
+			if((p == null)||(p=="")||(cols.Length!=(int)MG_COL.Transparent)) return ret;
+			try
+			{
+				JsonObject jo = new JsonObject();
+				JsonArray ja = new JsonArray();
+				foreach (Color c in cols)
+				{
+					JsonArray a = new JsonArray();
+					a.Add(c.R);
+					a.Add(c.G);
+					a.Add(c.B);
+					ja.Add(a);
+				}
+				jo.Add("MGColors", ja);
+				File.WriteAllText(p, jo.ToJsonString());
+				ret = (File.Exists(p));
+			}
+			catch
+			{
+				ret = false;
+			}
+			return ret;
+		}
+		static public Color[]? OpenMGColors(string p)
+		{
+			Color[]? ret = null;
+			if ((p == null) || (p == "")||(File.Exists(p)==false)) return ret;
+			try
+			{
+				string s = File.ReadAllText(p);
+				var doc = JsonNode.Parse(s);
+				if (doc != null)
+				{
+					JsonObject? jo = doc.AsObject();
+					if (jo != null)
+					{
+						string key = "MGColors";
+						if (jo.ContainsKey(key))
+						{
+							JsonArray? ja = jo[key].AsArray();
+							if ((ja != null) && (ja.Count > 0))
+							{
+								List<Color> lst = new List<Color>();
+								foreach (var c in ja)
+								{
+									if (c is JsonArray)
+									{
+										JsonArray a = (JsonArray)c;
+										if (a.Count >= 3)
+										{
+											int? r = a[0].GetValue<int?>();
+											int? g = a[1].GetValue<int?>();
+											int? b = a[2].GetValue<int?>();
+											if ((r != null) && (g != null) && (b != null))
+											{
+												lst.Add(Color.FromArgb((int)r, (int)g, (int)b));
+											}
+										}
+									}
+								}
+								if(lst.Count==(int)MG_COL.Transparent)
+								{
+									ret = lst.ToArray();
+								}
+							}
+						}
+					}
+				}
+			}
+			catch
+			{
+				ret = null;
+			}
+			return ret;
 		}
 	}
 }

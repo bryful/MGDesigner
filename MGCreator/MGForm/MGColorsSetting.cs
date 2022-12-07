@@ -16,10 +16,10 @@ namespace MGCreator
 		public MGForm MGForm
 		{
 			get { return m_MGForm; }
-			set 
+			set
 			{
 				if (value == null) return;
-				m_MGForm = value; 
+				m_MGForm = value;
 				CreateUI();
 			}
 		}
@@ -35,7 +35,7 @@ namespace MGCreator
 		{
 			if (panel1 != null)
 			{
-				panel1.Bounds = new Rectangle(5, 30, this.Width-10, this.Height - 120);
+				panel1.Bounds = new Rectangle(5, 30, this.Width - 10, this.Height - 120);
 				this.Invalidate();
 				this.SuspendLayout();
 				if (panel1.Controls.Count > 0)
@@ -60,7 +60,7 @@ namespace MGCreator
 		}
 		private void CreateUI()
 		{
-			if(m_MGForm == null)return;
+			if (m_MGForm == null) return;
 			panel1.Controls.Clear();
 			string[] caps = m_MGForm.MGColorsName();
 			//Color[] cols = m_MGForm.Colors();
@@ -76,7 +76,7 @@ namespace MGCreator
 				ec.SetCaptionPropName(cap);
 				ec.ReGet();
 				ec.Location = new Point(0, ec.Height * idx);
-				ec.Size = new Size(panel1.ClientSize.Width-40, ec.Height);
+				ec.Size = new Size(panel1.ClientSize.Width - 40, ec.Height);
 				//ec.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 				idx++;
 				this.panel1.Controls.Add(ec);
@@ -100,10 +100,10 @@ namespace MGCreator
 
 		private void btnReset_Click(object sender, EventArgs e)
 		{
-			if(m_MGForm!=null)
+			if (m_MGForm != null)
 			{
 				m_MGForm.InitColor();
-				foreach(Control control in panel1.Controls)
+				foreach (Control control in panel1.Controls)
 				{
 					if (control is EditColor)
 					{
@@ -114,6 +114,21 @@ namespace MGCreator
 				m_MGForm.Invalidate();
 			}
 		}
-	}
 
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			if (m_MGForm != null)
+			{
+				m_MGForm.Layers.SaveMGColorsToPng();
+			}
+		}
+
+		private void btnLoad_Click(object sender, EventArgs e)
+		{
+			if (m_MGForm != null)
+			{
+				m_MGForm.Layers.OpenMGColorsFromPng();
+			}
+		}
+	}
 }

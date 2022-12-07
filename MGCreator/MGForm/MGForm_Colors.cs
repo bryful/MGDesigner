@@ -14,7 +14,6 @@ namespace MGCreator
 		// *****************************************************************************
 		private Color[] m_Colors = new Color[(int)MG_COL.Transparent];
 		private Color[] m_ColorsBackup = new Color[(int)MG_COL.Transparent];
-		// *****************************************************************************
 		public void PushColors() { m_ColorsBackup = Colors(); }
 		public void PopColors() { SetColors(m_ColorsBackup); }
 		[Category("_MG")]
@@ -66,6 +65,7 @@ namespace MGCreator
 		public void SetColors(Color[] cols)
 		{
 			if(cols.Length != m_Colors.Length) return;
+			if (MGColor.ChkColors(cols) == false) return;
 			for (int i = 0; i < (int)MG_COL.Transparent; i++)
 			{
 				m_Colors[i] = cols[i];

@@ -199,7 +199,7 @@ true);
 		{
 			base.OnFormClosed(e);
 			//MGColor.ColorPictToClip("ColorPalette.png");
-			MGColor.SaveColorPict(m_Colors,"ColorPalette.png");
+			//MGColor.SaveColorPict(m_Colors,"ColorPalette.png");
 
 		}
 		//*******************************************************************************

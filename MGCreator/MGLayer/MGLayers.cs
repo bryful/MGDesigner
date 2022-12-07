@@ -711,6 +711,25 @@ namespace MGCreator
 			}
 			return ret;
 		}
+		public string? OpnePNGFileDialog()
+		{
+			string? ret = null;
+			if (m_MGForm == null) return null;
+			OpenFileDialog OpenFileDialog = new OpenFileDialog();
+			OpenFileDialog.Filter = "*.png|*.png|*.*|*.*";
+			OpenFileDialog.DefaultExt = ".png";
+			if (m_FileName != "")
+			{
+				OpenFileDialog.InitialDirectory = Path.GetDirectoryName(m_FileName);
+				OpenFileDialog.FileName = Path.ChangeExtension(Path.GetFileName(m_FileName), ".png");
+			}
+			if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				ret = OpenFileDialog.FileName;
+				m_FileName = ret;
+			}
+			return ret;
+		}
 		public string? SaveJsonFileDialog()
 		{
 			string? ret = null;
@@ -746,6 +765,32 @@ namespace MGCreator
 			{
 				ret = dlg.FileName;
 				m_FileName = ret;
+			}
+			return ret;
+		}
+		public bool SaveMGColorsToPng()
+		{
+			bool ret = false;	
+			if (m_MGForm == null) return ret;
+			string? p = SavePNGFileDialog();
+			if (p!= null)
+			{
+				ret = MGColor.SaveColorPict(m_MGForm.Colors(),p);
+			}
+			return ret;
+		}
+		public bool OpenMGColorsFromPng()
+		{
+			bool ret = false;
+			if (m_MGForm == null) return ret;
+			string? p = OpnePNGFileDialog();
+			if (p != null)
+			{
+				Color[]? cols =  MGColor.LoadColorPict(p);
+				if(cols != null)
+				{
+					m_MGForm.SetColors(cols);
+				}
 			}
 			return ret;
 		}
