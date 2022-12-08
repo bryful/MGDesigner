@@ -10,9 +10,8 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditFloat : Edit
+	public partial class EditAlignment : Edit
 	{
-		
 		protected override void GetValeuFromControl()
 		{
 			if (m_Layer != null)
@@ -24,10 +23,10 @@ namespace MGCreator
 					Type? p = GetTypeFromProp(m_PropName);
 					if (p != null)
 					{
-						float? b = (float?)GetValueFromProp(m_PropName, typeof(float));
+						SizeRootType? b = (SizeRootType?)GetValueFromProp(m_PropName, typeof(SizeRootType));
 						if (b != null)
 						{
-							m_edit1.Value = (float)b;
+							m_edit1.SizeRoot = (SizeRootType)b;
 						}
 					}
 				}
@@ -38,6 +37,7 @@ namespace MGCreator
 				}
 			}
 		}
+
 		protected override void SetValeuToControl()
 		{
 			if (m_Layer != null)
@@ -49,7 +49,7 @@ namespace MGCreator
 				{
 					if (p != null)
 					{
-						SetValueToProp(m_PropName, m_edit1.Value, typeof(float));
+						SetValueToProp(m_PropName, m_edit1.SizeRoot, typeof(SizeRootType));
 					}
 				}
 				finally
@@ -58,50 +58,34 @@ namespace MGCreator
 				}
 			}
 		}
-		public float ValueMax
+		public SizeRootType Value
 		{
-			get { return m_edit1.ValueMax; }
-			set { m_edit1.ValueMax = value; }
+			get { return m_edit1.SizeRoot; }
+			set { m_edit1.SizeRoot = value; }
 		}
-		public float ValueMin
+		protected SizeRootGrid m_edit1 = new SizeRootGrid();
+		public EditAlignment()
 		{
-			get { return m_edit1.ValueMin; }
-			set { m_edit1.ValueMin = value; }
-		}
-		public float Value
-		{
-			get { return m_edit1.Value; }
-			set { m_edit1.Value = value; }
-		}
-		public void SetValueMinMax(float n, float m)
-		{
-			m_edit1.ValueMin = n;
-			m_edit1.ValueMax = m;
-		}
-		protected FloatEdit m_edit1 = new FloatEdit();
-		public EditFloat()
-		{
+			m_edit1.IsShowSwitch = false;
 			this.BackColor = Color.FromArgb(40, 40, 40);
 			this.ForeColor = Color.LightGray;
 			SetTargetType(typeof(float));
-			Caption = "float";
-			m_PropName = "LineWidth";
-			this.Size = new Size(180, 20);
-			this.MinimumSize = new Size(180, 20);
-			this.MaximumSize = new Size(0, 20);
-			m_edit1.Name = "int";
+			Caption = "Aligment";
+			m_PropName = "Aligment";
+			this.Size = new Size(180, 32);
+			this.MinimumSize = new Size(180, 32);
+			this.MaximumSize = new Size(0, 32);
+			m_edit1.Name = "Aligment";
 			m_edit1.AutoSize = false;
 			m_edit1.Location = new Point(m_CaptionWidth, 0);
-			m_edit1.Size = new Size(80, 20);
-			m_edit1.ValueMin = -32000;
-			m_edit1.ValueMax = 32000;
-			m_edit1.ValueChanged += M_edit1_ValueChanged1;
+			m_edit1.Size = new Size(30, 32);
+			m_edit1.SizeRootChanged += M_edit1_SizeRootChanged;
 			this.Controls.Add(m_edit1);
 			InitializeComponent();
 			ChkSize();
 		}
 
-		private void M_edit1_ValueChanged1(object sender, FloatEdit.ValueChangedEventArgs e)
+		private void M_edit1_SizeRootChanged(object sender, SizeRootChangedEventArgs e)
 		{
 			SetValeuToControl();
 		}
@@ -113,8 +97,6 @@ namespace MGCreator
 		public void ChkSize()
 		{
 			this.SuspendLayout();
-			int w = (this.Width - m_CaptionWidth);
-			m_edit1.Width = w;
 			m_edit1.Location = new Point(m_CaptionWidth, 0);
 			this.ResumeLayout();
 			this.Invalidate();

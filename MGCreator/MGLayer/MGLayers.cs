@@ -201,6 +201,9 @@ namespace MGCreator
 				case MGStyle.Zebra:
 					ret = (MGLayer)(new MGLayerZebra(m_MGForm));
 					break;
+				case MGStyle.Label:
+					ret = (MGLayer)(new MGLayerLabel(m_MGForm));
+					break;
 				default:
 					ret = (MGLayer)(new MGLayer(m_MGForm));
 					break;

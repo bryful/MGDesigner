@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class MGFormSize : MGToolForm
+    public partial class MGFormSize : MGToolForm
 	{
 		[Category("_MG")]
 		public bool IsShowPosSet

@@ -14,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MGCreator
 {
-	public partial class MGForm : Form
+    public partial class MGForm : Form
 	{
 		public MGLayers Layers= new MGLayers();
 		public MGProjectPanel? MGProjectPanel = null;

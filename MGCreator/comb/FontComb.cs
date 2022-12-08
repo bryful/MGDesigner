@@ -12,6 +12,23 @@ namespace MGCreator
 {
 	public partial class FontComb : ComboBox
 	{
+		public class ValueChangedEventArgs : EventArgs
+		{
+			public string Value;
+			public ValueChangedEventArgs(string v)
+			{
+				Value = v;
+			}
+		}
+		public delegate void ValueChangedHandler(object sender, ValueChangedEventArgs e);
+		public event ValueChangedHandler? ValueChanged;
+		protected virtual void OnValueChanged(ValueChangedEventArgs e)
+		{
+			if (ValueChanged != null)
+			{
+				ValueChanged(this, e);
+			}
+		}
 		public string FontName
 		{
 			get
@@ -28,9 +45,10 @@ namespace MGCreator
 				if (this.Items.Count == 0) return;
 
 				int idx = -1;
+				string s = "";
 				for (int i = 0; i < this.Items.Count; i++)
 				{
-					string s = this.Items[i].ToString();
+					s = this.Items[i].ToString();
 					if (s == value)
 					{
 						idx = i;
@@ -41,6 +59,11 @@ namespace MGCreator
 				if (SelectedIndex != idx)
 				{
 					SelectedIndex = idx;
+					if (s != "")
+					{
+						this.Font = new Font(s, this.Font.Size, this.Font.Style);
+						OnValueChanged(new ValueChangedEventArgs(s));
+					}
 				}
 			}
 

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditMGColors : Edit
+    public partial class EditMGColors : Edit
 	{
 
 		const int DrawWidth = 40;

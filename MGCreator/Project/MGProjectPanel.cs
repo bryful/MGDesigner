@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class MGProjectPanel : Control
+    public partial class MGProjectPanel : Control
 	{
 		public Point MGFormPoint = new Point(-1, -1);
 		public Point MGPropPoint = new Point(-1, -1);

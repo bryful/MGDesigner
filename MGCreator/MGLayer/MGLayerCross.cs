@@ -8,7 +8,7 @@ using System.Xml.XPath;
 
 namespace MGCreator
 {
-	internal class MGLayerCross : MGLayer
+    public class MGLayerCross : MGLayer
     {
 		public new readonly MGStyle MGStyle = MGStyle.Cross;
 		

@@ -29,6 +29,11 @@ namespace MGCreator
 				ValueChanged(this, e);
 			}
 		}
+		public string Value
+		{
+			get { return this.Text; }
+			set { this.Text = value; this.Invalidate(); }
+		}
 		public StringEdit()
 		{
 			this.BackColor = Color.FromArgb(40, 40, 40);

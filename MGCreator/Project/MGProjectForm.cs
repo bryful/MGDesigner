@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class MGProjectForm : MGToolForm
+    public partial class MGProjectForm : MGToolForm
 	{
 		public void ShowMGPropertyForm(bool isV = true)
 		{

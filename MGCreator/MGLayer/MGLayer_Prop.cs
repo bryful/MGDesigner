@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MGCreator
 {
-	partial class MGLayer
+    partial class MGLayer
 	{
 		public bool IsShow = true;
 		// **************************************************

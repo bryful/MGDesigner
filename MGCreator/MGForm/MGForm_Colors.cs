@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MGCreator
 {
 
-	partial class MGForm
+    partial class MGForm
 	{
 		// *****************************************************************************
 		private Color[] m_Colors = new Color[(int)MG_COL.Transparent];

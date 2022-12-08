@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public enum MGStyle
+    public enum MGStyle
 	{
 		None = -1,
 		Frame,
