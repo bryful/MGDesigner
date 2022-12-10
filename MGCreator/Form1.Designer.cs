@@ -31,9 +31,8 @@
 			this.components = new System.ComponentModel.Container();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.editString1 = new MGCreator.EditString();
-			this.sizeRootGrid1 = new MGCreator.SizeRootGrid();
-			this.editAlignment1 = new MGCreator.EditAlignment();
+			this.editComb1 = new MGCreator.EditComb();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -51,56 +50,29 @@
 			this.fIleToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
 			this.fIleToolStripMenuItem.Text = "FIle";
 			// 
-			// editString1
+			// editComb1
 			// 
-			this.editString1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-			this.editString1.Caption = "string";
-			this.editString1.CaptionWidth = 90;
-			this.editString1.ForeColor = System.Drawing.Color.LightGray;
-			this.editString1.Location = new System.Drawing.Point(195, 243);
-			this.editString1.MaximumSize = new System.Drawing.Size(0, 20);
-			this.editString1.MGForm = null;
-			this.editString1.MinimumSize = new System.Drawing.Size(180, 20);
-			this.editString1.Name = "editString1";
-			this.editString1.Size = new System.Drawing.Size(220, 20);
-			this.editString1.TabIndex = 1;
-			this.editString1.Text = "editString1";
-			this.editString1.Value = "";
+			this.editComb1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+			this.editComb1.Caption = "Comb";
+			this.editComb1.CaptionWidth = 90;
+			this.editComb1.ForeColor = System.Drawing.Color.LightGray;
+			this.editComb1.Location = new System.Drawing.Point(127, 144);
+			this.editComb1.MaximumSize = new System.Drawing.Size(0, 20);
+			this.editComb1.MGForm = null;
+			this.editComb1.MinimumSize = new System.Drawing.Size(180, 20);
+			this.editComb1.Name = "editComb1";
+			this.editComb1.Size = new System.Drawing.Size(220, 20);
+			this.editComb1.TabIndex = 1;
+			this.editComb1.Text = "editComb1";
+			this.editComb1.Value = -1;
+			this.editComb1.ValueChanged += new MGCreator.EditComb.ValueChangedHandler(this.editComb1_ValueChanged);
 			// 
-			// sizeRootGrid1
+			// textBox1
 			// 
-			this.sizeRootGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-			this.sizeRootGrid1.BaseColor = System.Drawing.Color.DimGray;
-			this.sizeRootGrid1.CornerLock = false;
-			this.sizeRootGrid1.ForeColor = System.Drawing.Color.LightGray;
-			this.sizeRootGrid1.IsShowSwitch = false;
-			this.sizeRootGrid1.IsSmall = false;
-			this.sizeRootGrid1.Location = new System.Drawing.Point(238, 321);
-			this.sizeRootGrid1.MaximumSize = new System.Drawing.Size(30, 32);
-			this.sizeRootGrid1.MinimumSize = new System.Drawing.Size(30, 32);
-			this.sizeRootGrid1.Name = "sizeRootGrid1";
-			this.sizeRootGrid1.PushColor = System.Drawing.Color.LightGray;
-			this.sizeRootGrid1.PushColor2 = System.Drawing.Color.White;
-			this.sizeRootGrid1.Size = new System.Drawing.Size(30, 32);
-			this.sizeRootGrid1.SizeRoot = MGCreator.SizeRootType.TopLeft;
-			this.sizeRootGrid1.TabIndex = 2;
-			this.sizeRootGrid1.Text = "sizeRootGrid1";
-			// 
-			// editAlignment1
-			// 
-			this.editAlignment1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-			this.editAlignment1.Caption = "Aligment";
-			this.editAlignment1.CaptionWidth = 90;
-			this.editAlignment1.ForeColor = System.Drawing.Color.LightGray;
-			this.editAlignment1.Location = new System.Drawing.Point(170, 410);
-			this.editAlignment1.MaximumSize = new System.Drawing.Size(0, 32);
-			this.editAlignment1.MGForm = null;
-			this.editAlignment1.MinimumSize = new System.Drawing.Size(180, 32);
-			this.editAlignment1.Name = "editAlignment1";
-			this.editAlignment1.Size = new System.Drawing.Size(180, 32);
-			this.editAlignment1.TabIndex = 3;
-			this.editAlignment1.Text = "editAlignment1";
-			this.editAlignment1.Value = MGCreator.SizeRootType.TopLeft;
+			this.textBox1.Location = new System.Drawing.Point(170, 99);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(100, 23);
+			this.textBox1.TabIndex = 2;
 			// 
 			// Form1
 			// 
@@ -108,14 +80,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(621, 524);
-			this.Controls.Add(this.editAlignment1);
-			this.Controls.Add(this.sizeRootGrid1);
-			this.Controls.Add(this.editString1);
+			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.editComb1);
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -125,8 +97,7 @@
 		private EditLayerSize editControlSize1;
 		private ContextMenuStrip contextMenuStrip1;
 		private ToolStripMenuItem fIleToolStripMenuItem;
-		private EditString editString1;
-		private SizeRootGrid sizeRootGrid1;
-		private EditAlignment editAlignment1;
+		private EditComb editComb1;
+		private TextBox textBox1;
 	}
 }

@@ -13,7 +13,7 @@ namespace MGCreator
         // *****************************************************************
         static public string ValueToString(Padding p)
         {
-            return $"{p.Left},{p.Right},{p.Top},{p.Bottom}";
+            return $"{p.Left},{p.Top},{p.Right},{p.Bottom}";
         }
 		static public string ValueToString(Rectangle p)
 		{

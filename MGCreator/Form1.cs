@@ -12,10 +12,19 @@ namespace MGCreator
 {
 	public partial class Form1 : Form
 	{
+		public enum AAA
+		{
+			A,
+			B,
+			C
+		};
 		public Form1()
 		{
 
 			InitializeComponent();
+			editComb1.SetCaptionPropName("AAA");
+			editComb1.SetItems(Enum.GetNames(typeof(AAA)));
+
 		}
 
 		private void mgMain1_Paint(object sender, PaintEventArgs e)
@@ -36,6 +45,11 @@ namespace MGCreator
 		private void mgIcon2_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void editComb1_ValueChanged(object sender, EditComb.ValueChangedEventArgs e)
+		{
+			textBox1.Text = e.TagName + "/"+e.Value.ToString(); ;
 		}
 	}
 }

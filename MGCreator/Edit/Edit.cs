@@ -121,7 +121,7 @@ namespace MGCreator
 		{
 			get { return m_TargetType; }
 		}
-		protected virtual void SetTargetType(Type c)
+		public virtual void SetTargetType(Type c)
 		{
 			m_TargetType = c;
 		}

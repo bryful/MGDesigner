@@ -14,6 +14,24 @@ namespace MGCreator
 	{
 
 		// ****************************************************************************
+		private string m_TrueWord = "True";
+		private string m_FalseWord = "False";
+		public string TrueWord
+		{
+			get { return m_TrueWord; }
+			set { m_TrueWord = value;this.Invalidate(); }
+		}
+		public string FalseWord
+		{
+			get { return m_FalseWord; }
+			set { m_FalseWord = value; this.Invalidate(); }
+		}
+		public void SetTrueFalseWord(string t,string f)
+		{
+			m_TrueWord = t;
+			m_FalseWord = f;
+			this.Invalidate();
+		}
 		protected bool m_BoolValue = false;
 		protected override void GetValeuFromControl()
 		{
@@ -79,7 +97,9 @@ namespace MGCreator
 				sf.LineAlignment = StringAlignment.Center;
 				sb.Color = this.ForeColor;
 
-				g.DrawString($"{m_BoolValue.ToString()}", this.Font, sb, r, sf);
+				string ss = m_TrueWord;
+				if (m_BoolValue == false) ss = m_FalseWord;
+				g.DrawString(ss, this.Font, sb, r, sf);
 			}
 			finally
 			{
