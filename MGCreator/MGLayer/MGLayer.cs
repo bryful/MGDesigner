@@ -35,7 +35,6 @@ namespace MGCreator
 		Edge,
 		Side,
 		PNG,
-		JSON,
 	};
 	public enum SizeRootType
 	{
@@ -399,20 +398,24 @@ namespace MGCreator
         protected bool m_IsMouseEnter = false;
         public bool IsMouseEnter { get { return m_IsMouseEnter; } }
         // ************************************************************************
-        private SizeRootType GetMDPos(int x, int y)
+        protected SizeRootType GetMDPos(int x, int y)
         {
             int w = 10;
-            SizeRootType ret = SizeRootType.None;
+			int h = 10;
+			if (w > this.Width / 3) w = this.Width / 3;
+			if (h > this.Height / 3) h = this.Height / 3;
+
+			SizeRootType ret = SizeRootType.None;
             if (x >= 0 && y >= 0 && x < m_Size.Width && y < m_Size.Height)
             {
-                if (y < w)
+                if (y < h)
                 {
                     if (x < w) ret = SizeRootType.TopLeft;
                     else if (x > this.Width - w) ret = SizeRootType.TopRight;
                     else ret = SizeRootType.Top;
 
                 }
-                else if (y > this.Height - w)
+                else if (y > this.Height - h)
                 {
                     if (x < w) ret = SizeRootType.BottomLeft;
                     else if (x > this.Width - w) ret = SizeRootType.BottomRight;
@@ -435,7 +438,7 @@ namespace MGCreator
         }
         // ************************************************************************
  
-		public bool ChkMouseDown(MouseEventArgs e)
+		public virtual bool ChkMouseDown(MouseEventArgs e)
         {
             bool ret = false;
 			if ((IsShow == false)||(m_IsFull)) return ret;

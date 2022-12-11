@@ -75,8 +75,8 @@ namespace MGCreator
 		}
 		public void SetValueMinMax(int n, int m)
 		{
-			m_edit1.ValueMin = n;
 			m_edit1.ValueMax = m;
+			m_edit1.ValueMin = n;
 		}
 		protected IntEdit m_edit1 = new IntEdit();
 		public EditInt()

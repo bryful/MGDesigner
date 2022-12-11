@@ -75,8 +75,7 @@ namespace MGCreator
 		}
 		public void SetValueMinMax(float n, float m)
 		{
-			m_edit1.ValueMin = n;
-			m_edit1.ValueMax = m;
+			m_edit1.SetMinMax(n, m);
 		}
 		protected FloatEdit m_edit1 = new FloatEdit();
 		public EditFloat()

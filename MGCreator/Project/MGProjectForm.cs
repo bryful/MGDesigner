@@ -92,6 +92,9 @@ namespace MGCreator
 			pf.Save();
 		}
 
-
+		private void btnMG_Click(object sender, EventArgs e)
+		{
+			ShowMGForm();
+		}
 	}
 }

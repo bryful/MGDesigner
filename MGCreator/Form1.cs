@@ -22,8 +22,6 @@ namespace MGCreator
 		{
 
 			InitializeComponent();
-			editComb1.SetCaptionPropName("AAA");
-			editComb1.SetItems(Enum.GetNames(typeof(AAA)));
 
 		}
 
@@ -37,19 +35,6 @@ namespace MGCreator
 
 		}
 
-		private void mgControl1_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("aa");
-		}
-
-		private void mgIcon2_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void editComb1_ValueChanged(object sender, EditComb.ValueChangedEventArgs e)
-		{
-			textBox1.Text = e.TagName + "/"+e.Value.ToString(); ;
-		}
+	
 	}
 }

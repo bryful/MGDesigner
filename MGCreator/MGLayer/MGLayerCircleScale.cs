@@ -54,7 +54,7 @@ namespace MGCreator
             m_Line = MG_COL.White;
             m_LineOpacity = 100;
             m_LineWeight = 2;
-            m_Rot = 45;
+            m_Rot = 15;
             m_RotOffset = 0;
             m_CircleWidth = 20;
         }

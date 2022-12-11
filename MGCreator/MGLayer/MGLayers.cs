@@ -204,6 +204,27 @@ namespace MGCreator
 				case MGStyle.Label:
 					ret = (MGLayer)(new MGLayerLabel(m_MGForm));
 					break;
+				case MGStyle.Parallelogram:
+					ret = (MGLayer)(new MGLayerParallelogram(m_MGForm));
+					break;
+				case MGStyle.Scale:
+					ret = (MGLayer)(new MGLayerScale(m_MGForm));
+					break;
+				case MGStyle.Sheet:
+					ret = (MGLayer)(new MGLayerSheet(m_MGForm));
+					break;
+				case MGStyle.Kagi:
+					ret = (MGLayer)(new MGLayerKagi(m_MGForm));
+					break;
+				case MGStyle.Edge:
+					ret = (MGLayer)(new MGLayerEdge(m_MGForm));
+					break;
+				case MGStyle.Side:
+					ret = (MGLayer)(new MGLayerSide(m_MGForm));
+					break;
+				case MGStyle.PNG:
+					ret = (MGLayer)(new MGLayerPNG(m_MGForm));
+					break;
 				default:
 					ret = (MGLayer)(new MGLayer(m_MGForm));
 					break;
@@ -244,6 +265,7 @@ namespace MGCreator
 			layer.ChkOffScr();
 			OnLayerAdded(EventArgs.Empty);
 			TargetIndex = 0;
+			OnTargetLayerChanged(new TargetLayerChangedEventArgs(m_TargetIndex, m_Items[m_TargetIndex]));
 		}
 		
 		private void Layer_NameChanged1(object sender, NameChangedEventArgs e)

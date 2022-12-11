@@ -55,11 +55,20 @@ namespace MGCreator
 		{
 			get
 			{
+				if (m_ValueMax < 10)
+				{
+					//MessageBox.Show("A");
+				}
+
 				return m_ValueMax;
 			}
 			set
 			{
 				m_ValueMax = value;
+				if(m_ValueMax < 10)
+				{
+					//MessageBox.Show("A");
+				}
 				if (m_Value > m_ValueMax) m_Value = m_ValueMax;
 				this.Invalidate();
 			}
@@ -93,7 +102,11 @@ ControlStyles.UserMouse |
 ControlStyles.Selectable,
 true);
 		}
-
+		public void SetMinMax(float n , float m)
+		{
+			ValueMin = n;
+			ValueMax = m;
+		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);

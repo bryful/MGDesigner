@@ -207,12 +207,13 @@ true);
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
 			base.OnMouseWheel(e);
-			int y = DispY + e.Delta * SystemInformation.MouseWheelScrollLines *3 / 120;
+			int y = DispY - e.Delta * SystemInformation.MouseWheelScrollLines *3 / 120;
 			if (y < 0) y = 0;
 			else if (y > DispYMax) y = DispYMax;
-			if(DispYMax != y)
+			if(DispY != y)
 			{
-				DispYMax = y;
+				DispY = y;
+				ScrolExec();
 				this.Invalidate();
 			}
 		}

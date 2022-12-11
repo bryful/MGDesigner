@@ -38,6 +38,7 @@ namespace MGCreator
 			this.mgStyleComb1 = new MGCreator.MGStyleComb();
 			this.btnPropForm = new System.Windows.Forms.Button();
 			this.pp = new MGCreator.MGProjectPanel();
+			this.btnMG = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnAdd
@@ -117,9 +118,9 @@ namespace MGCreator
 			// 
 			this.btnPropForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnPropForm.ForeColor = System.Drawing.Color.LightGray;
-			this.btnPropForm.Location = new System.Drawing.Point(11, 27);
+			this.btnPropForm.Location = new System.Drawing.Point(86, 27);
 			this.btnPropForm.Name = "btnPropForm";
-			this.btnPropForm.Size = new System.Drawing.Size(147, 23);
+			this.btnPropForm.Size = new System.Drawing.Size(72, 23);
 			this.btnPropForm.TabIndex = 9;
 			this.btnPropForm.Text = "Property";
 			this.btnPropForm.UseVisualStyleBackColor = true;
@@ -135,6 +136,7 @@ namespace MGCreator
 			this.pp.Location = new System.Drawing.Point(12, 124);
 			this.pp.MGForm = null;
 			this.pp.Name = "pp";
+			this.pp.NewMGBtn = null;
 			this.pp.PropBtn = this.btnPropForm;
 			this.pp.Size = new System.Drawing.Size(146, 305);
 			this.pp.StyleComb = this.mgStyleComb1;
@@ -142,12 +144,25 @@ namespace MGCreator
 			this.pp.Text = "mgProjectPanel1";
 			this.pp.UpBtn = this.btnDel;
 			// 
+			// btnMG
+			// 
+			this.btnMG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnMG.ForeColor = System.Drawing.Color.LightGray;
+			this.btnMG.Location = new System.Drawing.Point(12, 27);
+			this.btnMG.Name = "btnMG";
+			this.btnMG.Size = new System.Drawing.Size(72, 23);
+			this.btnMG.TabIndex = 11;
+			this.btnMG.Text = "MG";
+			this.btnMG.UseVisualStyleBackColor = true;
+			this.btnMG.Click += new System.EventHandler(this.btnMG_Click);
+			// 
 			// MGProjectForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
 			this.ClientSize = new System.Drawing.Size(170, 471);
+			this.Controls.Add(this.btnMG);
 			this.Controls.Add(this.pp);
 			this.Controls.Add(this.btnPropForm);
 			this.Controls.Add(this.mgStyleComb1);
@@ -170,5 +185,6 @@ namespace MGCreator
 		private MGStyleComb mgStyleComb1;
 		private Button btnPropForm;
 		private MGProjectPanel pp;
+		private Button btnMG;
 	}
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MGCreator
 {
-	public partial class EditFont : Edit
+	public partial class EditFileName : Edit
 	{
 		protected override void GetValeuFromControl()
 		{
@@ -23,10 +23,10 @@ namespace MGCreator
 					//Type? p = GetTypeFromProp(m_PropName);
 					//if (p != null)
 					{
-						Font? b = (Font?)GetValueFromProp(m_PropName, typeof(Font));
+						string? b = (string?)GetValueFromProp(m_PropName, typeof(string));
 						if (b != null)
 						{
-							m_edit1.Value = (Font)b;
+							m_edit1.FileName = (string)b;
 						}
 					}
 				}
@@ -48,7 +48,7 @@ namespace MGCreator
 				{
 					if (p != null)
 					{
-						SetValueToProp(m_PropName, m_edit1.Value, p);
+						SetValueToProp(m_PropName, m_edit1.FileName, p);
 					}
 				}
 				finally
@@ -57,33 +57,33 @@ namespace MGCreator
 				}
 			}
 		}
-		public Font Value
+		public string FileName
 		{
-			get { return m_edit1.Value; }
-			set { m_edit1.Value = value; }
+			get { return m_edit1.FileName; }
+			set { m_edit1.FileName = value; }
 		}
-		protected FontBtn m_edit1 = new FontBtn();
-		public EditFont()
+		protected FileBtn m_edit1 = new FileBtn();
+		public EditFileName()
 		{
 			this.BackColor = Color.FromArgb(40, 40, 40);
 			this.ForeColor = Color.LightGray;
 			SetTargetType(typeof(string));
-			Caption = "Font";
-			m_PropName = "Font";
+			Caption = "FileName";
+			m_PropName = "FileName";
 			this.Size = new Size(180, 30);
 			this.MinimumSize = new Size(180, 30);
 			this.MaximumSize = new Size(0, 30);
-			m_edit1.Name = "EditFont";
+			m_edit1.Name = "EditFileName";
 			m_edit1.AutoSize = false;
 			m_edit1.Location = new Point(m_CaptionWidth, 0);
-			m_edit1.Size = new Size(80,30);
-			m_edit1.ValueChanged += M_edit1_ValueChanged1;
+			m_edit1.Size = new Size(80, 30);
+			m_edit1.ValueChanged += M_edit1_ValueChanged;
 			this.Controls.Add(m_edit1);
 			InitializeComponent();
 			ChkSize();
 		}
 
-		private void M_edit1_ValueChanged1(object sender, FontBtn.ValueChangedEventArgs e)
+		private void M_edit1_ValueChanged(object sender, FileBtn.ValueChangedEventArgs e)
 		{
 			SetValeuToControl();
 		}
